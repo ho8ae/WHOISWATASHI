@@ -16,6 +16,9 @@ app.use(morgan('dev'));
 // 라우트 등록
 const categoryRoutes = require('./category/category.routes');
 app.use('/api/categories', categoryRoutes);
+const productRoutes = require('./product/product.routes');
+app.use('/api/products', productRoutes);
+
 
 // 기본 경로
 app.get('/', (req, res) => {
