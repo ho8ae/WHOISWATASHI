@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const { specs, swaggerUi } = require('./config/swagger');
 
 // Express 앱 초기화
 const app = express();
@@ -13,12 +14,15 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
 
+// Swagger UI 설정
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }));
+
 // 라우트 등록
 const categoryRoutes = require('./category/category.routes');
-app.use('/api/categories', categoryRoutes);
 const productRoutes = require('./product/product.routes');
-app.use('/api/products', productRoutes);
 
+app.use('/api/categories', categoryRoutes);
+app.use('/api/products', productRoutes);
 
 // 기본 경로
 app.get('/', (req, res) => {
