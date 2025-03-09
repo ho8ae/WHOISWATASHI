@@ -73,3 +73,63 @@ model ProductImage {
   
   @@map("product_images")
 }
+
+
+model User {
+  id              Int       @id @default(autoincrement())
+  email           String    @unique
+  password        String
+  name            String
+  phone           String?
+  birthYear       Int?
+  birthMonth      Int?
+  birthDay        Int?
+  isSolarCalendar Boolean?  @default(true) @map("is_solar_calendar")
+  role            String    @default("customer") // customer, admin
+  agreeTerms      Boolean   @default(false) @map("agree_terms")
+  agreePrivacy    Boolean   @default(false) @map("agree_privacy")
+  agreeSMS        Boolean   @default(false) @map("agree_sms")
+  refreshToken    String?   @map("refresh_token")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+  
+  // 소셜 로그인 정보 (추후 구현)
+  // kakaoId        String?   @unique @map("kakao_id")
+  // googleId       String?   @unique @map("google_id")
+  
+  // 관계
+  addresses       Address[]
+  // orders          Order[]
+  // cart            Cart?
+  
+  @@map("users")
+}
+
+model VerificationCode {
+  id         Int       @id @default(autoincrement())
+  phone      String
+  code       String
+  isVerified Boolean   @default(false) @map("is_verified")
+  expiresAt  DateTime  @map("expires_at")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  
+  @@map("verification_codes")
+}
+
+model Address {
+  id          Int       @id @default(autoincrement())
+  userId      Int       @map("user_id")
+  name        String    // 주소 별칭(예: 집, 회사)
+  recipient   String    // 수령인
+  postalCode  String    @map("postal_code")
+  address1    String    // 기본 주소
+  address2    String?   // 상세 주소
+  phone       String?
+  isDefault   Boolean   @default(false) @map("is_default")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("addresses")
+}

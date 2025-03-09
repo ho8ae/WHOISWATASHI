@@ -20,9 +20,11 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true })
 // 라우트 등록
 const categoryRoutes = require('./category/category.routes');
 const productRoutes = require('./product/product.routes');
+const authRoutes = require('./auth/auth.routes');
 
 app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/auth', authRoutes);
 
 // 기본 경로
 app.get('/', (req, res) => {
