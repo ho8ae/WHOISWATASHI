@@ -107,3 +107,8 @@ shop-api/
 ├── .gitignore
 ├── package.json
 └── server.js
+
+## 프리즈마 마이그레이션 생성 및 적용
+```
+npx prisma migrate dev --name init
+```
