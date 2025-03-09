@@ -1,8 +1,5 @@
-const dotenv = require('dotenv');
+require('dotenv').config();
 const app = require('./src/app');  // app.js 가져오기
-
-// 환경 변수 로드
-dotenv.config();
 
 // 서버 시작
 const PORT = process.env.PORT || 5001;
