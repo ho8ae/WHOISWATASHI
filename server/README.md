@@ -51,3 +51,64 @@ npm start
 | GET    | /api/items | 모든 아이템 조회 |
 | POST   | /api/items | 아이템 생성 |
 
+
+## 폴더 구조
+shop-api/
+├── src/
+│   ├── config/
+│   │   ├── database.js
+│   │   └── app.js
+│   ├── middleware/
+│   │   ├── auth.middleware.js
+│   │   ├── error.middleware.js
+│   │   └── validation.middleware.js
+│   ├── utils/
+│   │   ├── logger.js
+│   │   └── helpers.js
+│   ├── user/
+│   │   ├── user.controller.js
+│   │   ├── user.model.js
+│   │   ├── user.routes.js
+│   │   ├── user.service.js
+│   │   └── user.validation.js
+│   ├── product/
+│   │   ├── product.controller.js
+│   │   ├── product.model.js
+│   │   ├── product.routes.js
+│   │   ├── product.service.js
+│   │   └── product.validation.js
+│   ├── category/
+│   │   ├── category.controller.js
+│   │   ├── category.model.js
+│   │   ├── category.routes.js
+│   │   └── category.service.js
+│   ├── order/
+│   │   ├── order.controller.js
+│   │   ├── order.model.js
+│   │   ├── order.routes.js
+│   │   └── order.service.js
+│   ├── cart/
+│   │   ├── cart.controller.js
+│   │   ├── cart.model.js
+│   │   ├── cart.routes.js
+│   │   └── cart.service.js
+│   ├── payment/
+│   │   ├── payment.controller.js
+│   │   ├── payment.model.js
+│   │   ├── payment.routes.js
+│   │   └── payment.service.js
+│   ├── auth/
+│   │   ├── auth.controller.js
+│   │   ├── auth.routes.js
+│   │   ├── auth.service.js
+│   │   └── auth.validation.js
+│   └── app.js
+├── .env
+├── .gitignore
+├── package.json
+└── server.js
+
+## 프리즈마 마이그레이션 생성 및 적용
+```
+npx prisma migrate dev --name init
+```
