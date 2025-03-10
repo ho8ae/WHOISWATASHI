@@ -74,6 +74,18 @@ model ProductImage {
   @@map("product_images")
 }
 
+model PasswordReset {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map("user_id")
+  token     String   @unique
+  expiresAt DateTime @map("expires_at")
+  isUsed    Boolean  @default(false) @map("is_used")
+  createdAt DateTime @default(now()) @map("created_at")
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("password_resets")
+}
 
 model User {
   id              Int       @id @default(autoincrement())
@@ -98,6 +110,7 @@ model User {
   // googleId       String?   @unique @map("google_id")
   
   // 관계
+  passwordResets PasswordReset[]
   addresses       Address[]
   // orders          Order[]
   // cart            Cart?
