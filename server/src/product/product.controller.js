@@ -132,6 +132,102 @@ async function getProductsByCategory(req, res, next) {
   }
 }
 
+
+/**
+ * 상품 변형 생성
+ */
+async function createProductVariant(req, res, next) {
+  try {
+    const { productId } = req.params;
+    const variant = await productService.createProductVariant(productId, req.body);
+    
+    res.status(201).json({
+      success: true,
+      data: variant,
+      message: '상품 변형이 생성되었습니다.'
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * 상품 변형 수정
+ */
+async function updateProductVariant(req, res, next) {
+  try {
+    const { variantId } = req.params;
+    const variant = await productService.updateProductVariant(variantId, req.body);
+    
+    res.json({
+      success: true,
+      data: variant,
+      message: '상품 변형이 수정되었습니다.'
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * 상품 변형 삭제
+ */
+async function deleteProductVariant(req, res, next) {
+  try {
+    const { variantId } = req.params;
+    await productService.deleteProductVariant(variantId);
+    
+    res.json({
+      success: true,
+      message: '상품 변형이 삭제되었습니다.'
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * 상품의 모든 변형 조회
+ */
+async function getProductVariants(req, res, next) {
+  try {
+    const { productId } = req.params;
+    const variants = await productService.getProductVariants(productId);
+    
+    res.json({
+      success: true,
+      data: variants
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * 변형 ID로 변형 조회
+ */
+async function getProductVariantById(req, res, next) {
+  try {
+    const { variantId } = req.params;
+    const variant = await productService.getProductVariantById(variantId);
+    
+    if (!variant) {
+      return res.status(404).json({
+        success: false,
+        message: '상품 변형을 찾을 수 없습니다.'
+      });
+    }
+    
+    res.json({
+      success: true,
+      data: variant
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+
 module.exports = {
   getAllProducts,
   getProductById,
@@ -139,5 +235,10 @@ module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
-  getProductsByCategory
+  getProductsByCategory,
+  createProductVariant,
+  updateProductVariant,
+  deleteProductVariant,
+  getProductVariants,
+  getProductVariantById
 };

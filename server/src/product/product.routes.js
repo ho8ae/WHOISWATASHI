@@ -16,6 +16,7 @@ router.get('/slug/:slug', productController.getProductBySlug);
 // 카테고리별 상품 조회
 router.get('/category/:categoryId', productController.getProductsByCategory);
 
+
 // 관리자 권한 필요한 엔드포인트
 // 상품 생성
 router.post('/', authMiddleware.isAdmin, productValidation.createProduct, productController.createProduct);
@@ -25,5 +26,12 @@ router.put('/:id', authMiddleware.isAdmin, productValidation.updateProduct, prod
 
 // 상품 삭제
 router.delete('/:id', authMiddleware.isAdmin, productController.deleteProduct);
+
+// 상품 변형 관련 라우트    
+router.get('/:productId/variants', productController.getProductVariants);
+router.post('/:productId/variants', authMiddleware.isAdmin, productController.createProductVariant);
+router.get('/variants/:variantId', productController.getProductVariantById);
+router.put('/variants/:variantId', authMiddleware.isAdmin, productController.updateProductVariant);
+router.delete('/variants/:variantId', authMiddleware.isAdmin, productController.deleteProductVariant);
 
 module.exports = router;

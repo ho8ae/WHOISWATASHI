@@ -373,6 +373,162 @@ async function getCategoryAndSubcategoryIds(categoryId) {
   return categoryIds;
 }
 
+
+/**
+ * 상품 변형 생성
+ */
+async function createProductVariant(productId, variantData) {
+  const { optionValues, ...data } = variantData;
+  
+  return await prisma.$transaction(async (tx) => {
+    // 1. 상품 변형 생성
+    const variant = await tx.productVariant.create({
+      data: {
+        productId: Number(productId),
+        sku: data.sku,
+        price: data.price,
+        salePrice: data.salePrice,
+        stock: data.stock || 0,
+        isActive: data.isActive !== undefined ? data.isActive : true,
+        imageUrl: data.imageUrl
+      }
+    });
+    
+    // 2. 변형에 옵션 값 연결
+    if (optionValues && optionValues.length > 0) {
+      await tx.variantOptionValue.createMany({
+        data: optionValues.map(valueId => ({
+          variantId: variant.id,
+          optionValueId: Number(valueId)
+        }))
+      });
+    }
+    
+    // 3. 생성된 변형 정보 조회
+    return await tx.productVariant.findUnique({
+      where: { id: variant.id },
+      include: {
+        options: {
+          include: {
+            optionValue: {
+              include: {
+                optionType: true
+              }
+            }
+          }
+        }
+      }
+    });
+  });
+}
+
+/**
+ * 상품 변형 수정
+ */
+async function updateProductVariant(variantId, variantData) {
+  const { optionValues, ...data } = variantData;
+  
+  return await prisma.$transaction(async (tx) => {
+    // 1. 상품 변형 정보 업데이트
+    const variant = await tx.productVariant.update({
+      where: { id: Number(variantId) },
+      data: {
+        sku: data.sku,
+        price: data.price,
+        salePrice: data.salePrice,
+        stock: data.stock,
+        isActive: data.isActive,
+        imageUrl: data.imageUrl
+      }
+    });
+    
+    // 2. 옵션 값 관계 업데이트 (있는 경우)
+    if (optionValues) {
+      // 기존 관계 삭제
+      await tx.variantOptionValue.deleteMany({
+        where: { variantId: variant.id }
+      });
+      
+      // 새 관계 생성
+      if (optionValues.length > 0) {
+        await tx.variantOptionValue.createMany({
+          data: optionValues.map(valueId => ({
+            variantId: variant.id,
+            optionValueId: Number(valueId)
+          }))
+        });
+      }
+    }
+    
+    // 3. 업데이트된 변형 정보 조회
+    return await tx.productVariant.findUnique({
+      where: { id: variant.id },
+      include: {
+        options: {
+          include: {
+            optionValue: {
+              include: {
+                optionType: true
+              }
+            }
+          }
+        }
+      }
+    });
+  });
+}
+
+/**
+ * 상품 변형 삭제
+ */
+async function deleteProductVariant(variantId) {
+  return await prisma.productVariant.delete({
+    where: { id: Number(variantId) }
+  });
+}
+
+/**
+ * 상품의 모든 변형 조회
+ */
+async function getProductVariants(productId) {
+  return await prisma.productVariant.findMany({
+    where: { productId: Number(productId) },
+    include: {
+      options: {
+        include: {
+          optionValue: {
+            include: {
+              optionType: true
+            }
+          }
+        }
+      }
+    },
+    orderBy: { id: 'asc' }
+  });
+}
+
+/**
+ * 변형 ID로 변형 조회
+ */
+async function getProductVariantById(variantId) {
+  return await prisma.productVariant.findUnique({
+    where: { id: Number(variantId) },
+    include: {
+      options: {
+        include: {
+          optionValue: {
+            include: {
+              optionType: true
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+
 module.exports = {
   getAllProducts,
   getProductById,
@@ -380,5 +536,10 @@ module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
-  getProductsByCategory
+  getProductsByCategory,
+  createProductVariant,
+  updateProductVariant,
+  deleteProductVariant,
+  getProductVariants,
+  getProductVariantById
 };
