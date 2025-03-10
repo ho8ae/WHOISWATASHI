@@ -115,7 +115,7 @@ const verifyCodeValidation = [
   validationMiddleware
 ];
 
-const resetPasswordValidation = [
+const requestResetValidation = [
   body('email')
     .trim()
     .notEmpty().withMessage('이메일을 입력해주세요.')
@@ -125,12 +125,41 @@ const resetPasswordValidation = [
   validationMiddleware
 ];
 
+const verifyResetTokenValidation = [
+  body('email')
+    .trim()
+    .notEmpty().withMessage('이메일을 입력해주세요.')
+    .isEmail().withMessage('유효한 이메일 주소를 입력해주세요.')
+    .normalizeEmail(),
+  
+  body('token')
+    .trim()
+    .notEmpty().withMessage('토큰을 입력해주세요.'),
+  
+  validationMiddleware
+];
+
+const resetPasswordValidation = [
+  body('userId')
+    .isInt().withMessage('유효하지 않은 사용자 ID입니다.'),
+  
+  body('resetId')
+    .isInt().withMessage('유효하지 않은 재설정 ID입니다.'),
+  
+  body('password')
+    .notEmpty().withMessage('비밀번호를 입력해주세요.')
+    .matches(passwordRegex).withMessage('비밀번호는 영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자로 입력해주세요.'),
+  
+  validationMiddleware
+];
 module.exports = {
   authValidation: {
     register: registerValidation,
     login: loginValidation,
     sendVerification: sendVerificationValidation,
     verifyCode: verifyCodeValidation,
+    requestReset: requestResetValidation,
+    verifyResetToken: verifyResetTokenValidation,
     resetPassword: resetPasswordValidation
   }
 };
