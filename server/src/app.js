@@ -21,10 +21,12 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true })
 const categoryRoutes = require('./category/category.routes');
 const productRoutes = require('./product/product.routes');
 const authRoutes = require('./auth/auth.routes');
+const optionTypeRoutes = require('./optionType/optionType.routes');
 
 app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/option-types', optionTypeRoutes);
 
 // 기본 경로
 app.get('/', (req, res) => {

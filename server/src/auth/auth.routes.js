@@ -26,7 +26,13 @@ router.post('/verify-code', authValidation.verifyCode, authController.verifyCode
 router.get ('/me', authMiddleware.isAuthenticated, authController.getCurrentUser);
 
 // 비밀번호 재설정 요청
-router.post('/reset-password', authValidation.resetPassword, authController.requestPasswordReset);
+router.post('/request-reset', authValidation.requestReset, authController.requestPasswordReset);
+
+// 새 비밀번호 설정 요청
+router.post('/reset-password', authValidation.resetPassword, authController.resetPassword);
+
+// 비밀번호 재설정 토큰 검증
+router.post('/verify-reset-token', authValidation.verifyResetToken, authController.verifyResetToken);
 
 // 소셜 로그인 라우트 (추후 구현)
 /*

@@ -148,7 +148,41 @@ async function getCurrentUser(req, res, next) {
 async function requestPasswordReset(req, res, next) {
   try {
     const { email } = req.body;
-    const result = await authService.generatePasswordResetToken(email);
+    const result = await authService.requestPasswordReset(email);
+    
+    res.json({
+      success: true,
+      message: result.message
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * 비밀번호 재설정 토큰 검증
+ */
+async function verifyResetToken(req, res, next) {
+  try {
+    const { email, token } = req.body;
+    const result = await authService.verifyResetToken(email, token);
+    
+    res.json({
+      success: true,
+      data: { userId: result.userId, resetId: result.resetId }
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * 새 비밀번호 설정
+ */
+async function resetPassword(req, res, next) {
+  try {
+    const { userId, resetId, password } = req.body;
+    const result = await authService.resetPassword(userId, resetId, password);
     
     res.json({
       success: true,
@@ -178,7 +212,9 @@ module.exports = {
   sendVerificationCode,
   verifyCode,
   getCurrentUser,
-  requestPasswordReset
+  requestPasswordReset,
+  verifyResetToken,
+  resetPassword
   // 추후 소셜 로그인 컨트롤러 추가
   // kakaoCallback,
   // googleCallback
