@@ -4,6 +4,9 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const { specs, swaggerUi } = require('./config/swagger');
 
+// 쿠키 파서 미들웨어 추가
+const cookieParser = require('cookie-parser');
+
 // Express 앱 초기화
 const app = express();
 
@@ -14,6 +17,10 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
 
+// 쿠키 파싱
+app.use(cookieParser());
+
+
 // Swagger UI 설정
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }));
 
@@ -22,11 +29,14 @@ const categoryRoutes = require('./category/category.routes');
 const productRoutes = require('./product/product.routes');
 const authRoutes = require('./auth/auth.routes');
 const optionTypeRoutes = require('./optionType/optionType.routes');
+const cartRoutes = require('./cart/cart.routes');
+
 
 app.use('/categories', categoryRoutes);
 app.use('/products', productRoutes);
 app.use('/auth', authRoutes);
 app.use('/option-types', optionTypeRoutes);
+app.use('/cart', cartRoutes);
 
 // 기본 경로
 app.get('/', (req, res) => {
