@@ -30,13 +30,14 @@ const productRoutes = require('./product/product.routes');
 const authRoutes = require('./auth/auth.routes');
 const optionTypeRoutes = require('./optionType/optionType.routes');
 const cartRoutes = require('./cart/cart.routes');
-
+const orderRoutes = require('./order/order.routes');
 
 app.use('/categories', categoryRoutes);
 app.use('/products', productRoutes);
 app.use('/auth', authRoutes);
 app.use('/option-types', optionTypeRoutes);
 app.use('/cart', cartRoutes);
+app.use('/orders', orderRoutes);
 
 // 기본 경로
 app.get('/', (req, res) => {
