@@ -244,7 +244,7 @@
 
 /**
  * @swagger
- * /api/auth/register:
+ * /auth/register:
  *   post:
  *     summary: 회원가입
  *     tags: [Authentication]
@@ -283,7 +283,7 @@
 
 /**
  * @swagger
- * /api/auth/login:
+ * /auth/login:
  *   post:
  *     summary: 로그인
  *     tags: [Authentication]
@@ -308,7 +308,7 @@
 
 /**
  * @swagger
- * /api/auth/logout:
+ * /auth/logout:
  *   post:
  *     summary: 로그아웃
  *     tags: [Authentication]
@@ -330,7 +330,7 @@
 
 /**
  * @swagger
- * /api/auth/refresh-token:
+ * /auth/refresh-token:
  *   post:
  *     summary: 토큰 갱신
  *     description: 리프레시 토큰을 사용하여 새 액세스 토큰을 발급받습니다. (쿠키에 저장된 리프레시 토큰을 사용하거나 요청 본문에 포함)
@@ -364,7 +364,7 @@
 
 /**
  * @swagger
- * /api/auth/send-verification:
+ * /auth/send-verification:
  *   post:
  *     summary: 인증번호 발송
  *     description: 휴대전화번호로 인증번호를 발송합니다.
@@ -395,7 +395,7 @@
 
 /**
  * @swagger
- * /api/auth/verify-code:
+ * /auth/verify-code:
  *   post:
  *     summary: 인증번호 확인
  *     description: 발송된 인증번호를 확인합니다.
@@ -426,7 +426,7 @@
 
 /**
  * @swagger
- * /api/auth/me:
+ * /auth/me:
  *   get:
  *     summary: 현재 사용자 정보 조회
  *     description: 로그인한 사용자의 정보를 조회합니다.
@@ -455,7 +455,7 @@
 
 /**
  * @swagger
- * /api/auth/request-reset:
+ * /auth/request-reset:
  *   post:
  *     summary: 비밀번호 재설정 요청
  *     description: 비밀번호 재설정 이메일을 발송합니다.
@@ -486,7 +486,7 @@
 
 /**
  * @swagger
- * /api/auth/verify-reset-token:
+ * /auth/verify-reset-token:
  *   post:
  *     summary: 비밀번호 재설정 토큰 검증
  *     description: 이메일로 발송된 비밀번호 재설정 토큰을 검증합니다.
@@ -525,7 +525,7 @@
 
 /**
  * @swagger
- * /api/auth/reset-password:
+ * /auth/reset-password:
  *   post:
  *     summary: 새 비밀번호 설정
  *     description: 비밀번호 재설정 토큰 검증 후 새 비밀번호를 설정합니다.

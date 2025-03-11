@@ -13,7 +13,9 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^6.4.1",
+    "axios": "^1.8.2",
     "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
@@ -25,7 +27,8 @@
     "pg": "^8.13.3",
     "sequelize": "^6.37.6",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "eslint": "^9.22.0",
