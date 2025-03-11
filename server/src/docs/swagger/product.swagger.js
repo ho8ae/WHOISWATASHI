@@ -42,7 +42,7 @@
  *         isPrimary: true
  *         displayOrder: 0
  *         createdAt: '2025-03-09T08:30:00.000Z'
- *     
+ *
  *     ProductCategory:
  *       type: object
  *       properties:
@@ -75,7 +75,7 @@
  *           name: 패션의류
  *           slug: clothing
  *           description: 다양한 스타일의 패션 의류 제품
- *     
+ *
  *     Product:
  *       type: object
  *       required:
@@ -158,7 +158,7 @@
  *         metaDescription: 고품질 면 100% 프리미엄 티셔츠를 구매하세요.
  *         createdAt: '2025-03-09T08:30:00.000Z'
  *         updatedAt: '2025-03-09T08:30:00.000Z'
- *     
+ *
  *     ProductSummary:
  *       type: object
  *       properties:
@@ -206,7 +206,7 @@
  *           - id: 1
  *             name: 패션의류
  *             slug: clothing
- *     
+ *
  *     ProductsResponse:
  *       type: object
  *       properties:
@@ -236,7 +236,7 @@
  *               type: integer
  *               description: 전체 페이지 수
  *               example: 10
- *     
+ *
  *     ProductResponse:
  *       type: object
  *       properties:
@@ -245,7 +245,7 @@
  *           example: true
  *         data:
  *           $ref: '#/components/schemas/Product'
- *     
+ *
  *     ProductCreateInput:
  *       type: object
  *       required:
@@ -320,7 +320,7 @@
  *               altText: 셔츠 앞면
  *             - imageUrl: https://example.com/images/shirt2.jpg
  *               altText: 셔츠 상세
- *     
+ *
  *     ProductUpdateInput:
  *       type: object
  *       properties:
@@ -379,7 +379,7 @@
 
 /**
  * @swagger
- * /api/products:
+ * /products:
  *   get:
  *     summary: 모든 상품 조회
  *     description: 상품 목록을 조회합니다. 다양한 필터링, 검색, 정렬 옵션을 제공합니다.
@@ -474,7 +474,7 @@
 
 /**
  * @swagger
- * /api/products/{id}:
+ * /products/{id}:
  *   get:
  *     summary: ID로 상품 조회
  *     description: 상품 ID로 상세 정보를 조회합니다.
@@ -571,7 +571,7 @@
 
 /**
  * @swagger
- * /api/products/slug/{slug}:
+ * /products/slug/{slug}:
  *   get:
  *     summary: Slug로 상품 조회
  *     description: 상품 슬러그로 상세 정보를 조회합니다.
@@ -596,7 +596,7 @@
 
 /**
  * @swagger
- * /api/products/category/{categoryId}:
+ * /products/category/{categoryId}:
  *   get:
  *     summary: 카테고리별 상품 조회
  *     description: 특정 카테고리에 속한 상품 목록을 조회합니다. 해당 카테고리의 모든 하위 카테고리에 속한 상품도 포함됩니다.

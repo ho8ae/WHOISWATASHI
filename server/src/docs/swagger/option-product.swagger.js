@@ -24,7 +24,8 @@
  *           description: 옵션 타입 ID
  *         name:
  *           type: string
- *           description: 옵션 타입 이름 (예: 사이즈, 색상)
+ *           description: 옵션 타입 이름 
+ *           example: 사이즈, 색상
  *         displayOrder:
  *           type: integer
  *           description: 표시 순서
@@ -62,7 +63,8 @@
  *           description: 연결된 옵션 타입 ID
  *         value:
  *           type: string
- *           description: 옵션 값 (예: S, M, L, 빨강, 파랑)
+ *           description: 옵션 값 
+ *           example: S, M, L, 빨강, 파랑
  *         displayOrder:
  *           type: integer
  *           description: 표시 순서
@@ -211,7 +213,7 @@
 
 /**
  * @swagger
- * /api/option-types:
+ * /option-types:
  *   get:
  *     summary: 모든 옵션 타입 조회
  *     tags: [OptionTypes]
@@ -265,7 +267,7 @@
 
 /**
  * @swagger
- * /api/option-types/{id}:
+ * /option-types/{id}:
  *   get:
  *     summary: ID로 옵션 타입 조회
  *     tags: [OptionTypes]
@@ -367,7 +369,7 @@
 
 /**
  * @swagger
- * /api/option-types/{optionTypeId}/values:
+ * /option-types/{optionTypeId}/values:
  *   post:
  *     summary: 옵션 값 생성
  *     tags: [OptionTypes]
@@ -412,7 +414,7 @@
 
 /**
  * @swagger
- * /api/option-types/values/{valueId}:
+ * /option-types/values/{valueId}:
  *   put:
  *     summary: 옵션 값 수정
  *     tags: [OptionTypes]
@@ -489,7 +491,7 @@
 
 /**
  * @swagger
- * /api/products/{productId}/variants:
+ * /products/{productId}/variants:
  *   get:
  *     summary: 상품의 모든 변형 조회
  *     tags: [ProductVariants]
@@ -561,7 +563,7 @@
 
 /**
  * @swagger
- * /api/products/variants/{variantId}:
+ * /products/variants/{variantId}:
  *   get:
  *     summary: 변형 ID로 상품 변형 조회
  *     tags: [ProductVariants]

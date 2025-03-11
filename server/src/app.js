@@ -23,14 +23,14 @@ const productRoutes = require('./product/product.routes');
 const authRoutes = require('./auth/auth.routes');
 const optionTypeRoutes = require('./optionType/optionType.routes');
 
-app.use('/api/categories', categoryRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api/option-types', optionTypeRoutes);
+app.use('/categories', categoryRoutes);
+app.use('/products', productRoutes);
+app.use('/auth', authRoutes);
+app.use('/option-types', optionTypeRoutes);
 
 // 기본 경로
 app.get('/', (req, res) => {
-  res.json({ message: '쇼핑몰 API 서버가 실행 중입니다.' });
+  res.json({ message: 'WHOISWATASHI API 서버가 실행 중입니다.' });
 });
 
 module.exports = app;

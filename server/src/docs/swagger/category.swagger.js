@@ -147,7 +147,7 @@
 
 /**
  * @swagger
- * /api/categories:
+ * /categories:
  *   get:
  *     summary: 모든 카테고리 조회
  *     tags: [Categories]
@@ -194,7 +194,7 @@
 
 /**
  * @swagger
- * /api/categories/tree:
+ * /categories/tree:
  *   get:
  *     summary: 카테고리 계층 구조 조회
  *     description: 계층 구조로 정리된 카테고리 트리를 반환합니다.
@@ -226,7 +226,7 @@
 
 /**
  * @swagger
- * /api/categories/{id}:
+ * /categories/{id}:
  *   get:
  *     summary: ID로 카테고리 조회
  *     tags: [Categories]
@@ -322,7 +322,7 @@
 
 /**
  * @swagger
- * /api/categories/slug/{slug}:
+ * /categories/slug/{slug}:
  *   get:
  *     summary: Slug로 카테고리 조회
  *     tags: [Categories]
@@ -346,7 +346,7 @@
 
 /**
  * @swagger
- * /api/categories/{id}/subcategories:
+ * /categories/{id}/subcategories:
  *   get:
  *     summary: 하위 카테고리 조회
  *     description: 특정 카테고리의 직속 하위 카테고리를 조회합니다.
