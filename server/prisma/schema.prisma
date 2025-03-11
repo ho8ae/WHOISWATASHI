@@ -90,7 +90,7 @@ model ProductVariant {
   
   product    Product               @relation(fields: [productId], references: [id], onDelete: Cascade)
   options    VariantOptionValue[]
-  // cartItems  CartItem[]
+  cartItems  CartItem[]
   // orderItems OrderItem[]
   
   @@map("product_variants")
@@ -172,7 +172,7 @@ model User {
   passwordResets PasswordReset[]
   addresses       Address[]
   // orders          Order[]
-  // cart            Cart?
+  cart            Cart[]
   
   @@map("users")
 }
@@ -204,4 +204,31 @@ model Address {
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   
   @@map("addresses")
+}
+
+model Cart {
+  id        Int       @id @default(autoincrement())
+  userId    Int?      @map("user_id")
+  sessionId String?   @map("session_id") @db.VarChar(255)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  
+  user      User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  items     CartItem[]
+  
+  @@map("carts")
+}
+
+model CartItem {
+  id               Int             @id @default(autoincrement())
+  cartId           Int             @map("cart_id")
+  productVariantId Int             @map("product_variant_id")
+  quantity         Int
+  createdAt        DateTime        @default(now()) @map("created_at")
+  updatedAt        DateTime        @updatedAt @map("updated_at")
+  
+  cart             Cart            @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  productVariant   ProductVariant  @relation(fields: [productVariantId], references: [id], onDelete: Cascade)
+  
+  @@map("cart_items")
 }
