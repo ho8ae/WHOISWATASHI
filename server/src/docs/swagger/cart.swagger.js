@@ -171,7 +171,7 @@
 
 /**
  * @swagger
- * /api/cart:
+ * /cart:
  *   get:
  *     summary: 장바구니 정보 조회
  *     description: 현재 사용자의 장바구니 정보를 조회합니다. 회원은 토큰, 비회원은 장바구니 세션 ID로 식별합니다.
@@ -201,7 +201,7 @@
 
 /**
  * @swagger
- * /api/cart/add:
+ * /cart/add:
  *   post:
  *     summary: 장바구니에 상품 추가
  *     description: 장바구니에 상품을 추가합니다. 이미 동일한 상품이 있을 경우 수량을 증가시킵니다.
@@ -246,7 +246,7 @@
 
 /**
  * @swagger
- * /api/cart/items/{id}:
+ * /cart/items/{id}:
  *   put:
  *     summary: 장바구니 아이템 수량 변경
  *     description: 장바구니에 있는 상품의 수량을 변경합니다.
@@ -322,7 +322,7 @@
 
 /**
  * @swagger
- * /api/cart/clear:
+ * /cart/clear:
  *   delete:
  *     summary: 장바구니 비우기
  *     description: 장바구니의 모든 상품을 삭제합니다.

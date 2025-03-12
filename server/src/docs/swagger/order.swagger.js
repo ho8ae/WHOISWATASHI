@@ -467,7 +467,7 @@
 
 /**
  * @swagger
- * /api/orders:
+ * /orders:
  *   post:
  *     summary: 주문 생성
  *     description: 장바구니의 상품으로 새로운 주문을 생성합니다.
@@ -563,7 +563,7 @@
  */
 /**
  * @swagger
- * /api/orders/{id}:
+ * /orders/{id}:
  *   get:
  *     summary: 주문 상세 조회
  *     description: 주문 ID로 상세 정보를 조회합니다. 본인의 주문이거나 관리자만 조회할 수 있습니다.
@@ -632,7 +632,7 @@
 
 /**
  * @swagger
- * /api/orders/guest:
+ * /orders/guest:
  *   post:
  *     summary: 비회원 주문 조회
  *     description: 주문 번호와 비밀번호로 비회원 주문을 조회합니다.
@@ -666,7 +666,7 @@
 
 /**
  * @swagger
- * /api/payments/portone/verify:
+ * /payments/portone/verify:
  *   post:
  *     summary: PortOne 결제 검증 (개발 중)
  *     description: PortOne 결제 후 검증을 수행합니다. 이 API는 현재 개발 중이며 프론트엔드 연동이 필요합니다.

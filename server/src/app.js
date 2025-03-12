@@ -31,6 +31,9 @@ const authRoutes = require('./auth/auth.routes');
 const optionTypeRoutes = require('./optionType/optionType.routes');
 const cartRoutes = require('./cart/cart.routes');
 const orderRoutes = require('./order/order.routes');
+const adminRoutes = require('./admin/admin.routes');
+const userRoutes = require('./user/user.routes');
+const addressRoutes = require('./address/address.routes');
 
 app.use('/categories', categoryRoutes);
 app.use('/products', productRoutes);
@@ -38,6 +41,9 @@ app.use('/auth', authRoutes);
 app.use('/option-types', optionTypeRoutes);
 app.use('/cart', cartRoutes);
 app.use('/orders', orderRoutes);
+app.use('/admin', adminRoutes);
+app.use('/users', userRoutes);
+app.use('/addresses', addressRoutes);
 
 // 기본 경로
 app.get('/', (req, res) => {
