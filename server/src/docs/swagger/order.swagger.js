@@ -373,6 +373,9 @@
  *         - address1
  *         - paymentMethod
  *       properties:
+ *         userId:
+ *           type: integer
+ *           description: 사용자 ID
  *         email:
  *           type: string
  *           description: 이메일
@@ -405,6 +408,7 @@
  *           type: string
  *           description: 비회원 주문 비밀번호 (비회원 주문 시 필수)
  *       example:
+ *         userId: 4
  *         email: user@example.com
  *         phone: 01012345678
  *         recipientName: 홍길동
@@ -414,7 +418,7 @@
  *         address2: 456호
  *         notes: 부재시 경비실에 맡겨주세요
  *         paymentMethod: card
- *         guestPassword: password123
+ *         guestPassword: password123 // 비회원 주문 시 필수
  *
  *     GuestOrderInput:
  *       type: object
