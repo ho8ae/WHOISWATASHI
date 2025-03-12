@@ -79,7 +79,7 @@
  *         quantity: 2
  *         totalPrice: 65000
  *         stock: 50
- *     
+ *
  *     Cart:
  *       type: object
  *       properties:
@@ -118,7 +118,7 @@
  *             stock: 50
  *         itemCount: 1
  *         subtotal: 65000
- *     
+ *
  *     CartItemInput:
  *       type: object
  *       required:
@@ -201,7 +201,7 @@
 
 /**
  * @swagger
- * /cart/add:
+ * /cart/items:
  *   post:
  *     summary: 장바구니에 상품 추가
  *     description: 장바구니에 상품을 추가합니다. 이미 동일한 상품이 있을 경우 수량을 증가시킵니다.

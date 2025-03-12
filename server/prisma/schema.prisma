@@ -46,7 +46,9 @@ model Product {
   // 관계
   categories   ProductCategory[]
   images       ProductImage[]
-  variants      ProductVariant[]
+  variants     ProductVariant[]
+  reviews      Review[]
+  wishlists    Wishlist[]
   
   @@map("products")
 }
@@ -173,6 +175,8 @@ model User {
   addresses       Address[]
   orders          Order[]
   cart            Cart[]
+  reviews         Review[]
+  wishlists       Wishlist[]
   
   @@map("users")
 }
@@ -261,6 +265,8 @@ model Order {
   user            User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
   items           OrderItem[]
   payments        Payment[]
+  reviews         Review[]
+  
   
   @@index([orderNumber])
   @@index([email])
@@ -310,4 +316,42 @@ model Payment {
   @@index([orderId])
   @@index([paymentKey])
   @@map("payments")
+}
+
+model Review {
+  id          Int       @id @default(autoincrement())
+  userId      Int       @map("user_id")
+  productId   Int       @map("product_id")
+  orderId     Int?      @map("order_id")
+  rating      Int
+  title       String    @db.VarChar(100)
+  content     String
+  images      String[]
+  isVerified  Boolean   @default(false) @map("is_verified")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  order       Order?    @relation(fields: [orderId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([productId])
+  @@index([orderId])
+  @@map("reviews")
+}
+
+model Wishlist {
+  id          Int       @id @default(autoincrement())
+  userId      Int       @map("user_id")
+  productId   Int       @map("product_id")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, productId])
+  @@index([userId])
+  @@index([productId])
+  @@map("wishlists")
 }
