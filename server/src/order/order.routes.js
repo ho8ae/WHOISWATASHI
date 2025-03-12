@@ -4,7 +4,7 @@ const orderController = require('./order.controller');
 const authMiddleware = require('../middleware/auth.middleware');
 
 // 주문 생성
-router.post('/', orderController.createOrder);
+router.post('/',authMiddleware.isAuthenticated,orderController.createOrder);
 
 // 비회원 주문 조회
 router.post('/guest', orderController.getGuestOrder);

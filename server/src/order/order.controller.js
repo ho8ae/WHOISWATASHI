@@ -2,6 +2,7 @@ const orderService = require('./order.service');
 const cartService = require('../cart/cart.service');
 const paymentService = require('../payment/payment.service');
 
+
 /**
  * 주문 생성
  */
@@ -11,7 +12,7 @@ async function createOrder(req, res, next) {
     const userId = req.user?.id;
     const sessionId = req.cookies.cartSessionId;
     
-    if (!userId && !req.body.guestPassword) {
+    if (!userId  && !req.body.guestPassword) {
       return res.status(400).json({
         success: false,
         message: '비회원 주문 시 주문 비밀번호가 필요합니다.'
