@@ -48,6 +48,7 @@ model Product {
   images       ProductImage[]
   variants     ProductVariant[]
   reviews      Review[]
+  wishlists    Wishlist[]
   
   @@map("products")
 }
@@ -175,6 +176,7 @@ model User {
   orders          Order[]
   cart            Cart[]
   reviews         Review[]
+  wishlists       Wishlist[]
   
   @@map("users")
 }
@@ -265,6 +267,7 @@ model Order {
   payments        Payment[]
   reviews         Review[]
   
+  
   @@index([orderNumber])
   @@index([email])
   @@index([userId])
@@ -336,4 +339,19 @@ model Review {
   @@index([productId])
   @@index([orderId])
   @@map("reviews")
+}
+
+model Wishlist {
+  id          Int       @id @default(autoincrement())
+  userId      Int       @map("user_id")
+  productId   Int       @map("product_id")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, productId])
+  @@index([userId])
+  @@index([productId])
+  @@map("wishlists")
 }
