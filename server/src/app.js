@@ -35,6 +35,7 @@ const adminRoutes = require('./admin/admin.routes');
 const userRoutes = require('./user/user.routes');
 const addressRoutes = require('./address/address.routes');
 const reviewRoutes = require('./review/review.routes');
+const wishlistRoutes = require('./wishlist/wishlist.routes');
 
 app.use('/categories', categoryRoutes);
 app.use('/products', productRoutes);
@@ -46,6 +47,7 @@ app.use('/admin', adminRoutes);
 app.use('/users', userRoutes);
 app.use('/addresses', addressRoutes);
 app.use('/reviews', reviewRoutes);
+app.use('/wishlist', wishlistRoutes);
 
 // 기본 경로
 app.get('/', (req, res) => {
