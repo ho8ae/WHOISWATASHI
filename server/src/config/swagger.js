@@ -19,6 +19,23 @@ const options = {
         url: 'http://localhost:5001',
         description: '개발 서버'
       }
+    ],
+    // 보안 스키마 추가
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+          description: '로그인 후 발급받은 JWT 토큰을 입력하세요. 형식: Bearer [token]'
+        }
+      }
+    },
+    // 전역 보안 설정 (선택적)
+    security: [
+      {
+        bearerAuth: []
+      }
     ]
   },
   // API 경로를 자동으로 찾아볼 경로
@@ -30,4 +47,16 @@ const options = {
 
 const specs = swaggerJsdoc(options);
 
-module.exports = { specs, swaggerUi };
+// Swagger UI 옵션 설정
+const swaggerUiOptions = {
+  explorer: true,
+  swaggerOptions: {
+    persistAuthorization: true, // 페이지 새로고침 후에도 인증 유지
+  }
+};
+
+module.exports = { 
+  specs, 
+  swaggerUi,
+  swaggerUiOptions // Swagger UI 옵션 내보내기
+};
