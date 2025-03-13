@@ -266,6 +266,7 @@ model Order {
   items           OrderItem[]
   payments        Payment[]
   reviews         Review[]
+  histories       OrderHistory[]
   
   
   @@index([orderNumber])
@@ -354,4 +355,18 @@ model Wishlist {
   @@index([userId])
   @@index([productId])
   @@map("wishlists")
+}
+
+// 주문 히스토리 모델
+model OrderHistory {
+  id          Int       @id @default(autoincrement())
+  orderId     Int       @map("order_id")
+  status      String    // 'pending', 'processing', 'shipped', 'delivered', 'cancelled', 'refunded'
+  message     String?
+  createdAt   DateTime  @default(now()) @map("created_at")
+  
+  order       Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  @@index([orderId])
+  @@map("order_histories")
 }
