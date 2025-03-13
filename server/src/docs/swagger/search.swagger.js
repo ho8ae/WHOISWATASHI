@@ -196,7 +196,7 @@
 
 /**
  * @swagger
- * /api/search/products:
+ * /search/products:
  *   get:
  *     summary: 상품 검색 및 필터링
  *     description: 다양한 조건으로 상품을 검색하고 필터링합니다.
@@ -279,7 +279,7 @@
 
 /**
  * @swagger
- * /api/search/suggestions:
+ * /search/suggestions:
  *   get:
  *     summary: 검색어 자동완성 제안
  *     description: 입력된 검색어에 기반하여 자동완성 제안을 제공합니다.
@@ -318,7 +318,7 @@
 
 /**
  * @swagger
- * /api/search/popular:
+ * /search/popular:
  *   get:
  *     summary: 인기 검색어 목록
  *     description: 가장 많이 검색된 검색어 목록을 제공합니다.
