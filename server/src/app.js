@@ -37,6 +37,8 @@ const addressRoutes = require('./address/address.routes');
 const reviewRoutes = require('./review/review.routes');
 const wishlistRoutes = require('./wishlist/wishlist.routes');
 const searchRoutes = require('./search/search.routes');
+const trackingRoutes = require('./tracking/tracking.routes');
+
 
 app.use('/categories', categoryRoutes);
 app.use('/products', productRoutes);
@@ -50,6 +52,7 @@ app.use('/addresses', addressRoutes);
 app.use('/reviews', reviewRoutes);
 app.use('/wishlist', wishlistRoutes);
 app.use('/search', searchRoutes);
+app.use('/tracking', trackingRoutes);
 
 // 기본 경로
 app.get('/', (req, res) => {
