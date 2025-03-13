@@ -27,13 +27,13 @@ router.get('/orders/:orderId/history', [
 router.use(isAdmin);
 
 // 주문 상태 변경 (관리자 전용)
-router.patch('/orders/:orderId/status', [
+router.patch('/admin/orders/:orderId/status', [
   updateOrderStatusValidation,
   validationMiddleware
 ], trackingController.updateOrderStatus);
 
 // 배송 추적 정보 업데이트 (관리자 전용)
-router.patch('/orders/:orderId/tracking', [
+router.patch('/admin/orders/:orderId/tracking', [
   updateTrackingInfoValidation,
   validationMiddleware
 ], trackingController.updateTrackingInfo);
