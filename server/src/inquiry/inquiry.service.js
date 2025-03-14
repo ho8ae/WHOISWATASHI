@@ -1,6 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
+const notificationService = require("../notification/notification.service");
 
 /**
  * 관리자: 모든 문의글 조회
@@ -323,6 +324,14 @@ async function answerInquiry(inquiryId, content, adminId) {
     where: { id: parseInt(inquiryId) },
     data: { status: "answered" },
   });
+
+  // 알림 발송 (로그인 사용자인 경우)
+  if (inquiry.userId) {
+    await notificationService.createInquiryAnswerNotification(
+      inquiry.userId,
+      inquiry
+    );
+  }
 
   // 답변 정보 반환 (관리자 정보 포함)
   return await prisma.inquiryAnswer.findUnique({

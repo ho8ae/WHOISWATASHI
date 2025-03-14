@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const axios = require('axios');
+const notificationService = require('../notification/notification.service');
 
 /**
  * 주문 배송 상태 조회
@@ -169,6 +170,18 @@ async function updateTrackingInfo(orderId, trackingData) {
     
     return updated;
   });
+
+   // 배송 시작 알림 발송
+   if (updatedOrder.userId) {
+    await notificationService.createShippingStartedNotification(
+      updatedOrder.userId,
+      updatedOrder,
+      {
+        carrier: trackingData.carrier,
+        trackingNumber: trackingData.trackingNumber
+      }
+    );
+  }
   
   return updatedOrder;
 }
