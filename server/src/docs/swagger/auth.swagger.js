@@ -39,7 +39,7 @@
  *         phone: "01012345678"
  *         role: customer
  *         createdAt: "2025-03-09T12:00:00Z"
- *     
+ *
  *     LoginInput:
  *       type: object
  *       required:
@@ -55,9 +55,9 @@
  *           format: password
  *           description: 비밀번호
  *       example:
- *         email: user@example.com
- *         password: Password123!
- *     
+ *         email: xogh22422@naver.com
+ *         password: NewTest1234!
+ *
  *     LoginResponse:
  *       type: object
  *       properties:
@@ -82,7 +82,7 @@
  *         message:
  *           type: string
  *           example: 로그인에 성공했습니다.
- *     
+ *
  *     RegisterInput:
  *       type: object
  *       required:
@@ -151,7 +151,7 @@
  *         agreeTerms: true
  *         agreePrivacy: true
  *         agreeSMS: false
- *     
+ *
  *     VerificationRequest:
  *       type: object
  *       required:
@@ -162,7 +162,7 @@
  *           description: 휴대전화 번호
  *       example:
  *         phone: "01012345678"
- *     
+ *
  *     VerificationVerify:
  *       type: object
  *       required:
@@ -178,7 +178,7 @@
  *       example:
  *         phone: "01012345678"
  *         code: "123456"
- *     
+ *
  *     PasswordResetRequest:
  *       type: object
  *       required:
@@ -190,7 +190,7 @@
  *           description: 이메일 주소
  *       example:
  *         email: user@example.com
- *     
+ *
  *     TokenVerifyRequest:
  *       type: object
  *       required:
@@ -207,7 +207,7 @@
  *       example:
  *         email: user@example.com
  *         token: "abcdef123456"
- *     
+ *
  *     PasswordResetInput:
  *       type: object
  *       required:
@@ -229,7 +229,7 @@
  *         userId: 1
  *         resetId: 2
  *         password: NewPassword123!
- *     
+ *
  *     RefreshTokenRequest:
  *       type: object
  *       required:
