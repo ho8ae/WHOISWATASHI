@@ -136,7 +136,7 @@
 
 /**
  * @swagger
- * /api/addresses:
+ * /addresses:
  *   get:
  *     summary: 주소 목록 조회
  *     description: 로그인한 사용자의 저장된 주소 목록을 조회합니다.
@@ -201,7 +201,7 @@
 
 /**
  * @swagger
- * /api/addresses/{id}:
+ * /addresses/{id}:
  *   get:
  *     summary: 주소 상세 조회
  *     description: 특정 주소의 상세 정보를 조회합니다.
@@ -322,7 +322,7 @@
 
 /**
  * @swagger
- * /api/addresses/{id}/default:
+ * /addresses/{id}/default:
  *   patch:
  *     summary: 기본 주소 설정
  *     description: 특정 주소를 기본 배송지로 설정합니다.

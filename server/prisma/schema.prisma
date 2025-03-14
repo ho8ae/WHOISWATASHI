@@ -177,6 +177,12 @@ model User {
   cart            Cart[]
   reviews         Review[]
   wishlists       Wishlist[]
+  inquiries       Inquiry[]
+  inquiryAnswers  InquiryAnswer[]
+  userChats       Chat[]          @relation("UserChats")
+  adminChats      Chat[]          @relation("AdminChats")
+  chatMessages    ChatMessage[]
+  notifications   Notification[]
   
   @@map("users")
 }
@@ -370,3 +376,103 @@ model OrderHistory {
   @@index([orderId])
   @@map("order_histories")
 }
+
+// schema.prisma에 추가
+model Inquiry {
+  id              Int       @id @default(autoincrement())
+  userId          Int?      @map("user_id")
+  email           String    @db.VarChar(255) // 비회원 문의 대응
+  name            String    @db.VarChar(100)
+  title           String    @db.VarChar(255)
+  content         String    @db.Text
+  isPrivate       Boolean   @default(false) @map("is_private")
+  password        String?   @db.VarChar(100) // 비회원 문의 비밀번호(해시)
+  status          String    @default("pending") // pending, answered, closed
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+  
+  user            User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  answers         InquiryAnswer[]
+  
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("inquiries")
+}
+
+model InquiryAnswer {
+  id              Int       @id @default(autoincrement())
+  inquiryId       Int       @map("inquiry_id")
+  adminId         Int       @map("admin_id")
+  content         String    @db.Text
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+  
+  inquiry         Inquiry   @relation(fields: [inquiryId], references: [id], onDelete: Cascade)
+  admin           User      @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  
+  @@index([inquiryId])
+  @@map("inquiry_answers")
+}
+
+// 채팅방
+model Chat {
+  id              Int           @id @default(autoincrement())
+  userId          Int           @map("user_id")
+  adminId         Int?          @map("admin_id")
+  subject         String        @db.VarChar(255)
+  status          String        @default("pending") // pending, in_progress, closed
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+  
+  user            User          @relation("UserChats", fields: [userId], references: [id], onDelete: Cascade)
+  admin           User?         @relation("AdminChats", fields: [adminId], references: [id], onDelete: SetNull)
+  messages        ChatMessage[]
+  
+  @@index([userId])
+  @@index([adminId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("chats")
+}
+
+// 채팅 메시지
+model ChatMessage {
+  id              Int       @id @default(autoincrement())
+  chatId          Int       @map("chat_id")
+  senderId        Int       @map("sender_id")
+  message         String    @db.Text
+  isSystem        Boolean   @default(false) @map("is_system")
+  isRead          Boolean   @default(false) @map("is_read")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  
+  chat            Chat      @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  sender          User      @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  
+  @@index([chatId])
+  @@index([senderId])
+  @@index([createdAt])
+  @@map("chat_messages")
+}
+
+// 알림 모델
+model Notification {
+  id           Int       @id @default(autoincrement())
+  userId       Int       @map("user_id")
+  type         String    // order_status, shipping_update, delivery_complete, product_restock, inquiry_answer, etc
+  title        String    @db.VarChar(255)
+  message      String    @db.Text
+  isRead       Boolean   @default(false) @map("is_read")
+  targetId     Int?      @map("target_id")
+  targetType   String?   @map("target_type") // order, product, inquiry, etc
+  actionUrl    String?   @map("action_url") @db.VarChar(255)
+  createdAt    DateTime  @default(now()) @map("created_at")
+  
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([type])
+  @@index([createdAt])
+  @@map("notifications")
+}
+
