@@ -40,6 +40,7 @@ const searchRoutes = require('./search/search.routes');
 const trackingRoutes = require('./tracking/tracking.routes');
 const inquiryRoutes = require('./inquiry/inquiry.routes');
 const chatRoutes = require('./chat/chat.routes');
+const notificationRoutes = require('./notification/notification.routes');
 
 app.use('/categories', categoryRoutes);
 app.use('/products', productRoutes);
@@ -56,6 +57,7 @@ app.use('/search', searchRoutes);
 app.use('/tracking', trackingRoutes);
 app.use('/inquiries', inquiryRoutes);
 app.use('/chats', chatRoutes);
+app.use('/notifications', notificationRoutes);
 
 // 기본 경로
 app.get('/', (req, res) => {
