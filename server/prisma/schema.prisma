@@ -179,6 +179,9 @@ model User {
   wishlists       Wishlist[]
   inquiries       Inquiry[]
   inquiryAnswers  InquiryAnswer[]
+   userChats       Chat[]          @relation("UserChats")
+  adminChats      Chat[]          @relation("AdminChats")
+  chatMessages    ChatMessage[]
   
   @@map("users")
 }
@@ -410,3 +413,44 @@ model InquiryAnswer {
   @@index([inquiryId])
   @@map("inquiry_answers")
 }
+
+// 채팅방
+model Chat {
+  id              Int           @id @default(autoincrement())
+  userId          Int           @map("user_id")
+  adminId         Int?          @map("admin_id")
+  subject         String        @db.VarChar(255)
+  status          String        @default("pending") // pending, in_progress, closed
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+  
+  user            User          @relation("UserChats", fields: [userId], references: [id], onDelete: Cascade)
+  admin           User?         @relation("AdminChats", fields: [adminId], references: [id], onDelete: SetNull)
+  messages        ChatMessage[]
+  
+  @@index([userId])
+  @@index([adminId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("chats")
+}
+
+// 채팅 메시지
+model ChatMessage {
+  id              Int       @id @default(autoincrement())
+  chatId          Int       @map("chat_id")
+  senderId        Int       @map("sender_id")
+  message         String    @db.Text
+  isSystem        Boolean   @default(false) @map("is_system")
+  isRead          Boolean   @default(false) @map("is_read")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  
+  chat            Chat      @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  sender          User      @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  
+  @@index([chatId])
+  @@index([senderId])
+  @@index([createdAt])
+  @@map("chat_messages")
+}
+
