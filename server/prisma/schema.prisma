@@ -179,9 +179,10 @@ model User {
   wishlists       Wishlist[]
   inquiries       Inquiry[]
   inquiryAnswers  InquiryAnswer[]
-   userChats       Chat[]          @relation("UserChats")
+  userChats       Chat[]          @relation("UserChats")
   adminChats      Chat[]          @relation("AdminChats")
   chatMessages    ChatMessage[]
+  notifications   Notification[]
   
   @@map("users")
 }
@@ -452,5 +453,26 @@ model ChatMessage {
   @@index([senderId])
   @@index([createdAt])
   @@map("chat_messages")
+}
+
+// 알림 모델
+model Notification {
+  id           Int       @id @default(autoincrement())
+  userId       Int       @map("user_id")
+  type         String    // order_status, shipping_update, delivery_complete, product_restock, inquiry_answer, etc
+  title        String    @db.VarChar(255)
+  message      String    @db.Text
+  isRead       Boolean   @default(false) @map("is_read")
+  targetId     Int?      @map("target_id")
+  targetType   String?   @map("target_type") // order, product, inquiry, etc
+  actionUrl    String?   @map("action_url") @db.VarChar(255)
+  createdAt    DateTime  @default(now()) @map("created_at")
+  
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([type])
+  @@index([createdAt])
+  @@map("notifications")
 }
 
