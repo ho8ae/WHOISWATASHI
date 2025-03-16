@@ -1,0 +1,90 @@
+// assets/scss/pages/_home.scss
+.home-page {
+    .hero-section {
+      position: relative;
+      margin-bottom: $spacing-xl;
+      
+      .hero-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: $white;
+        width: 80%;
+        max-width: 600px;
+        
+        h1 {
+          font-size: 2.5rem;
+          margin-bottom: $spacing-md;
+          
+          @include responsive(sm) {
+            font-size: 2rem;
+          }
+        }
+        
+        p {
+          margin-bottom: $spacing-lg;
+        }
+      }
+      
+      img {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+        border-radius: $border-radius-md;
+        
+        @include responsive(sm) {
+          height: 300px;
+        }
+      }
+    }
+    
+    .categories-section {
+      margin-bottom: $spacing-xl;
+    }
+    
+    .featured-products {
+      margin-bottom: $spacing-xl;
+    }
+    
+    .promotion-section {
+      margin-bottom: $spacing-xl;
+      
+      .promotion-card {
+        background-color: lighten($primary-color, 40%);
+        border-radius: $border-radius-md;
+        padding: $spacing-xl;
+        text-align: center;
+        
+        h3 {
+          color: $primary-color;
+          margin-bottom: $spacing-md;
+        }
+        
+        p {
+          margin-bottom: $spacing-lg;
+        }
+      }
+    }
+    
+    .section-title {
+      margin-bottom: $spacing-lg;
+      position: relative;
+      
+      h2 {
+        position: relative;
+        display: inline-block;
+        
+        &:after {
+          content: '';
+          position: absolute;
+          bottom: -5px;
+          left: 0;
+          width: 50px;
+          height: 3px;
+          background-color: $primary-color;
+        }
+      }
+    }
+  }
