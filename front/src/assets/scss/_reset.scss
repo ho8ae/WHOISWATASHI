@@ -1,0 +1,116 @@
+/* 모든 요소의 마진과 패딩 초기화 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* HTML 및 Body 기본 스타일 */
+  html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+  }
+  
+  body {
+    font-family: $font-family;
+    line-height: 1.6;
+    color: $text-color;
+    background-color: $background-color;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* 헤딩 태그 스타일 */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: $spacing-md;
+  }
+  
+  h1 { font-size: $font-size-xxl; }
+  h2 { font-size: $font-size-xl; }
+  h3 { font-size: $font-size-large; }
+  h4 { font-size: $font-size-base; }
+  h5, h6 { font-size: $font-size-small; }
+  
+  /* 링크 스타일 */
+  a {
+    color: $primary-color;
+    text-decoration: none;
+    @include transition(color);
+    
+    &:hover {
+      color: darken($primary-color, 15%);
+    }
+  }
+  
+  /* 목록 스타일 */
+  ul, ol {
+    list-style: none;
+  }
+  
+  /* 이미지 스타일 */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  /* 테이블 스타일 */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  /* 폼 요소 스타일 */
+  button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
+  
+  button {
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+  
+  input, textarea {
+    &:focus {
+      outline: none;
+    }
+  }
+  
+  /* 인라인 요소 기본 스타일 */
+  strong, b {
+    font-weight: 700;
+  }
+  
+  em, i {
+    font-style: italic;
+  }
+  
+  /* 접근성을 위한 숨김 텍스트 */
+  .visually-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  
+  /* 전체 레이아웃 컨테이너 */
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $spacing-md;
+  }
+  
+  /* 컨텐츠 섹션 마진 */
+  section {
+    margin-bottom: $spacing-xxl;
+  }
