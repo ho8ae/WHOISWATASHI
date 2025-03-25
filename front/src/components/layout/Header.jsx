@@ -133,7 +133,7 @@ const Header = () => {
           </div>
         </div>
         
-        <Link to="/shop" className="text-xl font-bold font-['NanumBarunpen']">SHOP</Link>
+        <Link to="/products" className="text-xl font-bold font-['NanumBarunpen']">SHOP</Link>
       </div>
 
       {/* 모바일 전용 슬라이딩 메뉴 (md 미만에서만 표시) */}
