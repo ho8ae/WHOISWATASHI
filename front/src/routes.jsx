@@ -1,15 +1,19 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import MainLayout from './components/layout/MainLayout';
-import Home from './pages/Home';
-
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import MainLayout from "./components/layout/MainLayout";
+import Home from "./pages/Home";
+import {
+  ProductDetail,
+  NotFound,
+  Cart,
+  Login,
+  Register,
+  ProductList,
+  MyPage,
+  About,
+  Order,
+} from "./pages";
 // 아직 구현되지 않은 페이지들은 임시 컴포넌트로 대체
-const ProductList = () => <div>상품 목록 페이지</div>;
-const ProductDetail = () => <div>상품 상세 페이지</div>;
-const Cart = () => <div>장바구니 페이지</div>;
-const Login = () => <div>로그인 페이지</div>;
-const Register = () => <div>회원가입 페이지</div>;
-const NotFound = () => <div>페이지를 찾을 수 없습니다.</div>;
 
 const AppRoutes = () => {
   return (
@@ -21,6 +25,11 @@ const AppRoutes = () => {
         <Route path="cart" element={<Cart />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="about" element={<About />} />
+        <Route path="mypage" element={<MyPage />} />
+        
+        {/* orderPage 및 API 주소 잘 봐야함 */}
+        <Route path="order" element={<Order />} /> 
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
