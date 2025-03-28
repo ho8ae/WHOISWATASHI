@@ -14,6 +14,8 @@ const Header = () => {
     login.toggle();
   };
 
+
+
   return (
     <header className="bg-white text-black p-4 sticky top-0 z-50">
       <div className="container mx-auto flex items-center justify-between">
@@ -62,6 +64,8 @@ const Header = () => {
       <LoginSlide 
         isOpen={login.isOpen} 
         onClose={login.close} 
+        isMenuOpen={menu.isOpen}
+        onClosedMenu={menu.close}
       />
     </header>
   

@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import useAuth from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+import { validateRegisterForm, validatePassword } from '../utils/validation';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -17,47 +20,68 @@ const Register = () => {
     agreeSMS: false,
   });
 
+  // useAuth hook 사용
+  const { register, isAuthenticated, loading } = useAuth();
+
   const [errors, setErrors] = useState({});
   const [isVerificationSent, setIsVerificationSent] = useState(false);
+  const navigate = useNavigate();
+
+  // 로그인 성공 시 홈으로 회원가입 축하 페이지로 이동
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
+
+  // 패스워드 실시간 검증
+  useEffect(() => {
+    if (formData.password) {
+      const { isValid, message } = validatePassword(formData.password);
+      if (!isValid) {
+        setErrors(prev => ({ ...prev, password: message }));
+      } else {
+        setErrors(prev => {
+          const newErrors = { ...prev };
+          delete newErrors.password;
+          return newErrors;
+        });
+      }
+    }
+
+    // 비밀번호 확인 실시간 검증
+    if (formData.password && formData.passwordConfirm && 
+        formData.password !== formData.passwordConfirm) {
+      setErrors(prev => ({ 
+        ...prev, 
+        passwordConfirm: '비밀번호가 일치하지 않습니다.' 
+      }));
+    } else if (formData.passwordConfirm) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors.passwordConfirm;
+        return newErrors;
+      });
+    }
+  }, [formData.password, formData.passwordConfirm]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+
+    // 체크박스인 경우 checked 값을, 생년월일 필드인 경우 정수로 변환, 그 외에는 원래 값을 사용
+    const newValue =
+      type === 'checkbox'
+        ? checked
+        : name === 'birthYear' || name === 'birthMonth' || name === 'birthDay'
+        ? value === ''
+          ? ''
+          : parseInt(value, 10)
+        : value;
+
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: newValue,
     }));
-  };
-
-  const validateForm = () => {
-    const newErrors = {};
-
-    if (!formData.email) newErrors.email = '이메일을 입력해주세요.';
-    else if (!/\S+@\S+\.\S+/.test(formData.email))
-      newErrors.email = '올바른 이메일 형식이 아닙니다.';
-
-    if (!formData.password) newErrors.password = '비밀번호를 입력해주세요.';
-    else if (formData.password.length < 8)
-      newErrors.password = '비밀번호는 8자 이상이어야 합니다.';
-
-    if (formData.password !== formData.passwordConfirm) {
-      newErrors.passwordConfirm = '비밀번호가 일치하지 않습니다.';
-    }
-
-    if (!formData.name) newErrors.name = '이름을 입력해주세요.';
-    if (!formData.phone) newErrors.phone = '휴대폰 번호를 입력해주세요.';
-    if (isVerificationSent && !formData.verificationCode)
-      newErrors.verificationCode = '인증번호를 입력해주세요.';
-
-    if (!formData.birthYear || !formData.birthMonth || !formData.birthDay) {
-      newErrors.birth = '생년월일을 모두 입력해주세요.';
-    }
-
-    if (!formData.agreeTerms) newErrors.agreeTerms = '이용약관에 동의해주세요.';
-    if (!formData.agreePrivacy)
-      newErrors.agreePrivacy = '개인정보 수집 및 이용에 동의해주세요.';
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
   };
 
   const handleRequestVerification = () => {
@@ -71,12 +95,22 @@ const Register = () => {
     alert('인증번호가 발송되었습니다.');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      console.log('회원가입 데이터:', formData);
-      alert('회원가입이 완료되었습니다!');
-      // 서버로 데이터 전송 로직 추가
+    
+    // 폼 검증
+    const validationErrors = validateRegisterForm(formData, isVerificationSent);
+    setErrors(validationErrors);
+    
+    // 에러가
+    if (Object.keys(validationErrors).length > 0) {
+      return;
+    }
+    
+    try {
+      await register(formData);
+    } catch (err) {
+      console.error('회원가입 실패:', err);
     }
   };
 
@@ -129,6 +163,9 @@ const Register = () => {
           {errors.password && (
             <p className="text-xs text-red-500 mt-1">{errors.password}</p>
           )}
+          <p className="text-xs text-gray-500 mt-1">
+            비밀번호는 8자 이상, 대문자, 특수문자, 숫자를 포함해야 합니다.
+          </p>
         </div>
 
         {/* 비밀번호 확인 */}
@@ -400,8 +437,9 @@ const Register = () => {
         <button
           type="submit"
           className="w-full py-3 bg-black text-white font-medium"
+          disabled={loading}
         >
-          회원가입
+          {loading ? '회원가입 중...' : '회원가입'}
         </button>
       </form>
     </div>
