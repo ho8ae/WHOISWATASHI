@@ -17,6 +17,9 @@ const MobileMenu = ({ isOpen, onClose, onLoginClick }) => {
     onClose(); // 메뉴 닫기
     navigate('/mypage');
   };
+
+ 
+
   
   return (
     <>
@@ -77,7 +80,8 @@ const MobileMenu = ({ isOpen, onClose, onLoginClick }) => {
                 
                 <div className="mb-4 py-2 px-3 bg-gray-800 rounded">
                   <p className="text-sm text-gray-300">로그인됨</p>
-                  <p className="text-lg font-['NanumBarunpen']">{user?.name || user?.email}</p>
+                  <p className="text-lg font-['NanumBarunpen']">{user?.name || user?.email}<span>({user?.role})</span></p>
+                  
                 </div>
                 <button
                   onClick={handleMyPageClick}
@@ -96,7 +100,7 @@ const MobileMenu = ({ isOpen, onClose, onLoginClick }) => {
               <>
                 {/* 로그인되지 않은 경우 */}
                 <button
-                  onClick={onLoginClick}
+                  onClick={onLoginClick} 
                   className="text-left text-xl font-['NanumBarunpen'] hover:text-gray-300 transition-colors"
                 >
                   ACCOUNT
