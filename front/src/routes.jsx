@@ -12,12 +12,15 @@ import {
   MyPage,
   About,
   Order,
+  Admin,
 } from "./pages";
+
 // 아직 구현되지 않은 페이지들은 임시 컴포넌트로 대체
 
 const AppRoutes = () => {
   return (
     <Routes>
+      <Route path="/admin/*" element={<Admin />} />
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path="products" element={<ProductList />} />

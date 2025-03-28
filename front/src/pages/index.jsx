@@ -8,3 +8,4 @@ export { default as ProductDetail } from "./ProductDetail";
 export { default as About } from "./About";
 export { default as Cart } from "./Cart";
 export { default as Order } from "./Order";
+export {default as Admin} from "./Admin";

@@ -5,22 +5,19 @@ import useAuth from '../../hooks/useAuth';
 const MobileMenu = ({ isOpen, onClose, onLoginClick }) => {
   const navigate = useNavigate();
   const { isAuthenticated, user, logout } = useAuth();
-  
+
   // 로그아웃 처리
   const handleLogout = () => {
     logout();
     onClose(); // 메뉴 닫기
   };
-  
+
   // 내정보 페이지로 이동
   const handleMyPageClick = () => {
     onClose(); // 메뉴 닫기
     navigate('/mypage');
   };
 
- 
-
-  
   return (
     <>
       {/* 배경 오버레이 */}
@@ -73,16 +70,29 @@ const MobileMenu = ({ isOpen, onClose, onLoginClick }) => {
               LOW
             </Link>
             <div className="border-t border-gray-700 my-2 mb-6"></div>
-            
+
             {/* 로그인 상태에 따라 다른 메뉴 표시 */}
             {isAuthenticated ? (
               <>
-                
-                <div className="mb-4 py-2 px-3 bg-gray-800 rounded">
+                <div className="mb-4 py-2 px-3 bg-gray-800 rounded ">
                   <p className="text-sm text-gray-300">로그인됨</p>
-                  <p className="text-lg font-['NanumBarunpen']">{user?.name || user?.email}<span>({user?.role})</span></p>
-                  
+                  <div className="flex flex-col justify-between">
+                    <p className="text-lg font-['NanumBarunpen']">
+                      {user?.name || user?.email}
+                      <span>({user?.role})</span>
+                    </p>
+                    {/* 관리자 메뉴 */}
+                    {isAuthenticated && user?.role === 'admin' && (
+                      <>
+                        <Link
+                        to="/admin" 
+                        className='font-light underline'
+                        >관리자 페이지 들어가기</Link>
+                      </>
+                    )}
+                  </div>
                 </div>
+
                 <button
                   onClick={handleMyPageClick}
                   className="text-left text-xl font-['NanumBarunpen'] hover:text-gray-300 transition-colors"
@@ -100,7 +110,7 @@ const MobileMenu = ({ isOpen, onClose, onLoginClick }) => {
               <>
                 {/* 로그인되지 않은 경우 */}
                 <button
-                  onClick={onLoginClick} 
+                  onClick={onLoginClick}
                   className="text-left text-xl font-['NanumBarunpen'] hover:text-gray-300 transition-colors"
                 >
                   ACCOUNT
