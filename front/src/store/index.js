@@ -4,10 +4,12 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
 import authReducer from '../features/auth/authSlice';
+import adminReducer from '../features/admin/adminSlice';
 
 // 리듀서 설정
 const rootReducer = combineReducers({
   auth: authReducer,
+  admin: adminReducer,
   // 다른 리듀서들...
 });
 
