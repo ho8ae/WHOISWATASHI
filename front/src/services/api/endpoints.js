@@ -32,4 +32,65 @@ export const API_ENDPOINTS = {
     DETAIL: (id) => `/orders/${id}`,
     CANCEL: (id) => `/orders/${id}/cancel`,
   },
+
+  // ADMIN
+  ADMIN: {
+    // 대시보드
+    DASHBOARD: '/admin/dashboard',
+    
+    // 사용자 관리
+    USERS: {
+      LIST: '/admin/users',
+      DETAIL: (id) => `/admin/users/${id}`,
+      UPDATE_ROLE: (id) => `/admin/users/${id}/role`,
+    },
+    
+    // 상품 관리
+    PRODUCTS: {
+      LIST: '/admin/products',
+      DETAIL: (id) => `/admin/products/${id}`,
+      CREATE: '/admin/products',
+      UPDATE: (id) => `/admin/products/${id}`,
+      DELETE: (id) => `/admin/products/${id}`,
+      OUT_OF_STOCK: '/admin/products/out-of-stock',
+      UPDATE_STOCK: (variantId) => `/admin/products/variants/${variantId}/stock`,
+    },
+    
+    // 주문 관리
+    ORDERS: {
+      LIST: '/admin/orders',
+      DETAIL: (id) => `/admin/orders/${id}`,
+      UPDATE: (id) => `/admin/orders/${id}`,
+    },
+
+    // 카테고리 관리
+    CATEGORIES: {
+      LIST: '/categories',
+      DETAIL: (id) => `/categories/${id}`,
+      CREATE: '/categories',
+      UPDATE: (id) => `/categories/${id}`,
+      DELETE: (id) => `/categories/${id}`,
+    },
+
+    // 옵션 타입 관리
+    OPTION_TYPES: {
+      LIST: '/option-types',
+      DETAIL: (id) => `/option-types/${id}`,
+      CREATE: '/option-types',
+      UPDATE: (id) => `/option-types/${id}`,
+      DELETE: (id) => `/option-types/${id}`,
+      CREATE_VALUE: (optionTypeId) => `/option-types/${optionTypeId}/values`,
+      UPDATE_VALUE: (valueId) => `/option-types/values/${valueId}`,
+      DELETE_VALUE: (valueId) => `/option-types/values/${valueId}`,
+    },
+
+    // 문의 관리
+    INQUIRIES: {
+      LIST: '/inquiries/admin',
+      DETAIL: (id) => `/inquiries/${id}`,
+      ANSWER: (id) => `/inquiries/admin/${id}/answer`,
+      UPDATE_ANSWER: (answerId) => `/inquiries/admin/answer/${answerId}`,
+      UPDATE_STATUS: (id) => `/inquiries/admin/${id}/status`,
+    },
+  },
 };
