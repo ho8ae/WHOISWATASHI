@@ -1,280 +1,239 @@
+// components/admin/UserManagement.jsx
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import useAdmin from '../../hooks/useAdmin';
+import { Search, User, UserCheck, UserX } from 'lucide-react';
 
 const UserManagement = () => {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [pagination, setPagination] = useState({
-    total: 0,
-    page: 1,
-    limit: 10,
-    totalPages: 0
-  });
-  const [searchQuery, setSearchQuery] = useState('');
+  const { users, getUsers, changeUserRole } = useAdmin();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
   const [roleFilter, setRoleFilter] = useState('');
-
+  
   useEffect(() => {
-    // 임시 데이터 (API 연결 전까지 사용)
-    setTimeout(() => {
-      const mockUsers = Array.from({ length: 15 }, (_, i) => ({
-        id: i + 1,
-        email: `user${i + 1}@example.com`,
-        name: `사용자 ${i + 1}`,
-        phone: `010${Math.floor(10000000 + Math.random() * 90000000)}`,
-        role: i < 2 ? 'admin' : 'customer',
-        createdAt: new Date(2024, 8, Math.floor(1 + Math.random() * 28)).toISOString(),
-        orderCount: Math.floor(Math.random() * 10)
-      }));
-
-      setUsers(mockUsers);
-      setPagination({
-        total: 25,
-        page: 1,
-        limit: 10,
-        totalPages: 3
-      });
-      setLoading(false);
-    }, 1000);
-  }, []);
-
+    loadUsers();
+  }, [currentPage, roleFilter]);
+  
+  const loadUsers = () => {
+    const params = {
+      page: currentPage,
+      limit: 10,
+      search: searchTerm
+    };
+    
+    if (roleFilter) {
+      params.role = roleFilter;
+    }
+    
+    getUsers(params);
+  };
+  
   const handleSearch = (e) => {
     e.preventDefault();
-    // 실제로는 API 호출하여 검색
-    console.log('검색어:', searchQuery, '역할:', roleFilter);
+    loadUsers();
   };
-
-  const handleChangePage = (newPage) => {
-    // 실제로는 API 호출하여 페이지 변경
-    console.log('페이지 변경:', newPage);
+  
+  const handleRoleChange = async (userId, role) => {
+    if (window.confirm(`이 사용자를 ${role === 'admin' ? '관리자' : '일반 회원'}로 변경하시겠습니까?`)) {
+      await changeUserRole(userId, role);
+      loadUsers();
+    }
   };
-
-  const handleRoleChange = async (userId, newRole) => {
-    // 실제로는 API 호출하여 역할 변경
-    console.log('역할 변경:', userId, newRole);
-    
-    // 임시로 상태 업데이트
-    setUsers(users.map(user => 
-      user.id === userId ? { ...user, role: newRole } : user
-    ));
-  };
-
-  if (loading) {
-    return <div className="p-8">로딩 중...</div>;
-  }
+  
+  const { list, pagination, loading, error } = users;
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">사용자 관리</h1>
-      
-      {/* 검색 및 필터 */}
-      <div className="bg-white p-4 rounded-lg shadow mb-6">
-        <form onSubmit={handleSearch} className="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-2 md:space-y-0">
-          <div className="flex-1">
-            <input
-              type="text"
-              placeholder="이름, 이메일 또는 전화번호 검색"
-              className="w-full px-4 py-2 border rounded-md"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-          <div>
-            <select
-              className="w-full md:w-auto px-4 py-2 border rounded-md"
-              value={roleFilter}
-              onChange={(e) => setRoleFilter(e.target.value)}
-            >
-              <option value="">모든 역할</option>
-              <option value="customer">고객</option>
-              <option value="admin">관리자</option>
-            </select>
-          </div>
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-          >
-            검색
-          </button>
-        </form>
+    <div>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">회원 관리</h1>
       </div>
       
-      {/* 사용자 목록 */}
+      <div className="bg-white rounded-lg shadow mb-6">
+        <div className="p-4 border-b">
+          <div className="flex flex-wrap items-center gap-4">
+            <form onSubmit={handleSearch} className="flex flex-1">
+              <div className="relative flex-1">
+                <input
+                  type="text"
+                  placeholder="이름, 이메일, 전화번호 검색..."
+                  className="border rounded-lg pl-10 pr-4 py-2 w-full"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
+              </div>
+              <button 
+                type="submit"
+                className="ml-2 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg"
+              >
+                검색
+              </button>
+            </form>
+            
+            <div>
+              <select
+                value={roleFilter}
+                onChange={(e) => setRoleFilter(e.target.value)}
+                className="border rounded-lg px-4 py-2"
+              >
+                <option value="">모든 회원</option>
+                <option value="customer">일반 회원</option>
+                <option value="admin">관리자</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {error && (
+        <div className="bg-red-100 p-4 rounded text-red-800 mb-6">
+          <p>오류가 발생했습니다: {error}</p>
+        </div>
+      )}
+      
       <div className="bg-white rounded-lg shadow overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="min-w-full">
-            <thead>
-              <tr className="bg-gray-50">
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">ID</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">이름</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">이메일</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">전화번호</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">역할</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">가입일</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">주문수</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">작업</th>
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">회원 정보</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">연락처</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">가입일</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">주문 수</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">권한</th>
+              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">관리</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {loading ? (
+              <tr>
+                <td colSpan="6" className="px-6 py-4 text-center">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500 mx-auto"></div>
+                </td>
               </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {users.map((user) => (
+            ) : list && list.length > 0 ? (
+              list.map((user) => (
                 <tr key={user.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3">{user.id}</td>
-                  <td className="px-4 py-3">{user.name}</td>
-                  <td className="px-4 py-3">{user.email}</td>
-                  <td className="px-4 py-3">{user.phone}</td>
-                  <td className="px-4 py-3">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      user.role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-green-100 text-green-800'
-                    }`}>
-                      {user.role === 'admin' ? '관리자' : '고객'}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3">{new Date(user.createdAt).toLocaleDateString('ko-KR')}</td>
-                  <td className="px-4 py-3">{user.orderCount}</td>
-                  <td className="px-4 py-3">
-                    <div className="flex space-x-2">
-                      <Link 
-                        to={`/admin/users/${user.id}`}
-                        className="text-blue-500 hover:underline"
-                      >
-                        상세
-                      </Link>
-                      <button
-                        onClick={() => handleRoleChange(
-                          user.id, 
-                          user.role === 'admin' ? 'customer' : 'admin'
-                        )}
-                        className="text-purple-500 hover:underline"
-                      >
-                        {user.role === 'admin' ? '고객으로 변경' : '관리자로 변경'}
-                      </button>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center">
+                      <div className="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-full flex items-center justify-center">
+                        <User className="text-gray-500" />
+                      </div>
+                      <div className="ml-4">
+                        <div className="text-sm font-medium text-gray-900">{user.name}</div>
+                        <div className="text-sm text-gray-500">{user.email}</div>
+                      </div>
                     </div>
                   </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        
-        {/* 페이지네이션 */}
-        <div className="px-4 py-3 bg-gray-50 border-t border-gray-200 flex items-center justify-between">
-          <div className="flex-1 flex justify-between sm:hidden">
-            <button
-              onClick={() => handleChangePage(pagination.page - 1)}
-              disabled={pagination.page === 1}
-              className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
-                pagination.page === 1
-                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'bg-white text-gray-700 hover:bg-gray-50'
-              }`}
-            >
-              이전
-            </button>
-            <button
-              onClick={() => handleChangePage(pagination.page + 1)}
-              disabled={pagination.page === pagination.totalPages}
-              className={`ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
-                pagination.page === pagination.totalPages
-                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'bg-white text-gray-700 hover:bg-gray-50'
-              }`}
-            >
-              다음
-            </button>
-          </div>
-          <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-            <div>
-              <p className="text-sm text-gray-700">
-                전체 <span className="font-medium">{pagination.total}</span> 명 중{' '}
-                <span className="font-medium">{(pagination.page - 1) * pagination.limit + 1}</span>-
-                <span className="font-medium">
-                  {Math.min(pagination.page * pagination.limit, pagination.total)}
-                </span>
-                명 표시
-              </p>
-            </div>
-            <div>
-              <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                <button
-                  onClick={() => handleChangePage(1)}
-                  disabled={pagination.page === 1}
-                  className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 text-sm font-medium ${
-                    pagination.page === 1
-                      ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                      : 'bg-white text-gray-500 hover:bg-gray-50'
-                  }`}
-                >
-                  <span className="sr-only">처음</span>
-                  &laquo;
-                </button>
-                <button
-                  onClick={() => handleChangePage(pagination.page - 1)}
-                  disabled={pagination.page === 1}
-                  className={`relative inline-flex items-center px-2 py-2 border border-gray-300 text-sm font-medium ${
-                    pagination.page === 1
-                      ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                      : 'bg-white text-gray-500 hover:bg-gray-50'
-                  }`}
-                >
-                  <span className="sr-only">이전</span>
-                  &lt;
-                </button>
-                
-                {/* 페이지 번호 */}
-                {Array.from({ length: pagination.totalPages }, (_, i) => i + 1)
-                  .filter(
-                    page =>
-                      page === 1 ||
-                      page === pagination.totalPages ||
-                      (page >= pagination.page - 1 && page <= pagination.page + 1)
-                  )
-                  .map((page, i, array) => (
-                    <React.Fragment key={page}>
-                      {i > 0 && array[i - 1] !== page - 1 && (
-                        <span className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-gray-700">
-                          ...
-                        </span>
-                      )}
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-900">{user.phone || '-'}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-900">{new Date(user.createdAt).toLocaleDateString()}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-900">{user.orderCount || 0}건</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                      user.role === 'admin' 
+                        ? 'bg-purple-100 text-purple-800' 
+                        : 'bg-green-100 text-green-800'
+                    }`}>
+                      {user.role === 'admin' ? '관리자' : '일반 회원'}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    {user.role === 'admin' ? (
                       <button
-                        onClick={() => handleChangePage(page)}
-                        className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium ${
-                          page === pagination.page
-                            ? 'z-10 bg-blue-50 border-blue-500 text-blue-600'
-                            : 'bg-white text-gray-700 hover:bg-gray-50'
-                        }`}
+                        className="text-green-600 hover:text-green-900 flex items-center"
+                        onClick={() => handleRoleChange(user.id, 'customer')}
                       >
-                        {page}
+                        <UserCheck size={18} className="mr-1" />
+                        일반 회원으로 변경
                       </button>
-                    </React.Fragment>
+                    ) : (
+                      <button
+                        className="text-purple-600 hover:text-purple-900 flex items-center"
+                        onClick={() => handleRoleChange(user.id, 'admin')}
+                      >
+                        <UserX size={18} className="mr-1" />
+                        관리자로 변경
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" className="px-6 py-4 text-center text-gray-500">
+                  회원이 없습니다
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+        
+        {pagination && pagination.totalPages > 1 && (
+          <div className="px-6 py-3 flex items-center justify-between border-t border-gray-200">
+            <div className="flex-1 flex justify-between sm:hidden">
+              <button
+                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+              >
+                이전
+              </button>
+              <button
+                onClick={() => setCurrentPage(Math.min(pagination.totalPages, currentPage + 1))}
+                disabled={currentPage === pagination.totalPages}
+                className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+              >
+                다음
+              </button>
+            </div>
+            <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm text-gray-700">
+                  전체 <span className="font-medium">{pagination.total}</span> 명 중{' '}
+                  <span className="font-medium">{(currentPage - 1) * pagination.limit + 1}</span>-
+                  <span className="font-medium">
+                    {Math.min(currentPage * pagination.limit, pagination.total)}
+                  </span> 보기
+                </p>
+              </div>
+              <div>
+                <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                  <button
+                    onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                    disabled={currentPage === 1}
+                    className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                  >
+                    이전
+                  </button>
+                  {[...Array(pagination.totalPages).keys()].map((page) => (
+                    <button
+                      key={page + 1}
+                      onClick={() => setCurrentPage(page + 1)}
+                      className={`relative inline-flex items-center px-4 py-2 border ${
+                        currentPage === page + 1
+                          ? 'z-10 bg-blue-50 border-blue-500 text-blue-600'
+                          : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
+                      } text-sm font-medium`}
+                    >
+                      {page + 1}
+                    </button>
                   ))}
-                
-                <button
-                  onClick={() => handleChangePage(pagination.page + 1)}
-                  disabled={pagination.page === pagination.totalPages}
-                  className={`relative inline-flex items-center px-2 py-2 border border-gray-300 text-sm font-medium ${
-                    pagination.page === pagination.totalPages
-                      ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                      : 'bg-white text-gray-500 hover:bg-gray-50'
-                  }`}
-                >
-                  <span className="sr-only">다음</span>
-                  &gt;
-                </button>
-                <button
-                  onClick={() => handleChangePage(pagination.totalPages)}
-                  disabled={pagination.page === pagination.totalPages}
-                  className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 text-sm font-medium ${
-                    pagination.page === pagination.totalPages
-                      ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                      : 'bg-white text-gray-500 hover:bg-gray-50'
-                  }`}
-                >
-                  <span className="sr-only">마지막</span>
-                  &raquo;
-                </button>
-              </nav>
+                  <button
+                    onClick={() => setCurrentPage(Math.min(pagination.totalPages, currentPage + 1))}
+                    disabled={currentPage === pagination.totalPages}
+                    className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                  >
+                    다음
+                  </button>
+                </nav>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
