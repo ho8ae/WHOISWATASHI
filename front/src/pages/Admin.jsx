@@ -1,48 +1,41 @@
-import React, { useEffect } from 'react';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import Sidebar from '../components/admin/Sidebar';
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import AdminLayout from '../components/admin/AdminLayout';
 import Dashboard from '../components/admin/Dashboard';
-import UserManagement from '../components/admin/UserManagement';
-import OrderManagement from '../components/admin/OrderManagement';
 import ProductManagement from '../components/admin/ProductManagement';
-import useAuth from '../hooks/useAuth'; // 인증 관련 훅
+import OrderManagement from '../components/admin/OrderManagement';
+import UserManagement from '../components/admin/UserManagement';
+import CategoryManagement from '../components/admin/CategoryManagement';
+import InquiryManagement from '../components/admin/InquiryManagement';
+import OptionManagement from '../components/admin/OptionManagement';
+import  useAuth  from '../hooks/useAuth';
 
 const Admin = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { isAuthenticated, user } = useAuth(); // 실제 구현에 맞게 조정 필요
-
-  // 권한 확인 및 리디렉션
-  useEffect(() => {
-    // 인증 및 관리자 권한 확인 (실제 구현에 맞게 조정 필요)
-    if (!isAuthenticated) {
-      navigate('/login', { state: { from: location } });
-    } else if (user?.role !== 'admin') {
-      navigate('/'); // 권한 없는 사용자는 홈으로 리디렉션
-    }
-  }, [isAuthenticated, user, navigate, location]);
-
-  // 로딩 중일 때 또는 권한 확인 전
-  if (!isAuthenticated || user?.role !== 'admin') {
-    return <div className="p-8 text-center">접근 권한을 확인 중입니다...</div>;
+  const { user, isAuthenticated } = useAuth();
+  
+  // 인증 및 권한 체크
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
   }
-
+  
+  if (user?.role !== 'admin') {
+    return <Navigate to="/" replace />;
+  }
+  
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      {/* 사이드바 */}
-      <Sidebar />
-      
-      {/* 메인 콘텐츠 */}
-      <div className="ml-64 flex-1">
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/users" element={<UserManagement />} />
-          <Route path="/orders" element={<OrderManagement />} />
-          <Route path="/products" element={<ProductManagement />} />
-          {/* 추가 라우트는 여기에 */}
-        </Routes>
-      </div>
-    </div>
+    <Routes>
+      <Route element={<AdminLayout />}>
+        {/* 여기서는 절대 경로(/로 시작)가 아닌 상대 경로를 사용합니다 */}
+        <Route index element={<Dashboard />} />
+        <Route path="products" element={<ProductManagement />} />
+        <Route path="orders" element={<OrderManagement />} />
+        <Route path="users" element={<UserManagement />} />
+        <Route path="categories" element={<CategoryManagement />} />
+        <Route path="inquiries" element={<InquiryManagement />} />
+        <Route path="options" element={<OptionManagement />} />
+        <Route path="*" element={<Navigate to="/admin" replace />} />
+      </Route>
+    </Routes>
   );
 };
 
