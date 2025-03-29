@@ -19,3 +19,10 @@ html,body,#root {
 * {
     box-sizing: border-box;
 }
+
+/* 사이드바 트랜지션 추가 */
+.transition-width {
+    transition-property: width;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
