@@ -15,12 +15,13 @@ import {
   Admin,
 } from "./pages";
 
-// 아직 구현되지 않은 페이지들은 임시 컴포넌트로 대체
-
 const AppRoutes = () => {
   return (
     <Routes>
+      {/* 관리자 경로 - Admin.jsx가 모든 관리자 라우팅을 처리 */}
       <Route path="/admin/*" element={<Admin />} />
+
+      {/* 일반 사용자 경로 */}
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path="products" element={<ProductList />} />
@@ -30,9 +31,7 @@ const AppRoutes = () => {
         <Route path="register" element={<Register />} />
         <Route path="about" element={<About />} />
         <Route path="mypage" element={<MyPage />} />
-        
-        {/* orderPage 및 API 주소 잘 봐야함 */}
-        <Route path="order" element={<Order />} /> 
+        <Route path="order" element={<Order />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
