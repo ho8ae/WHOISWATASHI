@@ -47,13 +47,13 @@ export const API_ENDPOINTS = {
     
     // 상품 관리
     PRODUCTS: {
-      LIST: '/admin/products',
-      DETAIL: (id) => `/admin/products/${id}`,
-      CREATE: '/admin/products',
-      UPDATE: (id) => `/admin/products/${id}`,
-      DELETE: (id) => `/admin/products/${id}`,
-      OUT_OF_STOCK: '/admin/products/out-of-stock',
-      UPDATE_STOCK: (variantId) => `/admin/products/variants/${variantId}/stock`,
+      LIST: '/products',
+      DETAIL: (id) => `/products/${id}`,
+      CREATE: '/products',
+      UPDATE: (id) => `/products/${id}`,
+      DELETE: (id) => `/products/${id}`,
+      OUT_OF_STOCK: 'admin/products/out-of-stock',
+      UPDATE_STOCK: (variantId) => `admin/products/variants/${variantId}/stock`,
     },
     
     // 주문 관리
