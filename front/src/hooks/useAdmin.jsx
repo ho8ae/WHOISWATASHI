@@ -51,7 +51,7 @@ import {
 const useAdmin = () => {
   const dispatch = useDispatch();
   const admin = useSelector((state) => state.admin);
-  
+  const categorries = useSelector(state=> state.admin.categories.list);
   // 대시보드 관련 함수
   const getDashboard = useCallback(() => {
     return dispatch(fetchDashboard());
@@ -173,6 +173,7 @@ const useAdmin = () => {
   
   return {
     // 상태
+    categorries,
     dashboard: admin.dashboard,
     users: admin.users,
     products: admin.products,

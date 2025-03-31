@@ -59,8 +59,12 @@ export const fetchProducts = createAsyncThunk(
   async (params, { rejectWithValue }) => {
     try {
       const response = await adminAPI.products.getProducts(params);
-      return response.data;
-    } catch (error) {
+
+      return {
+        products: response.products,
+        pagination: response.pagination 
+      };
+    }  catch (error) {
       return rejectWithValue(error.message || '상품 목록 조회에 실패했습니다.');
     }
   }
@@ -687,7 +691,7 @@ const adminSlice = createSlice({
       })
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.categories.loading = false;
-        state.categories.list = action.payload;
+        state.categories.list = action.payload
       })
       .addCase(fetchCategories.rejected, (state, action) => {
         state.categories.loading = false;
