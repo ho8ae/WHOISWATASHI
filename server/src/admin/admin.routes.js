@@ -9,10 +9,10 @@ const { validationMiddleware } = require('../middleware/validation.middleware');
 router.use(isAdmin);
 
 // 대시보드
-router.get('/admin/dashboard', adminController.getDashboardStats);
+router.get('/dashboard', adminController.getDashboardStats);
 
 // 사용자 관리
-router.get('/admin/users', [
+router.get('/users', [
   query('page').optional().isInt({ min: 1 }),
   query('limit').optional().isInt({ min: 1, max: 100 }),
   query('search').optional().isString(),
@@ -20,19 +20,19 @@ router.get('/admin/users', [
   validationMiddleware
 ], adminController.getAllUsers);
 
-router.get('/admin/users/:id', [
+router.get('/users/:id', [
   param('id').isInt(),
   validationMiddleware
 ], adminController.getUserDetails);
 
-router.patch('/admin/users/:id/role', [
+router.patch('/users/:id/role', [
   param('id').isInt(),
   body('role').isIn(['customer', 'admin']),
   validationMiddleware
 ], adminController.updateUserRole);
 
 // 주문 관리
-router.get('/admin/orders', [
+router.get('/orders', [
   query('page').optional().isInt({ min: 1 }),
   query('limit').optional().isInt({ min: 1, max: 100 }),
   query('status').optional().isIn(['pending', 'processing', 'completed', 'cancelled', 'refunded']),
@@ -42,7 +42,7 @@ router.get('/admin/orders', [
   validationMiddleware
 ], adminController.getAllOrders);
 
-router.patch('/admin/orders/:id', [
+router.patch('/orders/:id', [
   param('id').isInt(),
   body('status').optional().isIn(['pending', 'processing', 'completed', 'cancelled', 'refunded']),
   body('trackingNumber').optional().isString(),
@@ -59,9 +59,9 @@ router.patch('/admin/orders/:id', [
 ], adminController.updateOrder);
 
 // 재고 관리
-router.get('/admin/products/out-of-stock', adminController.getOutOfStockProducts);
+router.get('/products/out-of-stock', adminController.getOutOfStockProducts);
 
-router.patch('/admin/products/variants/:id/stock', [
+router.patch('/products/variants/:id/stock', [
   param('id').isInt(),
   body('stock').isInt({ min: 0 }),
   validationMiddleware
