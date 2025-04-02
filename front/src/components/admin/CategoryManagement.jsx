@@ -11,7 +11,7 @@ const CategoryManagement = () => {
    name: '',
    slug: '',
    description: '',
-   parentId: '',
+   parentId: 0,
    isActive: true,
    displayOrder: 0
  });
@@ -79,10 +79,18 @@ const CategoryManagement = () => {
    e.preventDefault();
    
    try {
+     // 폼 데이터를 복사하여 수정
+     const processedData = {
+      ...formData,
+      // parentId가 빈 문자열이면 null로, 그렇지 않으면 정수로 변환
+      parentId: formData.parentId === "" ? 1 : parseInt(formData.parentId, 10),
+      // displayOrder를 정수로 변환
+      displayOrder: parseInt(formData.displayOrder, 10)
+    };
      if (editingCategory) {
        await editCategory(editingCategory.id, formData);
      } else {
-       await addCategory(formData);
+       await addCategory(processedData);
      }
      
      setIsAddModalOpen(false);
