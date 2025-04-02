@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import useAdmin from '../../hooks/useAdmin';
 import DashboardCard from './DashboardCard';
 import { Users, Package, ShoppingBag, DollarSign } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   const { dashboard, getDashboard } = useAdmin();
@@ -38,7 +39,11 @@ const Dashboard = () => {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-6">대시보드</h1>
-      
+      <Link 
+      className='mb-4 shadow rounded-l p-2 justify-center items-center flex bg-white hover:bg-gray-100'
+      to='/'>
+        <span className='font-[NanumBarunpen]'>CLICK WHOISWATASHI</span>
+      </Link>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <DashboardCard 
           title="총 회원수" 

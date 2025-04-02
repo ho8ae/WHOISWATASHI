@@ -51,7 +51,7 @@ const Sidebar = () => {
       {!isOpen && (
         <button
           onClick={toggleSidebar}
-          className="fixed top-4 left-4 z-20 flex items-center bg-white px-3 py-2 rounded shadow-md"
+          className="fixed top-4 right-6 z-20 flex items-center bg-white px-3 py-2 rounded shadow-md"
         >
           <Menu size={20} className="mr-2" />
           <span>menu</span>
@@ -59,9 +59,9 @@ const Sidebar = () => {
       )}
 
       {/* 사이드바 컴포넌트 */}
-      <div className={`transition-all duration-300 ${isOpen ? 'w-64' : 'w-0'}`}>
+      <div className={`transition-all duration-75 ${isOpen ? '' : 'w-0'}`}>
         {isOpen && (
-          <div className="w-64 h-screen bg-white shadow-md fixed z-10">
+          <div className="w-64 h-screen bg-white shadow-md fixed top-0 right-0 z-10">
             <div className="flex justify-between items-center p-4 border-b">
               <button
                 onClick={toggleSidebar}
