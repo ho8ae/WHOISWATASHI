@@ -9,15 +9,11 @@ import {
   MessageSquare,
   List,
   Menu,
-  X,
-  Ham,
-  ArrowBigRight,
-  ArrowRightIcon,
-  ArrowBigLeft,
+  X
 } from 'lucide-react';
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -51,22 +47,29 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* 사이드바 열기 버튼 - 닫힌 상태일 때만 표시 */}
+      {/* 닫힌 상태일 때 보이는 menu 버튼 */}
       {!isOpen && (
         <button
           onClick={toggleSidebar}
-          className="fixed top-[50%] z-20 bg-white p-2 rounded shadow-md"
+          className="fixed top-4 left-4 z-20 flex items-center bg-white px-3 py-2 rounded shadow-md"
         >
-          <ArrowRightIcon size={16} />
+          <Menu size={20} className="mr-2" />
+          <span>menu</span>
         </button>
       )}
 
       {/* 사이드바 컴포넌트 */}
-      {isOpen && (
-        <div>
-          <div className="w-64 h-full bg-white shadow-md fixed z-10">
+      <div className={`transition-all duration-300 ${isOpen ? 'w-64' : 'w-0'}`}>
+        {isOpen && (
+          <div className="w-64 h-screen bg-white shadow-md fixed z-10">
             <div className="flex justify-between items-center p-4 border-b">
-              <h1 className="font-bold text-xl">관리자 페이지</h1>
+              <button
+                onClick={toggleSidebar}
+                className="flex items-center px-3 py-1 rounded hover:bg-gray-100"
+              >
+                <span className="mr-2">close</span>
+                <X size={16} />
+              </button>
             </div>
 
             <nav className="mt-4">
@@ -92,16 +95,8 @@ const Sidebar = () => {
               </ul>
             </nav>
           </div>
-          <div className="z-10">
-            <button
-              onClick={toggleSidebar}
-              className="fixed top-[50%] left-64 z-20 bg-white p-2 rounded shadow-md-right-3"
-            >
-              <ArrowBigLeft size={20} />
-            </button>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 };

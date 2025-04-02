@@ -92,6 +92,9 @@
  *         slug:
  *           type: string
  *           description: 상품 슬러그
+ *         stock:
+ *          type: integer
+ *          description: 재고 수량
  *         description:
  *           type: string
  *           description: 상품 설명

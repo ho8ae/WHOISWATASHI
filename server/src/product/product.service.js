@@ -80,6 +80,8 @@ async function getAllProducts(options = {}) {
     slug: product.slug,
     price: product.price,
     salePrice: product.salePrice,
+    stock: product.stock,
+    sku: product.sku,
     primaryImage: product.images[0]?.imageUrl || null,
     categories: product.categories.map(pc => ({
       id: pc.category.id,
