@@ -42,7 +42,7 @@ const Sidebar = () => {
       label: '문의 관리',
       icon: <MessageSquare size={20} />,
     },
-    { path: '/admin/options', label: '옵션 관리', icon: <List size={20} /> },
+    // { path: '/admin/options', label: '옵션 관리', icon: <List size={20} /> },
   ];
 
   return (

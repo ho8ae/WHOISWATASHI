@@ -412,7 +412,7 @@ export const adminAPI = {
     getInquiries: async (params = {}) => {
       try {
         const response = await apiClient.get(API_ENDPOINTS.ADMIN.INQUIRIES.LIST, { params });
-        return response.data;
+        return response;
       } catch (error) {
         throw error.response?.data || { message: '문의 목록 조회 중 오류가 발생했습니다.' };
       }
