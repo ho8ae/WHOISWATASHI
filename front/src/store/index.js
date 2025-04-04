@@ -5,11 +5,12 @@ import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
 import authReducer from '../features/auth/authSlice';
 import adminReducer from '../features/admin/adminSlice';
-
+import productsReducer from '../features/products/productsSlice';
 // 리듀서 설정
 const rootReducer = combineReducers({
   auth: authReducer,
   admin: adminReducer,
+  products: productsReducer,
   // 다른 리듀서들...
 });
 
@@ -26,6 +27,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 // store 생성
 export const store = configureStore({
   reducer: persistedReducer,
+  
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
