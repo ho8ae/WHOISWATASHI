@@ -1,382 +1,340 @@
-// components/admin/product-edit-tabs/OptionsTab.jsx
-import React, { useState } from 'react';
-import { Plus, Trash2, AlertCircle } from 'lucide-react';
+// // components/admin/product-edit-tabs/OptionsTab.jsx
+// import React, { useState, useEffect } from 'react';
+// import { Plus, Save, AlertCircle } from 'lucide-react';
+// import useAdmin from '../../../hooks/useAdmin';
+// import OptionTypeRow from './OptionTypeRow';
+// import VariantsList from './VariantsList';
 
-const OptionsTab = ({ formData, setFormData }) => {
-  // 옵션 설정 상태
-  const [optionTypes, setOptionTypes] = useState([
-    { id: formData.options?.length > 0 ? 'existing' : Date.now(), name: '', values: [] }
-  ]);
-  const [newOptionValue, setNewOptionValue] = useState('');
-  const [selectedOptionType, setSelectedOptionType] = useState(optionTypes[0].id);
+// const OptionsTab = ({ productId, product }) => {
+//   const { 
+//     addProductVariant, 
+//     getProductVariants, 
+//     getOptionTypes,
+//     addOptionValue,
+//   } = useAdmin();
+
+//   const [loading, setLoading] = useState(true);
+//   const [saving, setSaving] = useState(false);
+//   const [error, setError] = useState(null);
   
-  // 옵션 행렬 생성 여부
-  const [optionMatrixGenerated, setOptionMatrixGenerated] = useState(
-    formData.options && formData.options.length > 0
-  );
+//   // 옵션 상태
+//   const [optionTypes, setOptionTypes] = useState([
+//     { id: Date.now(), name: '', values: [] }
+//   ]);
+//   const [newOptionValue, setNewOptionValue] = useState('');
+//   const [selectedOptionType, setSelectedOptionType] = useState(null);
+  
+//   // 서버에서 가져온 옵션 타입 목록
+//   const [availableOptionTypes, setAvailableOptionTypes] = useState([]);
+  
+//   // 변형 상품 정보
+//   const [variants, setVariants] = useState([]);
+//   const [optionMatrixGenerated, setOptionMatrixGenerated] = useState(false);
 
-  // 옵션 타입 추가
-  const addOptionType = () => {
-    setOptionTypes([...optionTypes, { id: Date.now(), name: '', values: [] }]);
-  };
+//   // 페이지 로드 시 상품 정보 가져오기
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       setLoading(true);
+//       try {
+//         // 변형 정보 조회
+//         const variantsResponse = await getProductVariants(productId);
+//         const variantsData = 
+//           variantsResponse.payload?.variants || 
+//           variantsResponse.data?.variants || 
+//           variantsResponse.variants || 
+//           [];
+        
+//         if (variantsData && variantsData.length > 0) {
+//           setVariants(variantsData);
+//           setOptionMatrixGenerated(true);
+//         }
+        
+//         // 옵션 타입 목록 조회
+//         const optionTypesResponse = await getOptionTypes();
+//         const optionTypesData = 
+//           optionTypesResponse.payload?.data || 
+//           optionTypesResponse.data || 
+//           [];
+        
+//         setAvailableOptionTypes(optionTypesData);
+        
+//         if (variantsData.length > 0) {
+//           // 기존 옵션 타입 추출
+//           const usedOptionTypes = [];
+//           const firstVariant = variantsData[0];
+          
+//           if (firstVariant.options) {
+//             firstVariant.options.forEach(opt => {
+//               const optionType = opt.optionValue.optionType;
+//               if (!usedOptionTypes.some(t => t.id === optionType.id)) {
+//                 usedOptionTypes.push({
+//                   id: optionType.id,
+//                   name: optionType.name,
+//                   optionTypeId: optionType.id,
+//                   values: []
+//                 });
+//               }
+//             });
+            
+//             // 옵션 값 추출
+//             usedOptionTypes.forEach(type => {
+//               variantsData.forEach(variant => {
+//                 variant.options.forEach(opt => {
+//                   if (opt.optionValue.optionType.id === type.id) {
+//                     // 중복 방지
+//                     if (!type.values.some(v => v.id === opt.optionValue.id)) {
+//                       type.values.push({
+//                         id: opt.optionValue.id,
+//                         name: opt.optionValue.value,
+//                         optionValueId: opt.optionValue.id
+//                       });
+//                     }
+//                   }
+//                 });
+//               });
+//             });
+            
+//             setOptionTypes(usedOptionTypes);
+//           }
+//         }
+//       } catch (err) {
+//         console.error('데이터 로드 오류:', err);
+//         setError('상품 또는 옵션 정보를 불러오는 데 실패했습니다.');
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+    
+//     fetchData();
+//   }, [productId, getProductVariants, getOptionTypes]);
 
-  // 옵션 타입 이름 변경
-  const handleOptionTypeNameChange = (id, name) => {
-    setOptionTypes(optionTypes.map(type => 
-      type.id === id ? { ...type, name } : type
-    ));
-  };
+//   // 옵션 타입 추가
+//   const addOptionType = () => {
+//     setOptionTypes([...optionTypes, { id: Date.now(), name: '', values: [] }]);
+//   };
 
-  // 옵션 타입 삭제
-  const removeOptionType = (id) => {
-    setOptionTypes(optionTypes.filter(type => type.id !== id));
-  };
-
-  // 옵션 값 추가
-  const addOptionValue = () => {
-    if (!newOptionValue.trim()) return;
+//   // 모든 옵션 조합 생성
+//   const generateOptionCombinations = async () => {
+//     // 유효한 옵션 타입만 필터링 (이름과 값이 있는 것만)
+//     const validOptionTypes = optionTypes.filter(
+//       type => type.name.trim() && type.values.length > 0
+//     );
     
-    setOptionTypes(optionTypes.map(type => 
-      type.id === selectedOptionType 
-        ? { ...type, values: [...type.values, { id: Date.now(), name: newOptionValue }] }
-        : type
-    ));
+//     if (validOptionTypes.length === 0) {
+//       alert('최소 하나 이상의 옵션 타입과 값이 필요합니다.');
+//       return;
+//     }
     
-    setNewOptionValue('');
-  };
-
-  // 옵션 값 삭제
-  const removeOptionValue = (typeId, valueId) => {
-    setOptionTypes(optionTypes.map(type => 
-      type.id === typeId 
-        ? { ...type, values: type.values.filter(value => value.id !== valueId) }
-        : type
-    ));
-  };
-
-  // 모든 옵션 조합 생성
-  const generateOptionCombinations = () => {
-    // 유효한 옵션 타입만 필터링 (이름과 값이 있는 것만)
-    const validOptionTypes = optionTypes.filter(
-      type => type.name.trim() && type.values.length > 0
-    );
+//     // 카르테시안 곱 함수 (모든 조합 생성)
+//     const cartesian = (...arrays) => {
+//       return arrays.reduce((acc, array) => {
+//         return acc.flatMap(x => array.map(y => [...x, y]));
+//       }, [[]]);
+//     };
     
-    if (validOptionTypes.length === 0) {
-      alert('최소 하나 이상의 옵션 타입과 값이 필요합니다.');
-      return;
-    }
+//     // 각 옵션 타입의 값 배열 생성
+//     const optionArrays = validOptionTypes.map(type => type.values);
     
-    // 카르테시안 곱 함수 (모든 조합 생성)
-    const cartesian = (...arrays) => {
-      return arrays.reduce((acc, array) => {
-        return acc.flatMap(x => array.map(y => [...x, y]));
-      }, [[]]);
-    };
+//     // 모든 조합 생성
+//     const combinations = cartesian(...optionArrays);
     
-    // 각 옵션 타입의 값 배열 생성
-    const optionArrays = validOptionTypes.map(type => type.values);
-    
-    // 모든 조합 생성
-    const combinations = cartesian(...optionArrays);
-    
-    // 옵션 조합을 상품 옵션으로 변환
-    const newOptions = combinations.map(combination => {
-      // 옵션 이름 생성 (예: "색상: 레드 / 사이즈: XL")
-      const name = combination
-        .map((value, index) => `${validOptionTypes[index].name}: ${value.name}`)
-        .join(' / ');
+//     // 옵션 조합을 상품 변형으로 변환
+//     const newVariants = combinations.map(combination => {
+//       // 옵션 이름 생성 (예: "색상: 레드 / 사이즈: XL")
+//       const name = combination
+//         .map((value, index) => `${validOptionTypes[index].name}: ${value.name}`)
+//         .join(' / ');
       
-      // 기존 옵션에서 동일한 옵션이 있는지 확인
-      const existingOption = formData.options?.find(opt => opt.name === name);
+//       // 기존 변형에서 동일한 이름이 있는지 확인
+//       const existingVariant = variants.find(v => {
+//         if (!v.options) return false;
+        
+//         const variantName = v.options.map(opt => 
+//           `${opt.optionValue.optionType.name}: ${opt.optionValue.value}`
+//         ).join(' / ');
+        
+//         return variantName === name;
+//       });
       
-      return {
-        id: existingOption?.id || Date.now() + Math.random(),
-        name,
-        stock: existingOption?.stock || 0,
-        price: existingOption?.price || 0,
-        optionValues: combination.map((value, index) => ({
-          typeName: validOptionTypes[index].name,
-          valueName: value.name
-        }))
-      };
-    });
+//       return {
+//         id: existingVariant?.id || `new-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+//         name,
+//         price: existingVariant?.price || product.price || 0,
+//         salePrice: existingVariant?.salePrice || product.salePrice || null,
+//         stock: existingVariant?.stock || 0,
+//         optionValues: combination.map((value, index) => ({
+//           typeName: validOptionTypes[index].name,
+//           valueName: value.name,
+//           typeId: validOptionTypes[index].optionTypeId || validOptionTypes[index].id,
+//           valueId: value.optionValueId || value.id
+//         }))
+//       };
+//     });
     
-    setFormData(prev => ({
-      ...prev,
-      options: newOptions
-    }));
+//     setVariants(newVariants);
+//     setOptionMatrixGenerated(true);
+//   };
+
+//   // 변형 상품 초기화
+//   const resetVariants = () => {
+//     if (window.confirm('정말 모든 옵션을 초기화하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) {
+//       setVariants([]);
+//       setOptionMatrixGenerated(false);
+//     }
+//   };
+
+//   // 변형 상품 저장 함수 개선
+//   const saveVariants = async () => {
+//     if (!variants.length) {
+//       alert('저장할 옵션이 없습니다.');
+//       return;
+//     }
     
-    setOptionMatrixGenerated(true);
-  };
-
-  // 옵션 수정
-  const updateOption = (id, field, value) => {
-    setFormData(prev => ({
-      ...prev,
-      options: prev.options.map(option => 
-        option.id === id ? { ...option, [field]: field === 'stock' || field === 'price' ? Number(value) : value } : option
-      )
-    }));
-  };
-
-  // 옵션 삭제
-  const removeOption = (id) => {
-    setFormData(prev => ({
-      ...prev,
-      options: prev.options.filter(option => option.id !== id)
-    }));
-  };
-
-  // 옵션 초기화
-  const resetOptions = () => {
-    if (window.confirm('정말 모든 옵션을 초기화하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) {
-      setFormData(prev => ({
-        ...prev,
-        options: []
-      }));
-      setOptionMatrixGenerated(false);
-    }
-  };
-
-  return (
-    <div className="py-4">
-      {!optionMatrixGenerated ? (
-        <div className="mb-6">
-          <div className="flex justify-between items-center mb-2">
-            <label className="block text-sm font-medium text-gray-700">
-              옵션 설정
-            </label>
-            <button
-              type="button"
-              onClick={addOptionType}
-              className="text-sm text-blue-600 hover:text-blue-800 flex items-center"
-            >
-              <Plus size={16} className="mr-1" />
-              옵션 타입 추가
-            </button>
-          </div>
-          
-          {optionTypes.map((optionType, index) => (
-            <div key={optionType.id} className="mb-6 p-4 border rounded-lg bg-gray-50">
-              <div className="flex justify-between items-center mb-3">
-                <div className="flex items-center">
-                  <span className="font-medium text-gray-700 mr-2">옵션 {index + 1}</span>
-                  <input
-                    type="text"
-                    value={optionType.name}
-                    onChange={(e) => handleOptionTypeNameChange(optionType.id, e.target.value)}
-                    placeholder="옵션명 (예: 색상, 사이즈)"
-                    className="p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-                {optionTypes.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removeOptionType(optionType.id)}
-                    className="text-red-500 hover:text-red-700"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                )}
-              </div>
-              
-              <div className="mb-3">
-                <div className="flex">
-                  <select
-                    value={selectedOptionType === optionType.id ? selectedOptionType : optionType.id}
-                    onChange={(e) => setSelectedOptionType(e.target.value)}
-                    className="sr-only"
-                  >
-                    {optionTypes.map(type => (
-                      <option key={type.id} value={type.id}>
-                        {type.name || `옵션 ${optionTypes.indexOf(type) + 1}`}
-                      </option>
-                    ))}
-                  </select>
-                  
-                  <input
-                    type="text"
-                    value={selectedOptionType === optionType.id ? newOptionValue : ''}
-                    onChange={(e) => setNewOptionValue(e.target.value)}
-                    onClick={() => setSelectedOptionType(optionType.id)}
-                    placeholder="옵션값 입력 (예: 레드, XL)"
-                    className="flex-1 p-2 border rounded-l focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  />
-                  
-                  <button
-                    type="button"
-                    onClick={addOptionValue}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-r hover:bg-blue-700"
-                    disabled={selectedOptionType !== optionType.id || !newOptionValue.trim()}
-                  >
-                    추가
-                  </button>
-                </div>
-              </div>
-              
-              {optionType.values.length > 0 ? (
-                <div className="flex flex-wrap gap-2">
-                  {optionType.values.map(value => (
-                    <div key={value.id} className="flex items-center bg-white px-2 py-1 rounded border">
-                      <span className="text-sm">{value.name}</span>
-                      <button
-                        type="button"
-                        onClick={() => removeOptionValue(optionType.id, value.id)}
-                        className="ml-1 text-gray-400 hover:text-red-500"
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-sm text-gray-500 italic">옵션값이 없습니다</p>
-              )}
-            </div>
-          ))}
-          
-          <div className="mt-4 flex justify-end">
-            <button
-              type="button"
-              onClick={generateOptionCombinations}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-              disabled={optionTypes.every(type => !type.name.trim() || type.values.length === 0)}
-            >
-              옵션 조합 생성
-            </button>
-          </div>
-        </div>
-      ) : (
-        <>
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-medium text-gray-900">옵션 목록</h3>
-            <button
-              type="button"
-              onClick={resetOptions}
-              className="text-sm text-red-600 hover:text-red-800"
-            >
-              옵션 초기화
-            </button>
-          </div>
-          
-          {formData.options && formData.options.length > 0 ? (
-            <div className="border rounded-lg overflow-hidden">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      옵션명
-                    </th>
-                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      추가 가격
-                    </th>
-                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      재고
-                    </th>
-                    <th scope="col" className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">
-                      관리
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {formData.options.map((option) => (
-                    <tr key={option.id} className="hover:bg-gray-50">
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                        {option.name}
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <input
-                            type="number"
-                            value={option.price}
-                            onChange={(e) => updateOption(option.id, 'price', e.target.value)}
-                            min="0"
-                            className="w-24 p-1 text-sm border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                          />
-                          <span className="ml-1 text-sm text-gray-500">원</span>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap">
-                        <input
-                          type="number"
-                          value={option.stock}
-                          onChange={(e) => updateOption(option.id, 'stock', e.target.value)}
-                          min="0"
-                          className="w-24 p-1 text-sm border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        />
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap text-right text-sm font-medium">
-                        <button
-                          type="button"
-                          onClick={() => removeOption(option.id)}
-                          className="text-red-600 hover:text-red-900"
-                        >
-                          <Trash2 size={16} />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <div className="text-center py-8 bg-gray-50 rounded-lg border border-dashed">
-              <AlertCircle className="mx-auto h-12 w-12 text-gray-400" />
-              <p className="mt-2 text-sm text-gray-500">옵션이 없습니다</p>
-            </div>
-          )}
-        </>
-      )}
+//     setSaving(true);
+//     setError(null);
+    
+//     try {
+//       // 새 변형만 저장 (ID가 숫자가 아닌 것들)
+//       const newVariants = variants.filter(variant => 
+//         !variant.id || isNaN(Number(variant.id)) || String(variant.id).startsWith('new-')
+//       );
       
-      {!optionMatrixGenerated && (
-        <div className="mt-6">
-          <div className="flex justify-between items-center mb-2">
-            <label className="block text-sm font-medium text-gray-700">
-              기본 재고 관리
-            </label>
-            <div className="text-sm text-gray-500">
-              옵션이 없는 경우 사용됩니다
-            </div>
-          </div>
-          
-          <div className="p-4 border rounded-lg">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm text-gray-600 mb-1">
-                  재고 수량
-                </label>
-                <input
-                  type="number"
-                  name="stock"
-                  value={formData.stock || 0}
-                  onChange={(e) => setFormData(prev => ({ ...prev, stock: Number(e.target.value) }))}
-                  min="0"
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm text-gray-600 mb-1">
-                  안전 재고 (알림용)
-                </label>
-                <input
-                  type="number"
-                  name="safetyStock"
-                  value={formData.safetyStock || 0}
-                  onChange={(e) => setFormData(prev => ({ ...prev, safetyStock: Number(e.target.value) }))}
-                  min="0"
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-                <p className="mt-1 text-xs text-gray-500">
-                  재고가 이 수량 이하로 떨어지면 알림이 발송됩니다
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
+//       if (newVariants.length === 0) {
+//         alert('저장할 새 옵션이 없습니다.');
+//         setSaving(false);
+//         return;
+//       }
+      
+//       // 변형 저장
+//       for (const variant of newVariants) {
+//         // 옵션 값 ID 추출 (서버에 있는 실제 ID만)
+//         const validOptionValues = variant.optionValues
+//           .filter(ov => ov.valueId && !isNaN(Number(ov.valueId)))
+//           .map(ov => Number(ov.valueId));
+        
+//         // 유효한 옵션 값이 없으면 경고 표시
+//         if (validOptionValues.length === 0) {
+//           setError(`'${variant.name}' 변형에 유효한 옵션 값이 없습니다.`);
+//           setSaving(false);
+//           return;
+//         }
+        
+//         const variantData = {
+//           price: variant.price || product.price,
+//           salePrice: variant.salePrice || product.salePrice || null,
+//           stock: variant.stock || 0,
+//           optionValues: validOptionValues
+//         };
+        
+//         await addProductVariant(productId, variantData);
+//       }
+      
+//       alert('상품 옵션이 성공적으로 저장되었습니다.');
+      
+//       // 저장 후 변형 정보 다시 로드
+//       const response = await getProductVariants(productId);
+//       const refreshedVariants = 
+//         response.payload?.variants || 
+//         response.data?.variants || 
+//         response.variants || 
+//         [];
+      
+//       if (refreshedVariants && refreshedVariants.length > 0) {
+//         setVariants(refreshedVariants);
+//       }
+//     } catch (err) {
+//       console.error('변형 저장 오류:', err);
+//       setError('옵션 저장 중 오류가 발생했습니다: ' + (err.message || '알 수 없는 오류'));
+//     } finally {
+//       setSaving(false);
+//     }
+//   };
 
-export default OptionsTab;
+//   if (loading) {
+//     return (
+//       <div className="flex justify-center items-center h-full py-20">
+//         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+//         <span className="ml-3 text-gray-600">옵션 정보를 불러오는 중...</span>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="bg-white rounded-lg shadow overflow-hidden p-6">
+//       {error && (
+//         <div className="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+//           <div className="flex items-center">
+//             <AlertCircle size={20} className="mr-2" />
+//             <span>{error}</span>
+//           </div>
+//         </div>
+//       )}
+
+//       {!optionMatrixGenerated ? (
+//         <div className="mb-6">
+//           <div className="flex justify-between items-center mb-2">
+//             <label className="block text-sm font-medium text-gray-700">
+//               옵션 설정
+//             </label>
+//             <button
+//               type="button"
+//               onClick={addOptionType}
+//               className="text-sm text-blue-600 hover:text-blue-800 flex items-center"
+//             >
+//               <Plus size={16} className="mr-1" />
+//               옵션 타입 추가
+//             </button>
+//           </div>
+          
+//           {optionTypes.map((optionType, index) => (
+//             <OptionTypeRow
+//               key={optionType.id}
+//               optionType={optionType}
+//               index={index}
+//               availableOptionTypes={availableOptionTypes}
+//               optionTypes={optionTypes}
+//               setOptionTypes={setOptionTypes}
+//               newOptionValue={newOptionValue}
+//               setNewOptionValue={setNewOptionValue}
+//               selectedOptionType={selectedOptionType}
+//               setSelectedOptionType={setSelectedOptionType}
+//               addOptionValue={addOptionValue}
+//             />
+//           ))}
+          
+//           <div className="mt-4 flex justify-end">
+//             <button
+//               type="button"
+//               onClick={generateOptionCombinations}
+//               disabled={saving || optionTypes.every(type => !type.name.trim() || type.values.length === 0)}
+//               className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+//             >
+//               {saving ? '처리 중...' : '옵션 조합 생성'}
+//             </button>
+//           </div>
+//         </div>
+//       ) : (
+//         <VariantsList
+//           variants={variants}
+//           setVariants={setVariants}
+//           resetVariants={resetVariants}
+//           saving={saving}
+//           saveVariants={saveVariants}
+//         />
+//       )}
+
+//       <div className="mt-6 flex justify-end">
+//         <button
+//           onClick={saveVariants}
+//           disabled={saving || !optionMatrixGenerated || variants.length === 0}
+//           className="flex items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded disabled:opacity-50"
+//         >
+//           <Save size={18} className="mr-2" />
+//           {saving ? '저장 중...' : '옵션 저장'}
+//         </button>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default OptionsTab;

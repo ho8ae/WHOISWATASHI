@@ -23,6 +23,7 @@ async function getAllOptionTypes() {
  * ID로 옵션 타입 조회
  */
 async function getOptionTypeById(id) {
+  console.log('[getOptionTypeById] id:', id, '→ typeof:', typeof id);
   return await prisma.optionType.findUnique({
     where: { id: Number(id) },
     include: {
@@ -96,6 +97,19 @@ async function updateOptionValue(id, data) {
 }
 
 /**
+ * 옵션 값 조회
+ */
+async function getOptionValues() {
+  return await prisma.optionValue.findMany({
+    include: {
+      optionType: true
+    }
+  });
+}
+
+
+
+/**
  * 옵션 값 삭제
  */
 async function deleteOptionValue(id) {
@@ -112,5 +126,6 @@ module.exports = {
   deleteOptionType,
   createOptionValue,
   updateOptionValue,
-  deleteOptionValue
+  deleteOptionValue,
+  getOptionValues,
 };

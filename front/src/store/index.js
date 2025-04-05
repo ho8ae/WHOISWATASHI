@@ -6,11 +6,15 @@ import { combineReducers } from 'redux';
 import authReducer from '../features/auth/authSlice';
 import adminReducer from '../features/admin/adminSlice';
 import productsReducer from '../features/products/productsSlice';
+import cartReducer from '../features/cart/cartSlice';
+
+
 // 리듀서 설정
 const rootReducer = combineReducers({
   auth: authReducer,
   admin: adminReducer,
   products: productsReducer,
+  cart: cartReducer,
   // 다른 리듀서들...
 });
 

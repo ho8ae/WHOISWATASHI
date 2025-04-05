@@ -14,5 +14,6 @@ router.delete('/:id', authMiddleware.isAdmin, optionTypeController.deleteOptionT
 router.post('/:optionTypeId/values', authMiddleware.isAdmin, optionTypeController.createOptionValue);
 router.put('/values/:valueId', authMiddleware.isAdmin, optionTypeController.updateOptionValue);
 router.delete('/values/:valueId', authMiddleware.isAdmin, optionTypeController.deleteOptionValue);
+router.get('/values/optionValues', authMiddleware.isAdmin,optionTypeController.getOptionValues);
 
 module.exports = router;

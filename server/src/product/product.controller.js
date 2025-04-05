@@ -209,7 +209,7 @@ async function getProductVariants(req, res, next) {
 async function getProductVariantById(req, res, next) {
   try {
     const { variantId } = req.params;
-    const variant = await productService.getProductVariantById(variantId);
+    const variant = await productService.getProductVariants(variantId);
     
     if (!variant) {
       return res.status(404).json({
@@ -221,6 +221,22 @@ async function getProductVariantById(req, res, next) {
     res.json({
       success: true,
       data: variant
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * 모든 상품 변형 조회
+ */
+async function getAllProductVariants(req, res, next) {  
+  try {
+    const variants = await productService.getAllProductVariants();
+    
+    res.json({
+      success: true,
+      data: variants
     });
   } catch (error) {
     next(error);
@@ -240,5 +256,6 @@ module.exports = {
   updateProductVariant,
   deleteProductVariant,
   getProductVariants,
-  getProductVariantById
+  getProductVariantById,
+  getAllProductVariants,
 };

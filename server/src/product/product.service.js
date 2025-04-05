@@ -377,12 +377,28 @@ async function getCategoryAndSubcategoryIds(categoryId) {
 
 
 /**
- * 상품 변형 생성
+ * 상품 변형 생성 - 중복 SKU 처리 로직 추가
  */
 async function createProductVariant(productId, variantData) {
   const { optionValues, ...data } = variantData;
   
   return await prisma.$transaction(async (tx) => {
+    // SKU 중복 검사
+    if (data.sku) {
+      const existingVariant = await tx.productVariant.findFirst({
+        where: { sku: data.sku }
+      });
+      
+      if (existingVariant) {
+        // 방법 1: 접미사 추가하여 SKU 수정
+        const timestamp = new Date().getTime().toString().slice(-6);
+        data.sku = `${data.sku}-${timestamp}`;
+        
+        // 방법 2 (선택적): 오류를 발생시키는 대신 기존 SKU를 업데이트하는 방법
+        // return await updateProductVariant(existingVariant.id, variantData);
+      }
+    }
+    
     // 1. 상품 변형 생성
     const variant = await tx.productVariant.create({
       data: {
@@ -398,12 +414,38 @@ async function createProductVariant(productId, variantData) {
     
     // 2. 변형에 옵션 값 연결
     if (optionValues && optionValues.length > 0) {
-      await tx.variantOptionValue.createMany({
-        data: optionValues.map(valueId => ({
-          variantId: variant.id,
-          optionValueId: Number(valueId)
-        }))
-      });
+      // 모든 옵션 값 ID가 유효한지 확인
+      const validOptionValueIds = [];
+      
+      for (const valueId of optionValues) {
+        try {
+          // 숫자로 변환 가능한 ID만 처리
+          if (!isNaN(Number(valueId))) {
+            // 옵션 값이 실제로 존재하는지 확인
+            const optionValue = await tx.optionValue.findUnique({
+              where: { id: Number(valueId) }
+            });
+            
+            if (optionValue) {
+              validOptionValueIds.push(Number(valueId));
+            }
+          }
+        } catch (error) {
+          console.error(`옵션 값 ${valueId} 검증 오류:`, error);
+        }
+      }
+      
+      // 유효한 옵션 값만 연결
+      if (validOptionValueIds.length > 0) {
+        for (const validId of validOptionValueIds) {
+          await tx.variantOptionValue.create({
+            data: {
+              variantId: variant.id,
+              optionValueId: validId
+            }
+          });
+        }
+      }
     }
     
     // 3. 생성된 변형 정보 조회
@@ -530,6 +572,27 @@ async function getProductVariantById(variantId) {
   });
 }
 
+/**
+ * 모든 상품 변형 조회
+ */
+async function getAllProductVariants() {
+  return await prisma.productVariant.findMany({
+    include: {
+      product: true,
+      options: {
+        include: {
+          optionValue: {
+            include: {
+              optionType: true
+            }
+          }
+        }
+      }
+    },
+    orderBy: { id: 'asc' }
+  });
+}
+
 
 module.exports = {
   getAllProducts,
@@ -543,5 +606,6 @@ module.exports = {
   updateProductVariant,
   deleteProductVariant,
   getProductVariants,
-  getProductVariantById
+  getProductVariantById,
+  getAllProductVariants,
 };

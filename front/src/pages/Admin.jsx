@@ -10,6 +10,7 @@ import CategoryManagement from '../components/admin/CategoryManagement';
 import InquiryManagement from '../components/admin/InquiryManagement';
 import OptionManagement from '../components/admin/OptionManagement';
 import useAuth from '../hooks/useAuth';
+import ProductVariantsManager from '../components/admin/ProductVariantManager';
 
 const Admin = () => {
   const { user, isAuthenticated } = useAuth();
@@ -30,6 +31,7 @@ const Admin = () => {
         <Route path="products" element={<ProductManagement />} />
         <Route path="products/new" element={<ProductEditPage />} />
         <Route path="products/edit/:productId" element={<ProductEditPage />} />
+        <Route path="products/:productId/variants" element={<ProductVariantsManager />} />
         <Route path="orders" element={<OrderManagement />} />
         <Route path="users" element={<UserManagement />} />
         <Route path="categories" element={<CategoryManagement />} />
