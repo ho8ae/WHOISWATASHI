@@ -11,7 +11,7 @@ export const fetchDashboard = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message || '대시보드 조회에 실패했습니다.');
     }
-  }
+  },
 );
 
 // 사용자 목록 조회 액션
@@ -22,9 +22,11 @@ export const fetchUsers = createAsyncThunk(
       const response = await adminAPI.users.getUsers(params);
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.message || '사용자 목록 조회에 실패했습니다.');
+      return rejectWithValue(
+        error.message || '사용자 목록 조회에 실패했습니다.',
+      );
     }
-  }
+  },
 );
 
 // 사용자 상세 조회 액션
@@ -35,9 +37,11 @@ export const fetchUserDetail = createAsyncThunk(
       const response = await adminAPI.users.getUserDetail(userId);
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.message || '사용자 상세 조회에 실패했습니다.');
+      return rejectWithValue(
+        error.message || '사용자 상세 조회에 실패했습니다.',
+      );
     }
-  }
+  },
 );
 
 // 사용자 역할 변경 액션
@@ -48,9 +52,11 @@ export const updateUserRole = createAsyncThunk(
       const response = await adminAPI.users.updateUserRole(userId, role);
       return { userId, ...response.data };
     } catch (error) {
-      return rejectWithValue(error.message || '사용자 역할 변경에 실패했습니다.');
+      return rejectWithValue(
+        error.message || '사용자 역할 변경에 실패했습니다.',
+      );
     }
-  }
+  },
 );
 
 // 상품 목록 조회 액션
@@ -62,12 +68,12 @@ export const fetchProducts = createAsyncThunk(
 
       return {
         products: response.products,
-        pagination: response.pagination 
+        pagination: response.pagination,
       };
-    }  catch (error) {
+    } catch (error) {
       return rejectWithValue(error.message || '상품 목록 조회에 실패했습니다.');
     }
-  }
+  },
 );
 
 // 상품 상세 조회 액션
@@ -80,7 +86,7 @@ export const fetchProductDetail = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message || '상품 상세 조회에 실패했습니다.');
     }
-  }
+  },
 );
 
 // 상품 생성 액션
@@ -93,7 +99,7 @@ export const createProduct = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message || '상품 생성에 실패했습니다.');
     }
-  }
+  },
 );
 
 // 상품 수정 액션
@@ -101,12 +107,15 @@ export const updateProduct = createAsyncThunk(
   'admin/updateProduct',
   async ({ productId, productData }, { rejectWithValue }) => {
     try {
-      const response = await adminAPI.products.updateProduct(productId, productData);
+      const response = await adminAPI.products.updateProduct(
+        productId,
+        productData,
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message || '상품 수정에 실패했습니다.');
     }
-  }
+  },
 );
 
 // 상품 삭제 액션
@@ -119,7 +128,7 @@ export const deleteProduct = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message || '상품 삭제에 실패했습니다.');
     }
-  }
+  },
 );
 
 // 품절 상품 목록 조회 액션
@@ -130,9 +139,11 @@ export const fetchOutOfStockProducts = createAsyncThunk(
       const response = await adminAPI.products.getOutOfStockProducts();
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.message || '품절 상품 목록 조회에 실패했습니다.');
+      return rejectWithValue(
+        error.message || '품절 상품 목록 조회에 실패했습니다.',
+      );
     }
-  }
+  },
 );
 
 // 상품 재고 업데이트 액션
@@ -143,9 +154,11 @@ export const updateProductStock = createAsyncThunk(
       const response = await adminAPI.products.updateStock(variantId, stock);
       return { variantId, ...response.data };
     } catch (error) {
-      return rejectWithValue(error.message || '상품 재고 업데이트에 실패했습니다.');
+      return rejectWithValue(
+        error.message || '상품 재고 업데이트에 실패했습니다.',
+      );
     }
-  }
+  },
 );
 
 // 주문 목록 조회 액션
@@ -158,7 +171,7 @@ export const fetchOrders = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message || '주문 목록 조회에 실패했습니다.');
     }
-  }
+  },
 );
 
 // 주문 상세 조회 액션
@@ -171,7 +184,7 @@ export const fetchOrderDetail = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message || '주문 상세 조회에 실패했습니다.');
     }
-  }
+  },
 );
 
 // 주문 상태 업데이트 액션
@@ -182,9 +195,11 @@ export const updateOrder = createAsyncThunk(
       const response = await adminAPI.orders.updateOrder(orderId, orderData);
       return { orderId, ...response.data };
     } catch (error) {
-      return rejectWithValue(error.message || '주문 상태 업데이트에 실패했습니다.');
+      return rejectWithValue(
+        error.message || '주문 상태 업데이트에 실패했습니다.',
+      );
     }
-  }
+  },
 );
 
 // 카테고리 목록 조회 액션
@@ -195,9 +210,11 @@ export const fetchCategories = createAsyncThunk(
       const response = await adminAPI.categories.getCategories();
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.message || '카테고리 목록 조회에 실패했습니다.');
+      return rejectWithValue(
+        error.message || '카테고리 목록 조회에 실패했습니다.',
+      );
     }
-  }
+  },
 );
 
 // 카테고리 생성 액션
@@ -210,7 +227,7 @@ export const createCategory = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message || '카테고리 생성에 실패했습니다.');
     }
-  }
+  },
 );
 
 // 카테고리 수정 액션
@@ -218,12 +235,15 @@ export const updateCategory = createAsyncThunk(
   'admin/updateCategory',
   async ({ categoryId, categoryData }, { rejectWithValue }) => {
     try {
-      const response = await adminAPI.categories.updateCategory(categoryId, categoryData);
+      const response = await adminAPI.categories.updateCategory(
+        categoryId,
+        categoryData,
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message || '카테고리 수정에 실패했습니다.');
     }
-  }
+  },
 );
 
 // 카테고리 삭제 액션
@@ -236,7 +256,7 @@ export const deleteCategory = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message || '카테고리 삭제에 실패했습니다.');
     }
-  }
+  },
 );
 
 // 문의 목록 조회 액션
@@ -249,7 +269,7 @@ export const fetchInquiries = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message || '문의 목록 조회에 실패했습니다.');
     }
-  }
+  },
 );
 
 // 문의 상세 조회 액션
@@ -262,7 +282,7 @@ export const fetchInquiryDetail = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message || '문의 상세 조회에 실패했습니다.');
     }
-  }
+  },
 );
 
 // 문의 답변 작성 액션
@@ -270,12 +290,15 @@ export const answerInquiry = createAsyncThunk(
   'admin/answerInquiry',
   async ({ inquiryId, answerData }, { rejectWithValue }) => {
     try {
-      const response = await adminAPI.inquiries.answerInquiry(inquiryId, answerData);
+      const response = await adminAPI.inquiries.answerInquiry(
+        inquiryId,
+        answerData,
+      );
       return { inquiryId, ...response.data };
     } catch (error) {
       return rejectWithValue(error.message || '문의 답변 작성에 실패했습니다.');
     }
-  }
+  },
 );
 
 // 문의 상태 변경 액션
@@ -283,13 +306,134 @@ export const updateInquiryStatus = createAsyncThunk(
   'admin/updateInquiryStatus',
   async ({ inquiryId, status }, { rejectWithValue }) => {
     try {
-      const response = await adminAPI.inquiries.updateInquiryStatus(inquiryId, status);
+      const response = await adminAPI.inquiries.updateInquiryStatus(
+        inquiryId,
+        status,
+      );
       return { inquiryId, ...response.data };
     } catch (error) {
       return rejectWithValue(error.message || '문의 상태 변경에 실패했습니다.');
     }
+  },
+);
+
+// 상품 변형 생성 액션
+export const createProductVariant = createAsyncThunk(
+  'admin/createProductVariant',
+  async ({ productId, variantData }, { rejectWithValue }) => {
+    try {
+      // inquiries에서 products로 변경
+      const response = await adminAPI.products.createProductVariant(
+        productId,
+        variantData,
+      );
+      return { productId, variant: response.data || response };
+    } catch (error) {
+      return rejectWithValue(error.message || '상품 변형 생성에 실패했습니다.');
+    }
+  },
+);
+
+// 상품 변형 목록 조회 액션
+export const fetchProductVariants = createAsyncThunk(
+  'admin/fetchProductVariants',
+  async (productId, { rejectWithValue }) => {
+    try {
+      // inquiries에서 products로 변경
+      const response = await adminAPI.products.getProductVariants(productId);
+      return { productId, variants: response.data || response };
+    } catch (error) {
+      return rejectWithValue(
+        error.message || '상품 변형 목록 조회에 실패했습니다.',
+      );
+    }
+  },
+);
+
+// 상품 변형 수정 액션
+export const updateProductVariant = createAsyncThunk(
+  'admin/updateProductVariant',
+  async ({ variantId, variantData }, { rejectWithValue }) => {
+    try {
+      const response = await adminAPI.products.updateProductVariant(variantId, variantData);
+      return { variantId, variant: response.data || response };
+    } catch (error) {
+      return rejectWithValue(error.message || '상품 변형 수정에 실패했습니다.');
+    }
+  },
+);
+
+// 옵션 타입 목록 조회 액션 추가
+export const fetchOptionTypes = createAsyncThunk(
+  'admin/fetchOptionTypes',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await adminAPI.optionTypes.getOptionTypes();
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.message || '옵션 타입 목록 조회에 실패했습니다.',
+      );
+    }
+  },
+);
+
+// 옵션 값 생성 액션
+export const createOptionValue = createAsyncThunk(
+  'admin/createOptionValue',
+  async ({ optionTypeId, optionValueData }, { rejectWithValue }) => {
+    try {
+      const response = await adminAPI.optionTypes.createOptionValue(
+        optionTypeId,
+        optionValueData,
+      );
+      return { optionTypeId, optionValue: response.data };
+    } catch (error) {
+      return rejectWithValue(error.message || '옵션 값 생성에 실패했습니다.');
+    }
+  },
+);
+
+// 옵션 타입 생성 액션 thunk
+export const createOptionType = createAsyncThunk(
+  'admin/createOptionType',
+  async (optionTypeData, { rejectWithValue }) => {
+    try {
+      const response = await adminAPI.optionTypes.createOptionType(optionTypeData);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message || '옵션 타입 생성에 실패했습니다.');
+    }
+  },
+);
+
+// 모든 상품 변형 조회 액션
+export const fetchAllProductVariants = createAsyncThunk(
+  'admin/fetchAllProductVariants',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await adminAPI.products.getAllProductVariants();
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message || '모든 상품 변형 조회에 실패했습니다.');
+    }
   }
 );
+
+// 모든 옵션 값 조회 액션
+export const fetchAllOptionValues = createAsyncThunk(
+  'admin/fetchAllOptionValues',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await adminAPI.optionTypes.getAllOptionValues();
+      
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message || '모든 옵션 값 조회에 실패했습니다.');
+    }
+  }
+);
+
 
 // 초기 상태
 const initialState = {
@@ -299,7 +443,7 @@ const initialState = {
     loading: false,
     error: null,
   },
-  
+
   // 사용자 관리
   users: {
     list: [],
@@ -313,7 +457,7 @@ const initialState = {
     loading: false,
     error: null,
   },
-  
+
   // 상품 관리
   products: {
     list: [],
@@ -328,7 +472,7 @@ const initialState = {
     loading: false,
     error: null,
   },
-  
+
   // 주문 관리
   orders: {
     list: [],
@@ -342,7 +486,7 @@ const initialState = {
     loading: false,
     error: null,
   },
-  
+
   // 카테고리 관리
   categories: {
     list: [],
@@ -351,7 +495,7 @@ const initialState = {
     loading: false,
     error: null,
   },
-  
+
   // 문의 관리
   inquiries: {
     list: [],
@@ -365,6 +509,16 @@ const initialState = {
     loading: false,
     error: null,
   },
+
+  // 옵션 타입 관리 추가
+  optionTypes: {
+    list: [],
+    loading: false,
+    error: null,
+  },
+
+  allProductVariants: [],
+  allOptionValues: [],
 };
 
 // Admin 슬라이스
@@ -376,51 +530,51 @@ const adminSlice = createSlice({
     selectUser: (state, action) => {
       state.users.selectedUser = action.payload;
     },
-    
+
     // 상품 선택
     selectProduct: (state, action) => {
       state.products.selectedProduct = action.payload;
     },
-    
+
     // 주문 선택
     selectOrder: (state, action) => {
       state.orders.selectedOrder = action.payload;
     },
-    
+
     // 카테고리 선택
     selectCategory: (state, action) => {
       state.categories.selectedCategory = action.payload;
     },
-    
+
     // 문의 선택
     selectInquiry: (state, action) => {
       state.inquiries.selectedInquiry = action.payload;
     },
-    
+
     // 에러 초기화
     clearError: (state, action) => {
       const section = action.payload;
-      
+
       if (!section || section === 'dashboard') {
         state.dashboard.error = null;
       }
-      
+
       if (!section || section === 'users') {
         state.users.error = null;
       }
-      
+
       if (!section || section === 'products') {
         state.products.error = null;
       }
-      
+
       if (!section || section === 'orders') {
         state.orders.error = null;
       }
-      
+
       if (!section || section === 'categories') {
         state.categories.error = null;
       }
-      
+
       if (!section || section === 'inquiries') {
         state.inquiries.error = null;
       }
@@ -441,7 +595,7 @@ const adminSlice = createSlice({
         state.dashboard.loading = false;
         state.dashboard.error = action.payload;
       })
-      
+
       // 사용자 목록 조회
       .addCase(fetchUsers.pending, (state) => {
         state.users.loading = true;
@@ -456,7 +610,7 @@ const adminSlice = createSlice({
         state.users.loading = false;
         state.users.error = action.payload;
       })
-      
+
       // 사용자 상세 조회
       .addCase(fetchUserDetail.pending, (state) => {
         state.users.loading = true;
@@ -470,7 +624,7 @@ const adminSlice = createSlice({
         state.users.loading = false;
         state.users.error = action.payload;
       })
-      
+
       // 사용자 역할 변경
       .addCase(updateUserRole.pending, (state) => {
         state.users.loading = true;
@@ -478,14 +632,19 @@ const adminSlice = createSlice({
       })
       .addCase(updateUserRole.fulfilled, (state, action) => {
         state.users.loading = false;
-        
+
         // 선택된 사용자가 있고, 그 사용자의 역할이 변경되었다면 업데이트
-        if (state.users.selectedUser && state.users.selectedUser.id === action.payload.userId) {
+        if (
+          state.users.selectedUser &&
+          state.users.selectedUser.id === action.payload.userId
+        ) {
           state.users.selectedUser.role = action.payload.role;
         }
-        
+
         // 목록에서도 해당 사용자 업데이트
-        const userIndex = state.users.list.findIndex(user => user.id === action.payload.userId);
+        const userIndex = state.users.list.findIndex(
+          (user) => user.id === action.payload.userId,
+        );
         if (userIndex !== -1) {
           state.users.list[userIndex].role = action.payload.role;
         }
@@ -494,7 +653,7 @@ const adminSlice = createSlice({
         state.users.loading = false;
         state.users.error = action.payload;
       })
-      
+
       // 상품 목록 조회
       .addCase(fetchProducts.pending, (state) => {
         state.products.loading = true;
@@ -509,7 +668,7 @@ const adminSlice = createSlice({
         state.products.loading = false;
         state.products.error = action.payload;
       })
-      
+
       // 상품 상세 조회
       .addCase(fetchProductDetail.pending, (state) => {
         state.products.loading = true;
@@ -523,7 +682,7 @@ const adminSlice = createSlice({
         state.products.loading = false;
         state.products.error = action.payload;
       })
-      
+
       // 상품 생성
       .addCase(createProduct.pending, (state) => {
         state.products.loading = true;
@@ -542,7 +701,7 @@ const adminSlice = createSlice({
         state.products.loading = false;
         state.products.error = action.payload;
       })
-      
+
       // 상품 수정
       .addCase(updateProduct.pending, (state) => {
         state.products.loading = true;
@@ -550,14 +709,19 @@ const adminSlice = createSlice({
       })
       .addCase(updateProduct.fulfilled, (state, action) => {
         state.products.loading = false;
-        
+
         // 선택된 상품 업데이트
-        if (state.products.selectedProduct && state.products.selectedProduct.id === action.payload.id) {
+        if (
+          state.products.selectedProduct &&
+          state.products.selectedProduct.id === action.payload.id
+        ) {
           state.products.selectedProduct = action.payload;
         }
-        
+
         // 목록에서도 해당 상품 업데이트
-        const productIndex = state.products.list.findIndex(product => product.id === action.payload.id);
+        const productIndex = state.products.list.findIndex(
+          (product) => product.id === action.payload.id,
+        );
         if (productIndex !== -1) {
           state.products.list[productIndex] = action.payload;
         }
@@ -566,7 +730,7 @@ const adminSlice = createSlice({
         state.products.loading = false;
         state.products.error = action.payload;
       })
-      
+
       // 상품 삭제
       .addCase(deleteProduct.pending, (state) => {
         state.products.loading = true;
@@ -574,15 +738,20 @@ const adminSlice = createSlice({
       })
       .addCase(deleteProduct.fulfilled, (state, action) => {
         state.products.loading = false;
-        
+
         // 목록에서 해당 상품 제거
-        state.products.list = state.products.list.filter(product => product.id !== action.payload.productId);
-        
+        state.products.list = state.products.list.filter(
+          (product) => product.id !== action.payload.productId,
+        );
+
         // 선택된 상품이 삭제된 상품이라면 null로 설정
-        if (state.products.selectedProduct && state.products.selectedProduct.id === action.payload.productId) {
+        if (
+          state.products.selectedProduct &&
+          state.products.selectedProduct.id === action.payload.productId
+        ) {
           state.products.selectedProduct = null;
         }
-        
+
         // 총 상품 수 감소
         if (state.products.pagination) {
           state.products.pagination.total -= 1;
@@ -592,7 +761,7 @@ const adminSlice = createSlice({
         state.products.loading = false;
         state.products.error = action.payload;
       })
-      
+
       // 품절 상품 목록 조회
       .addCase(fetchOutOfStockProducts.pending, (state) => {
         state.products.loading = true;
@@ -606,7 +775,7 @@ const adminSlice = createSlice({
         state.products.loading = false;
         state.products.error = action.payload;
       })
-      
+
       // 상품 재고 업데이트
       .addCase(updateProductStock.pending, (state) => {
         state.products.loading = true;
@@ -614,20 +783,21 @@ const adminSlice = createSlice({
       })
       .addCase(updateProductStock.fulfilled, (state, action) => {
         state.products.loading = false;
-        
+
         // 품절 상품 목록 업데이트
         if (action.payload.stock > 0) {
           // 재고가 있는 경우 품절 목록에서 제거
-          state.products.outOfStockProducts = state.products.outOfStockProducts.filter(
-            product => product.id !== action.payload.variantId
-          );
+          state.products.outOfStockProducts =
+            state.products.outOfStockProducts.filter(
+              (product) => product.id !== action.payload.variantId,
+            );
         }
       })
       .addCase(updateProductStock.rejected, (state, action) => {
         state.products.loading = false;
         state.products.error = action.payload;
       })
-      
+
       // 주문 목록 조회
       .addCase(fetchOrders.pending, (state) => {
         state.orders.loading = true;
@@ -642,7 +812,7 @@ const adminSlice = createSlice({
         state.orders.loading = false;
         state.orders.error = action.payload;
       })
-      
+
       // 주문 상세 조회
       .addCase(fetchOrderDetail.pending, (state) => {
         state.orders.loading = true;
@@ -656,7 +826,7 @@ const adminSlice = createSlice({
         state.orders.loading = false;
         state.orders.error = action.payload;
       })
-      
+
       // 주문 상태 업데이트
       .addCase(updateOrder.pending, (state) => {
         state.orders.loading = true;
@@ -664,18 +834,26 @@ const adminSlice = createSlice({
       })
       .addCase(updateOrder.fulfilled, (state, action) => {
         state.orders.loading = false;
-        
+
         // 선택된 주문 업데이트
-        if (state.orders.selectedOrder && state.orders.selectedOrder.id === action.payload.orderId) {
-          state.orders.selectedOrder = { ...state.orders.selectedOrder, ...action.payload.data };
+        if (
+          state.orders.selectedOrder &&
+          state.orders.selectedOrder.id === action.payload.orderId
+        ) {
+          state.orders.selectedOrder = {
+            ...state.orders.selectedOrder,
+            ...action.payload.data,
+          };
         }
-        
+
         // 목록에서도 해당 주문 업데이트
-        const orderIndex = state.orders.list.findIndex(order => order.id === action.payload.orderId);
+        const orderIndex = state.orders.list.findIndex(
+          (order) => order.id === action.payload.orderId,
+        );
         if (orderIndex !== -1) {
           state.orders.list[orderIndex] = {
             ...state.orders.list[orderIndex],
-            ...action.payload.data
+            ...action.payload.data,
           };
         }
       })
@@ -683,7 +861,7 @@ const adminSlice = createSlice({
         state.orders.loading = false;
         state.orders.error = action.payload;
       })
-      
+
       // 카테고리 목록 조회
       .addCase(fetchCategories.pending, (state) => {
         state.categories.loading = true;
@@ -691,13 +869,13 @@ const adminSlice = createSlice({
       })
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.categories.loading = false;
-        state.categories.list = action.payload
+        state.categories.list = action.payload;
       })
       .addCase(fetchCategories.rejected, (state, action) => {
         state.categories.loading = false;
         state.categories.error = action.payload;
       })
-      
+
       // 카테고리 생성
       .addCase(createCategory.pending, (state) => {
         state.categories.loading = true;
@@ -711,7 +889,7 @@ const adminSlice = createSlice({
         state.categories.loading = false;
         state.categories.error = action.payload;
       })
-      
+
       // 카테고리 수정
       .addCase(updateCategory.pending, (state) => {
         state.categories.loading = true;
@@ -719,14 +897,19 @@ const adminSlice = createSlice({
       })
       .addCase(updateCategory.fulfilled, (state, action) => {
         state.categories.loading = false;
-        
+
         // 선택된 카테고리 업데이트
-        if (state.categories.selectedCategory && state.categories.selectedCategory.id === action.payload.id) {
+        if (
+          state.categories.selectedCategory &&
+          state.categories.selectedCategory.id === action.payload.id
+        ) {
           state.categories.selectedCategory = action.payload;
         }
-        
+
         // 목록에서도 해당 카테고리 업데이트
-        const categoryIndex = state.categories.list.findIndex(category => category.id === action.payload.id);
+        const categoryIndex = state.categories.list.findIndex(
+          (category) => category.id === action.payload.id,
+        );
         if (categoryIndex !== -1) {
           state.categories.list[categoryIndex] = action.payload;
         }
@@ -735,7 +918,7 @@ const adminSlice = createSlice({
         state.categories.loading = false;
         state.categories.error = action.payload;
       })
-      
+
       // 카테고리 삭제
       .addCase(deleteCategory.pending, (state) => {
         state.categories.loading = true;
@@ -743,12 +926,17 @@ const adminSlice = createSlice({
       })
       .addCase(deleteCategory.fulfilled, (state, action) => {
         state.categories.loading = false;
-        
+
         // 목록에서 해당 카테고리 제거
-        state.categories.list = state.categories.list.filter(category => category.id !== action.payload.categoryId);
-        
+        state.categories.list = state.categories.list.filter(
+          (category) => category.id !== action.payload.categoryId,
+        );
+
         // 선택된 카테고리가 삭제된 카테고리라면 null로 설정
-        if (state.categories.selectedCategory && state.categories.selectedCategory.id === action.payload.categoryId) {
+        if (
+          state.categories.selectedCategory &&
+          state.categories.selectedCategory.id === action.payload.categoryId
+        ) {
           state.categories.selectedCategory = null;
         }
       })
@@ -756,7 +944,7 @@ const adminSlice = createSlice({
         state.categories.loading = false;
         state.categories.error = action.payload;
       })
-      
+
       // 문의 목록 조회
       .addCase(fetchInquiries.pending, (state) => {
         state.inquiries.loading = true;
@@ -771,7 +959,7 @@ const adminSlice = createSlice({
         state.inquiries.loading = false;
         state.inquiries.error = action.payload;
       })
-      
+
       // 문의 상세 조회
       .addCase(fetchInquiryDetail.pending, (state) => {
         state.inquiries.loading = true;
@@ -785,7 +973,7 @@ const adminSlice = createSlice({
         state.inquiries.loading = false;
         state.inquiries.error = action.payload;
       })
-      
+
       // 문의 답변 작성
       .addCase(answerInquiry.pending, (state) => {
         state.inquiries.loading = true;
@@ -793,18 +981,26 @@ const adminSlice = createSlice({
       })
       .addCase(answerInquiry.fulfilled, (state, action) => {
         state.inquiries.loading = false;
-        
+
         // 선택된 문의 업데이트
-        if (state.inquiries.selectedInquiry && state.inquiries.selectedInquiry.id === action.payload.inquiryId) {
+        if (
+          state.inquiries.selectedInquiry &&
+          state.inquiries.selectedInquiry.id === action.payload.inquiryId
+        ) {
           state.inquiries.selectedInquiry = {
             ...state.inquiries.selectedInquiry,
-            answers: [...(state.inquiries.selectedInquiry.answers || []), action.payload.data],
-            status: 'answered'
+            answers: [
+              ...(state.inquiries.selectedInquiry.answers || []),
+              action.payload.data,
+            ],
+            status: 'answered',
           };
         }
-        
+
         // 목록에서도 해당 문의 상태 업데이트
-        const inquiryIndex = state.inquiries.list.findIndex(inquiry => inquiry.id === action.payload.inquiryId);
+        const inquiryIndex = state.inquiries.list.findIndex(
+          (inquiry) => inquiry.id === action.payload.inquiryId,
+        );
         if (inquiryIndex !== -1) {
           state.inquiries.list[inquiryIndex].status = 'answered';
         }
@@ -813,45 +1009,177 @@ const adminSlice = createSlice({
         state.inquiries.loading = false;
         state.inquiries.error = action.payload;
       })
-      
+
       // 문의 상태 변경
-     .addCase(updateInquiryStatus.pending, (state) => {
+      .addCase(updateInquiryStatus.pending, (state) => {
         state.inquiries.loading = true;
         state.inquiries.error = null;
       })
       .addCase(updateInquiryStatus.fulfilled, (state, action) => {
         state.inquiries.loading = false;
-        
+
         // 선택된 문의 업데이트
-        if (state.inquiries.selectedInquiry && state.inquiries.selectedInquiry.id === action.payload.inquiryId) {
+        if (
+          state.inquiries.selectedInquiry &&
+          state.inquiries.selectedInquiry.id === action.payload.inquiryId
+        ) {
           state.inquiries.selectedInquiry = {
             ...state.inquiries.selectedInquiry,
-            status: action.payload.data.status
+            status: action.payload.data.status,
           };
         }
-        
+
         // 목록에서도 해당 문의 상태 업데이트
-        const inquiryIndex = state.inquiries.list.findIndex(inquiry => inquiry.id === action.payload.inquiryId);
+        const inquiryIndex = state.inquiries.list.findIndex(
+          (inquiry) => inquiry.id === action.payload.inquiryId,
+        );
         if (inquiryIndex !== -1) {
-          state.inquiries.list[inquiryIndex].status = action.payload.data.status;
+          state.inquiries.list[inquiryIndex].status =
+            action.payload.data.status;
         }
       })
       .addCase(updateInquiryStatus.rejected, (state, action) => {
         state.inquiries.loading = false;
         state.inquiries.error = action.payload;
+      })
+
+      .addCase(createProductVariant.pending, (state) => {
+        state.products.loading = true;
+        state.products.error = null;
+      })
+      .addCase(createProductVariant.fulfilled, (state, action) => {
+        state.products.loading = false;
+
+        // 선택된 상품 업데이트 (필요한 경우)
+        if (
+          state.products.selectedProduct &&
+          state.products.selectedProduct.id === action.payload.productId
+        ) {
+          if (!state.products.selectedProduct.variants) {
+            state.products.selectedProduct.variants = [];
+          }
+          state.products.selectedProduct.variants.push(action.payload.variant);
+        }
+      })
+      .addCase(createProductVariant.rejected, (state, action) => {
+        state.products.loading = false;
+        state.products.error = action.payload;
+      })
+      .addCase(fetchProductVariants.pending, (state) => {
+        state.products.loading = true;
+        state.products.error = null;
+      })
+      .addCase(fetchProductVariants.fulfilled, (state, action) => {
+        state.products.loading = false;
+
+        // 선택된 상품이 있고, 해당 상품의 변형이 조회된 경우
+        if (
+          state.products.selectedProduct &&
+          state.products.selectedProduct.id === Number(action.payload.productId)
+        ) {
+          state.products.selectedProduct.variants = action.payload.variants;
+        }
+      })
+      .addCase(fetchProductVariants.rejected, (state, action) => {
+        state.products.loading = false;
+        state.products.error = action.payload;
+      })
+
+      // 옵션 타입 목록 조회
+      .addCase(fetchOptionTypes.pending, (state) => {
+        state.optionTypes.loading = true;
+        state.optionTypes.error = null;
+      })
+      .addCase(fetchOptionTypes.fulfilled, (state, action) => {
+        state.optionTypes.loading = false;
+        state.optionTypes.list = action.payload;
+      })
+      .addCase(fetchOptionTypes.rejected, (state, action) => {
+        state.optionTypes.loading = false;
+        state.optionTypes.error = action.payload;
+      })
+      // 액션 처리 추가
+      .addCase(createOptionValue.pending, (state) => {
+        state.optionTypes.loading = true;
+        state.optionTypes.error = null;
+      })
+      .addCase(createOptionValue.fulfilled, (state, action) => {
+        state.optionTypes.loading = false;
+
+        // 옵션 타입을 찾아서 새 옵션 값 추가
+        const optionTypeIndex = state.optionTypes.list.findIndex(
+          (type) => type.id === action.payload.optionTypeId,
+        );
+
+        if (optionTypeIndex !== -1) {
+          if (!state.optionTypes.list[optionTypeIndex].values) {
+            state.optionTypes.list[optionTypeIndex].values = [];
+          }
+          state.optionTypes.list[optionTypeIndex].values.push(
+            action.payload.optionValue,
+          );
+        }
+      })
+      .addCase(createOptionValue.rejected, (state, action) => {
+        state.optionTypes.loading = false;
+        state.optionTypes.error = action.payload;
+      })
+      .addCase(createOptionType.pending, (state) => {
+        state.optionTypes.loading = true;
+        state.optionTypes.error = null;
+      })
+      .addCase(createOptionType.fulfilled, (state, action) => {
+        state.optionTypes.loading = false;
+        state.optionTypes.list = [...state.optionTypes.list, action.payload];
+      })
+      .addCase(createOptionType.rejected, (state, action) => {
+        state.optionTypes.loading = false;
+        state.optionTypes.error = action.payload;
+      })
+
+      .addCase(updateProductVariant.pending, (state) => {
+        state.products.loading = true;
+        state.products.error = null;
+      })
+      .addCase(updateProductVariant.fulfilled, (state, action) => {
+        state.products.loading = false;
+        
+        // 선택된 상품이 있고, 해당 상품의 변형이 업데이트된 경우
+        if (state.products.selectedProduct) {
+          const variantIndex = state.products.selectedProduct.variants?.findIndex(
+            v => v.id === action.payload.variantId
+          );
+          
+          if (variantIndex !== -1 && variantIndex !== undefined) {
+            state.products.selectedProduct.variants[variantIndex] = action.payload.variant;
+          }
+        }
+      })
+      .addCase(updateProductVariant.rejected, (state, action) => {
+        state.products.loading = false;
+        state.products.error = action.payload;
+      })
+
+      // 모든 상품 변형 조회
+      .addCase(fetchAllProductVariants.fulfilled, (state, action) => {
+        state.allProductVariants = action.payload;
+      })
+      .addCase(fetchAllOptionValues.fulfilled, (state, action) => {
+        state.allOptionValues = action.payload;
       });
-  }
- });
- 
- // 액션 생성자 내보내기
- export const {
+     
+  },
+});
+
+// 액션 생성자 내보내기
+export const {
   selectUser,
   selectProduct,
   selectOrder,
   selectCategory,
   selectInquiry,
-  clearError
- } = adminSlice.actions;
- 
- // 리듀서 내보내기
- export default adminSlice.reducer;
+  clearError,
+} = adminSlice.actions;
+
+// 리듀서 내보내기
+export default adminSlice.reducer;

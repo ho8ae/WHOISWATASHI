@@ -11,7 +11,11 @@ export const adminAPI = {
       const response = await apiClient.get(API_ENDPOINTS.ADMIN.DASHBOARD);
       return response.data;
     } catch (error) {
-      throw error.response?.data || { message: '대시보드 데이터 조회 중 오류가 발생했습니다.' };
+      throw (
+        error.response?.data || {
+          message: '대시보드 데이터 조회 중 오류가 발생했습니다.',
+        }
+      );
     }
   },
 
@@ -24,10 +28,16 @@ export const adminAPI = {
      */
     getUsers: async (params = {}) => {
       try {
-        const response = await apiClient.get(API_ENDPOINTS.ADMIN.USERS.LIST, { params });
+        const response = await apiClient.get(API_ENDPOINTS.ADMIN.USERS.LIST, {
+          params,
+        });
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '사용자 목록 조회 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '사용자 목록 조회 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -38,10 +48,16 @@ export const adminAPI = {
      */
     getUserDetail: async (userId) => {
       try {
-        const response = await apiClient.get(API_ENDPOINTS.ADMIN.USERS.DETAIL(userId));
+        const response = await apiClient.get(
+          API_ENDPOINTS.ADMIN.USERS.DETAIL(userId),
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '사용자 상세 정보 조회 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '사용자 상세 정보 조회 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -53,10 +69,17 @@ export const adminAPI = {
      */
     updateUserRole: async (userId, role) => {
       try {
-        const response = await apiClient.patch(API_ENDPOINTS.ADMIN.USERS.UPDATE_ROLE(userId), { role });
+        const response = await apiClient.patch(
+          API_ENDPOINTS.ADMIN.USERS.UPDATE_ROLE(userId),
+          { role },
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '사용자 역할 변경 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '사용자 역할 변경 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
   },
@@ -70,10 +93,17 @@ export const adminAPI = {
      */
     getProducts: async (params = {}) => {
       try {
-        const response = await apiClient.get(API_ENDPOINTS.ADMIN.PRODUCTS.LIST, { params });
+        const response = await apiClient.get(
+          API_ENDPOINTS.ADMIN.PRODUCTS.LIST,
+          { params },
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '상품 목록 조회 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '상품 목록 조회 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -84,10 +114,16 @@ export const adminAPI = {
      */
     getProductDetail: async (productId) => {
       try {
-        const response = await apiClient.get(API_ENDPOINTS.ADMIN.PRODUCTS.DETAIL(productId));
+        const response = await apiClient.get(
+          API_ENDPOINTS.ADMIN.PRODUCTS.DETAIL(productId),
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '상품 상세 조회 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '상품 상세 조회 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -98,10 +134,17 @@ export const adminAPI = {
      */
     createProduct: async (productData) => {
       try {
-        const response = await apiClient.post(API_ENDPOINTS.ADMIN.PRODUCTS.CREATE, productData);
+        const response = await apiClient.post(
+          API_ENDPOINTS.ADMIN.PRODUCTS.CREATE,
+          productData,
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '상품 생성 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '상품 생성 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -113,10 +156,17 @@ export const adminAPI = {
      */
     updateProduct: async (productId, productData) => {
       try {
-        const response = await apiClient.put(API_ENDPOINTS.ADMIN.PRODUCTS.UPDATE(productId), productData);
+        const response = await apiClient.put(
+          API_ENDPOINTS.ADMIN.PRODUCTS.UPDATE(productId),
+          productData,
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '상품 수정 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '상품 수정 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -127,10 +177,16 @@ export const adminAPI = {
      */
     deleteProduct: async (productId) => {
       try {
-        const response = await apiClient.delete(API_ENDPOINTS.ADMIN.PRODUCTS.DELETE(productId));
+        const response = await apiClient.delete(
+          API_ENDPOINTS.ADMIN.PRODUCTS.DELETE(productId),
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '상품 삭제 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '상품 삭제 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -140,10 +196,16 @@ export const adminAPI = {
      */
     getOutOfStockProducts: async () => {
       try {
-        const response = await apiClient.get(API_ENDPOINTS.ADMIN.PRODUCTS.OUT_OF_STOCK);
+        const response = await apiClient.get(
+          API_ENDPOINTS.ADMIN.PRODUCTS.OUT_OF_STOCK,
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '품절 상품 목록 조회 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '품절 상품 목록 조회 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -157,11 +219,95 @@ export const adminAPI = {
       try {
         const response = await apiClient.patch(
           API_ENDPOINTS.ADMIN.PRODUCTS.UPDATE_STOCK(variantId),
-          { stock }
+          { stock },
         );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '상품 재고 업데이트 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '상품 재고 업데이트 중 오류가 발생했습니다.',
+          }
+        );
+      }
+    },
+    /**
+     * 상품 변형 생성
+     * @param {number} productId - 상품 ID
+     * @param {Object} variantData - 변형 데이터
+     * @returns {Promise} - API 응답
+     */
+    createProductVariant: async (productId, variantData) => {
+      try {
+        const response = await apiClient.post(
+          `/products/${productId}/variants`,
+          variantData,
+        );
+        return response.data;
+      } catch (error) {
+        throw (
+          error.response?.data || {
+            message: '상품 변형 생성 중 오류가 발생했습니다.',
+          }
+        );
+      }
+    },
+
+    /**
+     * 상품의 모든 변형 조회
+     * @param {number} productId - 상품 ID
+     * @returns {Promise} - API 응답
+     */
+    getAllProductVariants: async (productId) => {
+      try {
+        const response = await apiClient.get(
+          API_ENDPOINTS.PRODUCTS.VARIANTS(productId),
+        );
+        return response.data;
+      } catch (error) {
+        throw (
+          error.response?.data || {
+            message: '상품 변형 목록 조회 중 오류가 발생했습니다.',
+          }
+        );
+      }
+    },
+    /**
+     * 상품의 모든 변형(옵션) 조회 - getProductVariants 별칭
+     * @param {number} productId - 상품 ID
+     * @returns {Promise} - API 응답
+     */
+    getProductVariants: async (productId) => {
+      try {
+        const response = await apiClient.get(`/products/variants/${productId}`);
+        return response.data;
+      } catch (error) {
+        throw (
+          error.response?.data || {
+            message: '상품 변형 목록 조회 중 오류가 발생했습니다.',
+          }
+        );
+      }
+    },
+
+    /**
+     * 상품 변형 수정
+     * @param {number} variantId - 상품 변형 ID
+     * @param {Object} variantData - 변형 데이터
+     * @returns {Promise} - API 응답
+     */
+    updateProductVariant: async (variantId, variantData) => {
+      try {
+        const response = await apiClient.put(
+          `/products/variants/${variantId}`,
+          variantData,
+        );
+        return response.data;
+      } catch (error) {
+        throw (
+          error.response?.data || {
+            message: '상품 변형 수정 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
   },
@@ -175,10 +321,16 @@ export const adminAPI = {
      */
     getOrders: async (params = {}) => {
       try {
-        const response = await apiClient.get(API_ENDPOINTS.ADMIN.ORDERS.LIST, { params });
+        const response = await apiClient.get(API_ENDPOINTS.ADMIN.ORDERS.LIST, {
+          params,
+        });
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '주문 목록 조회 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '주문 목록 조회 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -189,10 +341,16 @@ export const adminAPI = {
      */
     getOrderDetail: async (orderId) => {
       try {
-        const response = await apiClient.get(API_ENDPOINTS.ADMIN.ORDERS.DETAIL(orderId));
+        const response = await apiClient.get(
+          API_ENDPOINTS.ADMIN.ORDERS.DETAIL(orderId),
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '주문 상세 조회 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '주문 상세 조회 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -204,10 +362,17 @@ export const adminAPI = {
      */
     updateOrder: async (orderId, orderData) => {
       try {
-        const response = await apiClient.patch(API_ENDPOINTS.ADMIN.ORDERS.UPDATE(orderId), orderData);
+        const response = await apiClient.patch(
+          API_ENDPOINTS.ADMIN.ORDERS.UPDATE(orderId),
+          orderData,
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '주문 업데이트 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '주문 업데이트 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
   },
@@ -220,10 +385,16 @@ export const adminAPI = {
      */
     getCategories: async () => {
       try {
-        const response = await apiClient.get(API_ENDPOINTS.ADMIN.CATEGORIES.LIST);
+        const response = await apiClient.get(
+          API_ENDPOINTS.ADMIN.CATEGORIES.LIST,
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '카테고리 목록 조회 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '카테고리 목록 조회 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -234,10 +405,16 @@ export const adminAPI = {
      */
     getCategoryDetail: async (categoryId) => {
       try {
-        const response = await apiClient.get(API_ENDPOINTS.ADMIN.CATEGORIES.DETAIL(categoryId));
+        const response = await apiClient.get(
+          API_ENDPOINTS.ADMIN.CATEGORIES.DETAIL(categoryId),
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '카테고리 상세 조회 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '카테고리 상세 조회 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -248,10 +425,17 @@ export const adminAPI = {
      */
     createCategory: async (categoryData) => {
       try {
-        const response = await apiClient.post(API_ENDPOINTS.ADMIN.CATEGORIES.CREATE, categoryData);
+        const response = await apiClient.post(
+          API_ENDPOINTS.ADMIN.CATEGORIES.CREATE,
+          categoryData,
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '카테고리 생성 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '카테고리 생성 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -263,10 +447,17 @@ export const adminAPI = {
      */
     updateCategory: async (categoryId, categoryData) => {
       try {
-        const response = await apiClient.put(API_ENDPOINTS.ADMIN.CATEGORIES.UPDATE(categoryId), categoryData);
+        const response = await apiClient.put(
+          API_ENDPOINTS.ADMIN.CATEGORIES.UPDATE(categoryId),
+          categoryData,
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '카테고리 수정 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '카테고리 수정 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -277,10 +468,16 @@ export const adminAPI = {
      */
     deleteCategory: async (categoryId) => {
       try {
-        const response = await apiClient.delete(API_ENDPOINTS.ADMIN.CATEGORIES.DELETE(categoryId));
+        const response = await apiClient.delete(
+          API_ENDPOINTS.ADMIN.CATEGORIES.DELETE(categoryId),
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '카테고리 삭제 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '카테고리 삭제 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
   },
@@ -293,10 +490,16 @@ export const adminAPI = {
      */
     getOptionTypes: async () => {
       try {
-        const response = await apiClient.get(API_ENDPOINTS.ADMIN.OPTION_TYPES.LIST);
+        const response = await apiClient.get(
+          API_ENDPOINTS.ADMIN.OPTION_TYPES.LIST,
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '옵션 타입 목록 조회 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '옵션 타입 목록 조회 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -307,10 +510,16 @@ export const adminAPI = {
      */
     getOptionTypeDetail: async (optionTypeId) => {
       try {
-        const response = await apiClient.get(API_ENDPOINTS.ADMIN.OPTION_TYPES.DETAIL(optionTypeId));
+        const response = await apiClient.get(
+          API_ENDPOINTS.ADMIN.OPTION_TYPES.DETAIL(optionTypeId),
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '옵션 타입 상세 조회 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '옵션 타입 상세 조회 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -321,10 +530,17 @@ export const adminAPI = {
      */
     createOptionType: async (optionTypeData) => {
       try {
-        const response = await apiClient.post(API_ENDPOINTS.ADMIN.OPTION_TYPES.CREATE, optionTypeData);
+        const response = await apiClient.post(
+          API_ENDPOINTS.ADMIN.OPTION_TYPES.CREATE,
+          optionTypeData,
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '옵션 타입 생성 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '옵션 타입 생성 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -336,10 +552,17 @@ export const adminAPI = {
      */
     updateOptionType: async (optionTypeId, optionTypeData) => {
       try {
-        const response = await apiClient.put(API_ENDPOINTS.ADMIN.OPTION_TYPES.UPDATE(optionTypeId), optionTypeData);
+        const response = await apiClient.put(
+          API_ENDPOINTS.ADMIN.OPTION_TYPES.UPDATE(optionTypeId),
+          optionTypeData,
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '옵션 타입 수정 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '옵션 타입 수정 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -350,10 +573,16 @@ export const adminAPI = {
      */
     deleteOptionType: async (optionTypeId) => {
       try {
-        const response = await apiClient.delete(API_ENDPOINTS.ADMIN.OPTION_TYPES.DELETE(optionTypeId));
+        const response = await apiClient.delete(
+          API_ENDPOINTS.ADMIN.OPTION_TYPES.DELETE(optionTypeId),
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '옵션 타입 삭제 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '옵션 타입 삭제 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -365,10 +594,17 @@ export const adminAPI = {
      */
     createOptionValue: async (optionTypeId, optionValueData) => {
       try {
-        const response = await apiClient.post(API_ENDPOINTS.ADMIN.OPTION_TYPES.CREATE_VALUE(optionTypeId), optionValueData);
+        const response = await apiClient.post(
+          API_ENDPOINTS.ADMIN.OPTION_TYPES.CREATE_VALUE(optionTypeId),
+          optionValueData,
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '옵션 값 생성 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '옵션 값 생성 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -380,10 +616,17 @@ export const adminAPI = {
      */
     updateOptionValue: async (valueId, optionValueData) => {
       try {
-        const response = await apiClient.put(API_ENDPOINTS.ADMIN.OPTION_TYPES.UPDATE_VALUE(valueId), optionValueData);
+        const response = await apiClient.put(
+          API_ENDPOINTS.ADMIN.OPTION_TYPES.UPDATE_VALUE(valueId),
+          optionValueData,
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '옵션 값 수정 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '옵션 값 수정 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -394,10 +637,34 @@ export const adminAPI = {
      */
     deleteOptionValue: async (valueId) => {
       try {
-        const response = await apiClient.delete(API_ENDPOINTS.ADMIN.OPTION_TYPES.DELETE_VALUE(valueId));
+        const response = await apiClient.delete(
+          API_ENDPOINTS.ADMIN.OPTION_TYPES.DELETE_VALUE(valueId),
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '옵션 값 삭제 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '옵션 값 삭제 중 오류가 발생했습니다.',
+          }
+        );
+      }
+    },
+    /**
+     * 모든 옵션 값 조회
+     * @returns {Promise} - API 응답
+     */
+    getAllOptionValues: async () => {
+      try {
+        const response = await apiClient.get(
+          '/option-types/values/optionValues',
+        );
+        return response.data;
+      } catch (error) {
+        throw (
+          error.response?.data || {
+            message: '모든 옵션 값 조회 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
   },
@@ -411,10 +678,17 @@ export const adminAPI = {
      */
     getInquiries: async (params = {}) => {
       try {
-        const response = await apiClient.get(API_ENDPOINTS.ADMIN.INQUIRIES.LIST, { params });
+        const response = await apiClient.get(
+          API_ENDPOINTS.ADMIN.INQUIRIES.LIST,
+          { params },
+        );
         return response;
       } catch (error) {
-        throw error.response?.data || { message: '문의 목록 조회 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '문의 목록 조회 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -425,10 +699,16 @@ export const adminAPI = {
      */
     getInquiryDetail: async (inquiryId) => {
       try {
-        const response = await apiClient.get(API_ENDPOINTS.ADMIN.INQUIRIES.DETAIL(inquiryId));
+        const response = await apiClient.get(
+          API_ENDPOINTS.ADMIN.INQUIRIES.DETAIL(inquiryId),
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '문의 상세 조회 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '문의 상세 조회 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -440,10 +720,17 @@ export const adminAPI = {
      */
     answerInquiry: async (inquiryId, answerData) => {
       try {
-        const response = await apiClient.post(API_ENDPOINTS.ADMIN.INQUIRIES.ANSWER(inquiryId), answerData);
+        const response = await apiClient.post(
+          API_ENDPOINTS.ADMIN.INQUIRIES.ANSWER(inquiryId),
+          answerData,
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '문의 답변 작성 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '문의 답변 작성 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -455,10 +742,17 @@ export const adminAPI = {
      */
     updateAnswer: async (answerId, answerData) => {
       try {
-        const response = await apiClient.put(API_ENDPOINTS.ADMIN.INQUIRIES.UPDATE_ANSWER(answerId), answerData);
+        const response = await apiClient.put(
+          API_ENDPOINTS.ADMIN.INQUIRIES.UPDATE_ANSWER(answerId),
+          answerData,
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '문의 답변 수정 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '문의 답변 수정 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
 
@@ -470,10 +764,17 @@ export const adminAPI = {
      */
     updateInquiryStatus: async (inquiryId, status) => {
       try {
-        const response = await apiClient.patch(API_ENDPOINTS.ADMIN.INQUIRIES.UPDATE_STATUS(inquiryId), { status });
+        const response = await apiClient.patch(
+          API_ENDPOINTS.ADMIN.INQUIRIES.UPDATE_STATUS(inquiryId),
+          { status },
+        );
         return response.data;
       } catch (error) {
-        throw error.response?.data || { message: '문의 상태 변경 중 오류가 발생했습니다.' };
+        throw (
+          error.response?.data || {
+            message: '문의 상태 변경 중 오류가 발생했습니다.',
+          }
+        );
       }
     },
   },

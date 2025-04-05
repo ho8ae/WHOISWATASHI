@@ -19,6 +19,17 @@ import {
   fetchOutOfStockProducts,
   updateProductStock,
   selectProduct,
+  createProductVariant,
+  fetchProductVariants,
+  fetchOptionTypes,
+  createOptionValue,
+  createOptionType,
+  updateProductVariant,
+
+  // 상품 옵션
+  fetchAllProductVariants,
+  fetchAllOptionValues,
+
   
   // 주문
   fetchOrders,
@@ -52,6 +63,8 @@ const useAdmin = () => {
   const dispatch = useDispatch();
   const admin = useSelector((state) => state.admin);
   const categorries = useSelector(state=> state.admin.categories.list);
+  const optionTypes = useSelector(state => state.admin.optionTypes.list);
+
   // 대시보드 관련 함수
   const getDashboard = useCallback(() => {
     return dispatch(fetchDashboard());
@@ -105,6 +118,41 @@ const useAdmin = () => {
   
   const chooseProduct = useCallback((product) => {
     dispatch(selectProduct(product));
+  }, [dispatch]);
+
+  const eidtProductVariant = useCallback((variantId, variantData) => {
+    return dispatch(updateProductVariant({ variantId, variantData }));
+  }, [dispatch]);
+
+  const addProductVariant = useCallback((productId, variantData) => {
+    return dispatch(createProductVariant({ productId, variantData }));
+  }, [dispatch]);
+
+  const getProductVariants = useCallback((productId) => {
+    return dispatch(fetchProductVariants(productId));
+  }, [dispatch]);
+
+   // 옵션 타입 목록 조회 함수
+  const getOptionTypes = useCallback(() => {
+    return dispatch(fetchOptionTypes());
+  }, [dispatch]);
+
+  // 옵션 값 생성 함수
+  const addOptionValue = useCallback((optionTypeId, optionValueData) => {
+    return dispatch(createOptionValue({ optionTypeId, optionValueData }));
+  }, [dispatch]);
+
+  // 옵션 타입 생성 함수 추가
+  const addOptionType = useCallback((optionTypeData) => {
+    return dispatch(createOptionType(optionTypeData));
+  }, [dispatch]);
+
+  const getAllProductVariants = useCallback(() => {
+    return dispatch(fetchAllProductVariants());
+  }, [dispatch]);
+  
+  const getAllOptionValues = useCallback(() => {
+    return dispatch(fetchAllOptionValues());
   }, [dispatch]);
   
   // 주문 관련 함수
@@ -180,6 +228,7 @@ const useAdmin = () => {
     orders: admin.orders,
     categories: admin.categories,
     inquiries: admin.inquiries,
+    optionTypes,
     
     // 대시보드 액션
     getDashboard,
@@ -199,7 +248,17 @@ const useAdmin = () => {
     getOutOfStockProducts,
     updateStock,
     chooseProduct,
-    
+    addProductVariant,
+    getProductVariants,
+    getOptionTypes,
+    addOptionValue,
+    addOptionType,
+    eidtProductVariant,
+
+    // 옵션
+    getAllProductVariants,
+    getAllOptionValues,
+
     // 주문 액션
     getOrders,
     getOrderDetail,
