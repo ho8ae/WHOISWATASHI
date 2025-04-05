@@ -19,6 +19,7 @@ export const API_ENDPOINTS = {
     LIST: '/products',
     DETAIL: (id) => `/products/${id}`,
     CATEGORIES: '/products/categories',
+    VARIANTS: (productId) => `/products/${productId}/variants`,
   },
   CART: {
     GET: '/cart',
