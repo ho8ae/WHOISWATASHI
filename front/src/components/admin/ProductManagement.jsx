@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAdmin from '../../hooks/useAdmin';
-import { Plus, Search, Edit, Trash2 } from 'lucide-react';
+import { Plus, Search, Edit, Trash2, Option } from 'lucide-react';
 
 const ProductManagement = () => {
   const navigate = useNavigate();
@@ -71,6 +71,11 @@ const ProductManagement = () => {
 
   // 상세 stock 핸들러
 
+  // 옵션 핸들러
+  const handleOption = (productId) => {
+    navigate(`/admin/products/${productId}/variants`);
+  }
+  
   
   
   return (
@@ -207,10 +212,16 @@ const ProductManagement = () => {
                         <Edit size={18} />
                       </button>
                       <button
-                        className="text-red-600 hover:text-red-900"
+                        className="text-red-600 hover:text-red-900 mr-3"
                         onClick={() => handleDelete(product.id)}
                       >
                         <Trash2 size={18} />
+                      </button>
+                      <button
+                        className="text-black-600 hover:text-red-900"
+                        onClick={() => handleOption(product.id)}
+                      >
+                        <Option size={18} />
                       </button>
                     </td>
                   </tr>

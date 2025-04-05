@@ -10,8 +10,7 @@ import {
   BasicInfoTab, 
   DetailsTab, 
   ImagesTab, 
-  OptionsTab, 
-  DeliveryTab 
+  DeliveryTab,
 } from './product-edit-tabs';
 
 const ProductEditPage = () => {
@@ -121,7 +120,7 @@ const ProductEditPage = () => {
     setError(null);
 
     try {
-      // 서버로 전송할 데이터 구성 (Prisma 스키마에 맞게)
+      // 서버로 전송할 데이터 구성
       const productData = {
         name: formData.name,
         slug: formData.slug,
@@ -148,8 +147,11 @@ const ProductEditPage = () => {
 
       if (isEditMode) {
         await editProduct(productId, productData);
+        alert('상품이 성공적으로 수정되었습니다.');
       } else {
-        await addProduct(productData);
+        const response = await addProduct(productData);
+        console.log('상품 생성 응답:', response);
+        alert('상품이 성공적으로 등록되었습니다.');
       }
       
       navigate('/admin/products');
@@ -203,7 +205,11 @@ const ProductEditPage = () => {
 
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <form onSubmit={handleSubmit}>
-          <EditTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+          <EditTabs 
+            activeTab={activeTab} 
+            setActiveTab={setActiveTab} 
+            hideTabs={['options']}  // 상품 등록 시에는 옵션 탭 숨김
+          />
           
           <div className="p-6">
             {activeTab === 'basic' && (
@@ -223,10 +229,6 @@ const ProductEditPage = () => {
               <ImagesTab formData={formData} setFormData={setFormData} />
             )}
             
-            {activeTab === 'options' && (
-              <OptionsTab formData={formData} setFormData={setFormData} />
-            )}
-            
             {activeTab === 'delivery' && (
               <DeliveryTab 
                 formData={formData} 
@@ -234,6 +236,9 @@ const ProductEditPage = () => {
                 handleNumberChange={handleNumberChange} 
               />
             )}
+
+           
+          
           </div>
           
           <div className="px-6 py-4 bg-gray-50 border-t flex justify-end">
@@ -246,6 +251,7 @@ const ProductEditPage = () => {
             </button>
             <button
               type="button"
+              onClick={handleSubmit}
               disabled={saving}
               className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
             >
