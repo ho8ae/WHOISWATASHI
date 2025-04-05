@@ -144,6 +144,22 @@ async function deleteOptionValue(req, res, next) {
   }
 }
 
+/**
+ * 옵션 값 조회
+ */
+async function getOptionValues(req, res, next) {
+  try {
+    const optionValues = await optionTypeService.getOptionValues();
+    
+    res.json({
+      success: true,
+      data: optionValues
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   getAllOptionTypes,
   getOptionTypeById,
@@ -152,5 +168,6 @@ module.exports = {
   deleteOptionType,
   createOptionValue,
   updateOptionValue,
-  deleteOptionValue
+  deleteOptionValue,
+  getOptionValues,
 };

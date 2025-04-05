@@ -30,6 +30,7 @@ router.delete('/:id', authMiddleware.isAdmin, productController.deleteProduct);
 // 상품 변형 관련 라우트    
 router.get('/:productId/variants', productController.getProductVariants);
 router.post('/:productId/variants', authMiddleware.isAdmin, productController.createProductVariant);
+router.get('/variants/all', productController.getAllProductVariants);
 router.get('/variants/:variantId', productController.getProductVariantById);
 router.put('/variants/:variantId', authMiddleware.isAdmin, productController.updateProductVariant);
 router.delete('/variants/:variantId', authMiddleware.isAdmin, productController.deleteProductVariant);

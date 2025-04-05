@@ -487,6 +487,41 @@
  *         description: 권한 없음
  *       404:
  *         description: 옵션 값을 찾을 수 없음
+ *     
+ * 
+ */
+
+/**
+ * @swagger
+ * /option-types/values/optionValues:
+ *   get:
+ *     summary: 모든 옵션 값 조회
+ *     tags: [OptionTypes]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: 옵션 값 목록 조회 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/OptionValue'
+ *       401:
+ *         description: 인증 실패
+ *       403:
+ *         description: 권한 없음
+ *       404:
+ *         description: 옵션 값을 찾을 수 없음
+ *       500:
+ *         description: 서버 오류
  */
 
 /**
@@ -661,4 +696,35 @@
  *         description: 권한 없음
  *       404:
  *         description: 상품 변형을 찾을 수 없음
+ */
+
+/**
+ * @swagger
+ * /products/variants/all:
+ *   get:
+ *     summary: 모든 상품 변형 조회
+ *     tags: [ProductVariants]
+ *     security:
+ *      - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: 모든 상품 변형 목록 조회 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/ProductVariant'
+ *       401:
+ *         description: 인증 실패
+ *       403:
+ *         description: 권한 없음
+ *       500:
+ *         description: 서버 오류
  */
