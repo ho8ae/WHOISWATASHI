@@ -7,7 +7,7 @@ import authReducer from '../features/auth/authSlice';
 import adminReducer from '../features/admin/adminSlice';
 import productsReducer from '../features/products/productsSlice';
 import cartReducer from '../features/cart/cartSlice';
-
+import orderReducer from '../features/order/orderSlice';
 
 // 리듀서 설정
 const rootReducer = combineReducers({
@@ -15,6 +15,7 @@ const rootReducer = combineReducers({
   admin: adminReducer,
   products: productsReducer,
   cart: cartReducer,
+  order: orderReducer,
   // 다른 리듀서들...
 });
 

@@ -13,6 +13,9 @@ import {
   About,
   Order,
   Admin,
+  Checkout,
+  Payment,
+  OrderComplete,
 } from "./pages";
 
 const AppRoutes = () => {
@@ -32,6 +35,11 @@ const AppRoutes = () => {
         <Route path="about" element={<About />} />
         <Route path="mypage" element={<MyPage />} />
         <Route path="order" element={<Order />} />
+        <Route path="checkout" element={<Checkout />} />
+        <Route path="payment/:orderId" element={<Payment />} />
+        <Route path="order/complete/:orderId" element={<OrderComplete />} />
+        
+        {/* 404 페이지 */}
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
