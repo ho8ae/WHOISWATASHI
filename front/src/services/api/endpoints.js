@@ -32,6 +32,13 @@ export const API_ENDPOINTS = {
     LIST: '/orders',
     DETAIL: (id) => `/orders/${id}`,
     CANCEL: (id) => `/orders/${id}/cancel`,
+    GET_BY_ID: (id) => `/orders/${id}`,
+    GET_USER_ORDERS: '/orders',
+    GET_GUEST_ORDER: '/orders/guest',
+  },
+
+  PAYMENT: {
+    VERIFY_PORTONE: '/payments/portone/verify',
   },
 
   // ADMIN
