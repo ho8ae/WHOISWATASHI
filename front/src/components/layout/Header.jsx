@@ -37,10 +37,10 @@ const Header = () => {
 
         <div className="flex items-center space-x-4">
           <Link
-            to="/products"
+            to="/cart"
             className="text-xl font-bold font-['NanumBarunpen']"
           >
-            SHOP
+            BAG
           </Link>
           
           {/* 로그인 버튼 추가
@@ -52,6 +52,7 @@ const Header = () => {
           </button> */}
         </div>
       </div>
+      <div className='border-b border-gray-300 mt-2'></div>
 
       {/* 모바일 전용 슬라이딩 메뉴 */}
       <MobileMenu 

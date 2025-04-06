@@ -1,42 +1,46 @@
-// components/cart/CartItem.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { updateCartItem, removeCartItem } from '../../features/cart/cartSlice';
+import useCart from '../../hooks/useCart';
 
 const CartItem = ({ item }) => {
-  const dispatch = useDispatch();
+  const { updateItem, removeItem } = useCart();
   
   // 수량 변경 핸들러
   const handleQuantityChange = (newQuantity) => {
-    dispatch(updateCartItem({ itemId: item.id, quantity: newQuantity }));
+    updateItem( item.id, newQuantity );
   };
   
   // 삭제 핸들러
   const handleRemove = () => {
     if (window.confirm('이 상품을 장바구니에서 삭제하시겠습니까?')) {
-      dispatch(removeCartItem(item.id));
+      removeItem(item.id);
     }
   };
   
   // 변형 옵션 정보 표시 문자열 생성
   const getOptionText = () => {
-    if (!item.productVariant || !item.productVariant.options || item.productVariant.options.length === 0) {
+    if (!item.options || item.options.length === 0) {
       return '';
     }
     
-    return item.productVariant.options.map(option => 
-      `${option.optionValue.optionType.name}: ${option.optionValue.value}`
+    // options 배열이 있으면 그것을 사용
+    return item.options.map(option => 
+      `${option.name || ''}: ${option.value || ''}`
     ).join(' / ');
   };
+  
+  // 상품이 유효한지 확인
+  if (!item) {
+    return null; // 유효하지 않은 아이템은 렌더링하지 않음
+  }
   
   return (
     <div className="py-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
       {/* 상품 이미지 */}
       <div className="w-20 h-20 bg-gray-100 rounded overflow-hidden flex-shrink-0">
         <img 
-          src={item.productVariant?.imageUrl || item.product.thumbnail || '/default-product.png'} 
-          alt={item.product.name} 
+          src={item.productImage || '/default-product.png'} 
+          alt={item.productName || '상품 이미지'} 
           className="w-full h-full object-cover"
         />
       </div>
@@ -44,8 +48,8 @@ const CartItem = ({ item }) => {
       {/* 상품 정보 */}
       <div className="flex-grow">
         <h3 className="text-sm font-medium text-gray-900">
-          <Link to={`/products/${item.product.id}`} className="hover:text-blue-600">
-            {item.product.name}
+          <Link to={`/products/${item.productId || '#'}`} className="hover:text-blue-600">
+            {item.productName || '상품명 없음'}
           </Link>
         </h3>
         
@@ -57,16 +61,16 @@ const CartItem = ({ item }) => {
         )}
         
         <div className="text-sm text-gray-700 mt-1">
-          {item.productVariant && item.productVariant.salePrice ? (
+          {item.salePrice && Number(item.salePrice) !== Number(item.price) ? (
             <>
-              <span className="font-medium">{item.productVariant.salePrice.toLocaleString()}원</span>
+              <span className="font-medium">{Number(item.salePrice).toLocaleString()}원</span>
               <span className="line-through text-gray-400 ml-2">
-                {item.productVariant.price.toLocaleString()}원
+                {Number(item.price).toLocaleString()}원
               </span>
             </>
           ) : (
             <span className="font-medium">
-              {(item.productVariant ? item.productVariant.price : item.product.price).toLocaleString()}원
+              {Number(item.price || 0).toLocaleString()}원
             </span>
           )}
         </div>
@@ -87,10 +91,10 @@ const CartItem = ({ item }) => {
             type="number"
             value={item.quantity}
             min="1"
-            max={item.productVariant ? item.productVariant.stock : item.product.stock}
+            max={item.stock || 1}
             onChange={(e) => {
               const val = parseInt(e.target.value);
-              const maxStock = item.productVariant ? item.productVariant.stock : item.product.stock;
+              const maxStock = item.stock || 1;
               if (!isNaN(val) && val >= 1 && val <= maxStock) {
                 handleQuantityChange(val);
               }
@@ -100,10 +104,10 @@ const CartItem = ({ item }) => {
           <button 
             className="px-2 py-1 text-gray-500 hover:text-gray-700"
             onClick={() => handleQuantityChange(Math.min(
-              item.productVariant ? item.productVariant.stock : item.product.stock, 
+              item.stock || 1, 
               item.quantity + 1
             ))}
-            disabled={item.quantity >= (item.productVariant ? item.productVariant.stock : item.product.stock)}
+            disabled={item.quantity >= (item.stock || 1)}
           >
             +
           </button>
@@ -111,9 +115,7 @@ const CartItem = ({ item }) => {
         
         {/* 총 가격 */}
         <div className="font-medium whitespace-nowrap">
-          {((item.productVariant 
-            ? (item.productVariant.salePrice || item.productVariant.price) 
-            : (item.product.salePrice || item.product.price)) * item.quantity).toLocaleString()}원
+          {Number(item.totalPrice || (item.salePrice || item.price) * item.quantity).toLocaleString()}원
         </div>
         
         {/* 삭제 버튼 */}

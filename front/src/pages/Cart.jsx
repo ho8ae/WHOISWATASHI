@@ -4,13 +4,14 @@ import useCart from '../hooks/useCart';
 import CartItem from '../components/cart/CartItem';
 import CartSummary from '../components/cart/CartSummary';
 
-const Cart = () => {
-  const { cartItems, itemCount, loading, error, fetchCart, clearCart } = useCart();
 
-  // 컴포넌트 마운트 시 장바구니 데이터 로드
-  useEffect(() => {
-    fetchCart();
-  }, []);
+const Cart = () => {
+  const { cartItems, itemCount, loading, error, fetchCart, emptyCart,getCart} = useCart();
+
+  useEffect(()=>{
+    getCart();
+  },[getCart])
+
 
   // 로딩 상태
   if (loading) {
@@ -71,7 +72,7 @@ const Cart = () => {
                   상품 목록 ({itemCount}개)
                 </h2>
                 <button
-                  onClick={clearCart}
+                  onClick={emptyCart}
                   className="text-sm text-red-500 hover:text-red-700"
                 >
                   장바구니 비우기
