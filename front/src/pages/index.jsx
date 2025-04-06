@@ -9,3 +9,6 @@ export { default as About } from "./About";
 export { default as Cart } from "./Cart";
 export { default as Order } from "./Order";
 export {default as Admin} from "./Admin";
+export { default as Checkout } from "./Checkout";
+export { default as Payment } from "./Payment";
+export { default as OrderComplete } from "./OrderComplete";
