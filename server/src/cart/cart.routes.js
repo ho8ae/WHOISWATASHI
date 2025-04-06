@@ -16,6 +16,6 @@ router.put('/items/:cartItemId',authMiddleware.isAuthenticated, cartController.u
 router.delete('/items/:cartItemId', authMiddleware.isAuthenticated,cartController.removeCartItem);
 
 // 장바구니 비우기
-router.delete('/', authMiddleware.isAuthenticated,cartController.clearCart);
+router.delete('/clear', authMiddleware.isAuthenticated,cartController.clearCart);
 
 module.exports = router;
