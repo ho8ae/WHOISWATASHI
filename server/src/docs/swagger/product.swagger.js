@@ -107,9 +107,6 @@
  *           format: decimal
  *           description: 할인 가격
  *           nullable: true
- *         stock:
- *           type: integer
- *           description: 재고 수량
  *         sku:
  *           type: string
  *           description: 제품 고유 코드
