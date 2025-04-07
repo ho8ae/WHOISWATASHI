@@ -122,7 +122,7 @@
 
 /**
  * @swagger
- * /api/wishlist:
+ * /wishlist:
  *   get:
  *     summary: 위시리스트 조회
  *     description: 현재 사용자의 위시리스트 항목을 조회합니다.
@@ -217,7 +217,7 @@
 
 /**
  * @swagger
- * /api/wishlist/check/{productId}:
+ * /wishlist/check/{productId}:
  *   get:
  *     summary: 상품 위시리스트 여부 확인
  *     description: 특정 상품이 현재 사용자의 위시리스트에 있는지 확인합니다.
@@ -250,7 +250,7 @@
 
 /**
  * @swagger
- * /api/wishlist/product/{productId}:
+ * /wishlist/product/{productId}:
  *   delete:
  *     summary: 위시리스트에서 특정 상품 제거
  *     description: 현재 사용자의 위시리스트에서 특정 상품을 제거합니다.
@@ -284,7 +284,7 @@
 
 /**
  * @swagger
- * /api/wishlist/{id}:
+ * /wishlist/{id}:
  *   delete:
  *     summary: 위시리스트 항목 삭제
  *     description: 특정 위시리스트 항목을 삭제합니다.
