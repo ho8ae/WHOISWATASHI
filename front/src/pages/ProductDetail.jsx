@@ -4,6 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProductById } from '../features/products/productsSlice';
 import { addToCart } from '../features/cart/cartSlice';
+import useMypage from '../hooks/useMypage';
+import useAuth from '../hooks/useAuth';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -13,11 +15,26 @@ const ProductDetail = () => {
   // Redux store에서 상품 데이터 가져오기
   const { product, loading, error } = useSelector(state => state.products);
   
+// 인증 상태 확인
+const { isAuthenticated } = useAuth();
+  
+// 위시리스트 관련 훅
+const { 
+  productInWishlist,
+  checkProductInWishlist, 
+  addProductToWishlist, 
+  removeProductFromWishlistById 
+} = useMypage();
+
+
   // 상태들
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
   
+ // 위시리스트 로딩 상태
+ const [isWishlistLoading, setIsWishlistLoading] = useState(false);
+
   // 변형 관련 상태
   const [optionTypes, setOptionTypes] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState({});
@@ -44,7 +61,12 @@ const ProductDetail = () => {
       });
       setSelectedOptions(initialOptions);
     }
-  }, [product]);
+
+     // 사용자가 로그인 상태라면 위시리스트 확인
+     if (isAuthenticated && product) {
+      checkProductInWishlist(product.id);
+    }
+  }, [product,isAuthenticated,checkProductInWishlist]);
 
   // 변형 정보에서 옵션 타입 추출
   const extractOptionTypes = (variants) => {
@@ -178,6 +200,31 @@ const ProductDetail = () => {
     }
   };
 
+  // 위시리스트 토글 핸들러
+  const handleWishlistToggle = async () => {
+    if (!isAuthenticated) {
+      if (window.confirm('로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?')) {
+        navigate('/login', { state: { from: `/products/${id}` } });
+      }
+      return;
+    }
+    
+    if (!product) return;
+    
+    setIsWishlistLoading(true);
+    try {
+      if (productInWishlist) {
+        await removeProductFromWishlistById(product.id);
+      } else {
+        await addProductToWishlist(product.id);
+      }
+    } catch (error) {
+      console.error('위시리스트 업데이트 실패:', error);
+    } finally {
+      setIsWishlistLoading(false);
+    }
+  };
+
   // 로딩 상태 처리
   if (loading) {
     return (
@@ -229,6 +276,28 @@ const ProductDetail = () => {
               style={{ height: '400px' }}
             />
           </div>
+
+          {/* 위시리스트 버튼 */}
+          <button
+              onClick={handleWishlistToggle}
+              disabled={isWishlistLoading}
+              className="absolute top-4 right-4 p-2 bg-white rounded-full shadow-md hover:bg-gray-100 z-10"
+            >
+              {isWishlistLoading ? (
+                <svg className="w-6 h-6 animate-spin text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              ) : productInWishlist ? (
+                <svg className="w-6 h-6 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                </svg>
+              ) : (
+                <svg className="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                </svg>
+              )}
+            </button>
 
           {/* 이미지 갤러리 */}
           {productImages.length > 1 && (
@@ -396,6 +465,28 @@ const ProductDetail = () => {
 
           {/* 버튼 */}
           <div className="flex space-x-4">
+
+            {/* 위시리스트 버튼 (모바일용) */}
+            <button
+              onClick={handleWishlistToggle}
+              disabled={isWishlistLoading}
+              className="py-3 px-4 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 font-medium md:hidden flex items-center justify-center"
+            >
+              {isWishlistLoading ? (
+                <svg className="w-5 h-5 animate-spin text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              ) : productInWishlist ? (
+                <svg className="w-5 h-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                </svg>
+              )}
+            </button>
             <button
               onClick={handleAddToCart}
               className="flex-1 py-3 border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 font-medium"
