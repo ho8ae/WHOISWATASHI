@@ -11,6 +11,7 @@ import InquiryManagement from '../components/admin/InquiryManagement';
 import OptionManagement from '../components/admin/OptionManagement';
 import useAuth from '../hooks/useAuth';
 import ProductVariantsManager from '../components/admin/ProductVariantManager';
+import AdminChatLayout from '../components/admin/chat/AdminChatLayout';
 
 const Admin = () => {
   const { user, isAuthenticated } = useAuth();
@@ -37,6 +38,7 @@ const Admin = () => {
         <Route path="categories" element={<CategoryManagement />} />
         <Route path="inquiries" element={<InquiryManagement />} />
         <Route path="options" element={<OptionManagement />} />
+        <Route path="chats" element={<AdminChatLayout/>}/>
         <Route path="*" element={<Navigate to="/admin" replace />} />
       </Route>
     </Routes>

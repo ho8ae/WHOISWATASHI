@@ -9,7 +9,7 @@ import productsReducer from '../features/products/productsSlice';
 import cartReducer from '../features/cart/cartSlice';
 import orderReducer from '../features/order/orderSlice';
 import mypageReducer from '../features/mypage/mypageSlice';
-
+import chatReducer from '../features/chat/chatSlice';
 // 리듀서 설정
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -18,6 +18,7 @@ const rootReducer = combineReducers({
   cart: cartReducer,
   order: orderReducer,
   mypage: mypageReducer,
+  chat: chatReducer,
   // 다른 리듀서들...
 });
 

@@ -101,4 +101,16 @@ export const API_ENDPOINTS = {
       UPDATE_STATUS: (id) => `/inquiries/admin/${id}/status`,
     },
   },
+  CHAT:{
+    LIST: '/chats',
+    MY_CHAT: '/chats/my',
+    ADMIN_CHATS: '/chats/admin', 
+    UNREAD_COUNT: '/chats/unread-count',
+    DETAIL: (chatId) => `/chats/${chatId}`,
+    MESSAGES: (chatId) => `/chats/${chatId}/messages`,
+    CREATE: '/chats',
+    SEND_MESSAGE: (chatId) => `/chats/${chatId}/messages`,
+    UPDATE_STATUS: (chatId) => `/chats/${chatId}/status`,
+    ASSIGN: (id) => `/chats/${id}/assign`, 
+  }
 };
