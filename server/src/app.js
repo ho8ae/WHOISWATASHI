@@ -64,4 +64,14 @@ app.get('/', (req, res) => {
   res.json({ message: 'WHOISWATASHI API 서버가 실행 중입니다.' });
 });
 
+// 서버 코드에 추가
+app.get('/socket-health', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    message: 'Socket server is running',
+    uptime: process.uptime(),
+    date: new Date().toISOString()
+  });
+});
+
 module.exports = app;
