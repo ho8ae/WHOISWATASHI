@@ -9,7 +9,8 @@ import {
   MessageSquare,
   List,
   Menu,
-  X
+  X,
+  MessageCircle
 } from 'lucide-react';
 
 const Sidebar = () => {
@@ -42,6 +43,11 @@ const Sidebar = () => {
       label: '문의 관리',
       icon: <MessageSquare size={20} />,
     },
+    {
+      path:'/admin/chats',
+      label: '채팅 관리',
+      icon: <MessageCircle size={20} />,
+    }
     // { path: '/admin/options', label: '옵션 관리', icon: <List size={20} /> },
   ];
 

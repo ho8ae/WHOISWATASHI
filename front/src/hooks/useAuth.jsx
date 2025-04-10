@@ -40,6 +40,9 @@ const useAuth = () => {
     registerForm
   } = useSelector((state) => state.auth);
   
+  // 토큰 가져오기
+  const token = localStorage.getItem('accessToken');
+  
   // 로그인 함수
   const login = useCallback((email, password) => {
     return dispatch(loginUser({ email, password }));
@@ -128,6 +131,7 @@ const useAuth = () => {
     passwordResetSuccess,
     passwordResetData,
     registerForm,
+    token, // 토큰 추가
     
     // 액션
     login,

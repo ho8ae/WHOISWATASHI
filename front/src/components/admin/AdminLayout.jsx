@@ -2,6 +2,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
+// import AdminChatNotification from './chat/AdminChatNotification';
 
 
 const AdminLayout = () => {
@@ -12,6 +13,7 @@ const AdminLayout = () => {
       <div className="flex-1 overflow-auto p-6 w-full">
         <Outlet />
       </div>
+      {/* <AdminChatNotification /> */}
     </div>
   );
 };

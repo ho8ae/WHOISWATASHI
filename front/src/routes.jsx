@@ -18,6 +18,9 @@ import {
   OrderComplete,
 } from "./pages";
 
+// test page
+import TestPage from "./test/index";
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -41,6 +44,9 @@ const AppRoutes = () => {
         
         {/* 404 페이지 */}
         <Route path="*" element={<NotFound />} />
+
+        {/* 테스트 페이지 */}
+        <Route path="/test" element={<TestPage />} />
       </Route>
     </Routes>
   );
